@@ -1,5 +1,4 @@
 declare global {
-	//declare ImportMeta
 	interface ImportMeta {
 		env: {
 			PORT: string;
