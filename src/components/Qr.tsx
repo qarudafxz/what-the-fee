@@ -4,11 +4,6 @@ import bsis from "../../data/bsis.json";
 import bsit from "../../data/bsit.json";
 import bscs from "../../data/bscs.json";
 
-// type Student = {
-// 	studentNo: string;
-// 	name: string;
-// };
-
 const Qr: React.FC = () => {
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [studentId, setStudentId] = useState<string | null>(null);
