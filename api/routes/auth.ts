@@ -1,9 +1,9 @@
-import express, { Router, Request } from "express";
+import express, { Router } from "express";
+//controllers
+import { login } from "../controllers/login.ts";
 
 const router: Router = express.Router();
 
-router.post("/login", (req: Request) => {
-	console.log(req.body.stud_id);
-});
+router.post("/login", login);
 
 export { router as auth };
