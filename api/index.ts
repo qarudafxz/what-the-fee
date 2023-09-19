@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import { db } from "./database/connect.ts";
-// import pg from "pg";
 
 dotenv.config();
 
