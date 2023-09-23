@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 //pages
-import { Login } from "./pages/Login";
+import { Auth } from "./pages/Auth";
 
 function App() {
 	return (
@@ -9,7 +9,7 @@ function App() {
 			<Routes>
 				<Route
 					path='/'
-					element={<Login />}
+					element={<Auth />}
 				/>
 			</Routes>
 		</Router>

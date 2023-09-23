@@ -14,9 +14,13 @@ export default {
 				xl: "1280px",
 			},
 			backgroundColor: {
-				primary: "#5CE199",
-				secondary: "#D3EFA5",
+				primary: "#59D896",
+				secondary: "#025D59",
 				gradient: "linear-gradient(180deg, #5CE199 0%, #D3EFA5 100%)",
+				dark: "#0A0A0A",
+			},
+			fontFamily: {
+				main: ["Poppins", "sans-serif"],
 			},
 		},
 	},
