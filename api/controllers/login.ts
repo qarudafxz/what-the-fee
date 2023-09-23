@@ -10,7 +10,7 @@ import { db } from "../database/connect.ts";
 // 	iat: number;
 // };
 
-export const verify = async (req: Request, res: Response) => {
+export const verifyStudentId = async (req: Request, res: Response) => {
 	const { stud_id } = req.body;
 	console.log(stud_id);
 	try {
@@ -18,7 +18,7 @@ export const verify = async (req: Request, res: Response) => {
 			`SELECT * FROM student WHERE student_id = '${stud_id}'`
 		);
 
-		if (!student) {
+		if (student.rows.length === 0) {
 			return res.status(400).json({ message: "Student not found!" });
 		}
 

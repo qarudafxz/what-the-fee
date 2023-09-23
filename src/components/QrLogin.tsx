@@ -63,7 +63,7 @@ const QrLogin: React.FC = () => {
 			setLoading(true);
 			toast.info("Verifying...");
 			try {
-				const response = await fetch("http://localhost:8080/api/auth/login", {
+				const response = await fetch("http://localhost:8080/api/auth/verify", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
