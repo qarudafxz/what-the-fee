@@ -5,7 +5,6 @@ import ccislsg_logo from "../assets/ccislsg_logo.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { AiOutlineArrowRight } from "react-icons/ai";
-// import QrLogin from "..	/components/QrLogin";
 
 type Custom = {
 	label: string;

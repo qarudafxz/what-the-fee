@@ -19,6 +19,10 @@ export default {
 				gradient: "linear-gradient(180deg, #5CE199 0%, #D3EFA5 100%)",
 				dark: "#0A0A0A",
 			},
+			colors: {
+				primary: "#59D896",
+				secondary: "#025D59",
+			},
 			fontFamily: {
 				main: ["Poppins", "sans-serif"],
 			},
