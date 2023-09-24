@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 /* a slick animation for a logo entrance that serves as the preloading page */
+/* Create a pulsing effect inside the customEntrace class */
 
 .customEntrance {
 	animation: fadeIn ease 3s;

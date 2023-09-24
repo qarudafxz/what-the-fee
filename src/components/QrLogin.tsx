@@ -6,12 +6,14 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TopLoadingBar from "react-top-loading-bar";
 
 const QrLogin: React.FC = () => {
 	const location = useLocation();
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [studentId, setStudentId] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
+	const [progress, setProgress] = useState<number>(0);
 
 	useEffect(() => {
 		let qrScanner: QrScanner;
@@ -64,6 +66,7 @@ const QrLogin: React.FC = () => {
 		async (studentId: string) => {
 			setLoading(true);
 			toast.info("Verifying...");
+			setProgress(30);
 			try {
 				const response = await fetch("http://localhost:8080/api/auth/verify", {
 					method: "POST",
@@ -75,7 +78,8 @@ const QrLogin: React.FC = () => {
 					}),
 				});
 				const data = await response.json();
-				if (response.ok || response.status === 200) {
+				if (!response.ok) {
+					setProgress(100);
 					toast.success(data.message);
 					setLoading(false);
 				}
@@ -94,6 +98,12 @@ const QrLogin: React.FC = () => {
 
 	return (
 		<div>
+			<TopLoadingBar
+				color='#59D896'
+				progress={progress}
+				height={3}
+				onLoaderFinished={() => setProgress(0)}
+			/>
 			<ToastContainer />
 			<div className='grid grid-cols-1 place-items-center mt-28 pb-10'>
 				<div className='bg-dark rounded-md p-10 border border-zinc-800'>
@@ -111,7 +121,10 @@ const QrLogin: React.FC = () => {
 											rotate: 360,
 										}}
 										transition={{ repeat: Infinity, duration: 0.4, ease: "linear" }}>
-										<AiOutlineLoading3Quarters size={15} />
+										<AiOutlineLoading3Quarters
+											size={15}
+											className='text-primary'
+										/>
 									</motion.div>
 								</span>
 							)}

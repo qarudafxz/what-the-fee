@@ -41,7 +41,7 @@ export const Register: React.FC = () => {
 
 	const handleRegister = async (
 		e: React.FormEvent<HTMLFormElement>
-	): Promise<any> => {
+	): Promise<void> => {
 		e.preventDefault();
 
 		if (password !== confirmPassword) {
@@ -211,7 +211,7 @@ export const Register: React.FC = () => {
 							</Checkbox>
 						</div>
 						<Button
-							onClick={(e) => handleRegister(e)}
+							onSubmit={(e: FormEvent<HTMLFormElement>) => handleRegister(e)}
 							rightIcon={<BsArrowReturnRight />}
 							className='bg-primary text-secondary py-3 rounded-full font-bold'>
 							Register

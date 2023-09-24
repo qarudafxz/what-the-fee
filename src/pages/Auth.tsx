@@ -63,12 +63,14 @@ export const Auth = () => {
 									key={index}
 									className={variant.customization}>
 									{variant.label}
-									<motion.div whileHover={{ x: 10 }}>
-										<AiOutlineArrowRight
-											className={`inline-block ml-2 ${index === 1 && "text-green-300"}`}
-											size={30}
-										/>
-									</motion.div>
+									<div>
+										<motion.div whileHover={{ x: 10 }}>
+											<AiOutlineArrowRight
+												className={`inline-block ${index === 1 ? "text-green-300" : ""}`}
+												size={30}
+											/>
+										</motion.div>
+									</div>
 								</Link>
 							))}
 						</div>
