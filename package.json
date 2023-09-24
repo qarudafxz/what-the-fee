@@ -11,6 +11,9 @@
     "server": "nodemon --exec ts-node --esm api/index.ts"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@types/bcrypt": "^5.0.0",
     "@types/body-parser": "^1.19.3",
     "@types/cors": "^2.8.14",
