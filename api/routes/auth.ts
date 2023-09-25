@@ -8,6 +8,7 @@ import {
 //middlewares
 import { isSessionPresent } from "../middlewares/isSessionPresent.ts";
 import { sendVerification } from "../middlewares/sendVerification.ts";
+import { verify } from "../controllers/verify.ts";
 
 const router: Router = express.Router();
 
@@ -17,6 +18,7 @@ router.post("/verify", verifyStudentId);
 //register
 router.post("/register", registerAdmin);
 router.post("/add-questions", isSessionPresent, verificationQuestions);
-router.post("/send-code", sendVerification);
+router.post("/verify-code", isSessionPresent, verify);
+router.get("/get-code", sendVerification);
 
 export { router as auth };

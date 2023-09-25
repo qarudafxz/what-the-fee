@@ -41,7 +41,7 @@ export const Register: React.FC = () => {
 				setIsVisible(!isVisible);
 				break;
 			case "confirmPassword":
-				setIsVisible2(!isVisible);
+				setIsVisible2(!isVisible2);
 				break;
 		}
 	};
@@ -222,7 +222,7 @@ export const Register: React.FC = () => {
 							<div className='absolute right-3 top-2'>
 								<IconButton
 									onClick={() => handleVisible("confirmPassword")}
-									aria-label='Toggle password visibility'
+									aria-label='Toggle confirm password visibility'
 									icon={
 										isVisible2 ? (
 											<AiFillEyeInvisible size={23} />

@@ -67,8 +67,17 @@ export const registerAdmin = async (req: Request, res: Response) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		const newStudentAdmin = await db.query(
-			"INSERT INTO admin (student_id, first_name, last_name, email, password, position, role) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING student_id, email",
-			[student_id, first_name, last_name, email, hashedPassword, position, "super"]
+			"INSERT INTO admin (student_id, first_name, last_name, email, password, position, role, isverified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING student_id, email",
+			[
+				student_id,
+				first_name,
+				last_name,
+				email,
+				hashedPassword,
+				position,
+				"super",
+				false,
+			]
 		);
 
 		const sessionToken = v4();
@@ -89,7 +98,7 @@ export const verificationQuestions = async (req: Request, res: Response) => {
 
 	try {
 		await db.query(
-			"INSERT INTO verification (student_id, json) VALUES ($1, $2) RETURNING *",
+			"INSERT INTO questions (student_id, json) VALUES ($1, $2) RETURNING *",
 			[student_id, questions]
 		);
 
