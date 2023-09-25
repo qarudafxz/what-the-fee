@@ -14,8 +14,13 @@ import {
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { BsArrowReturnRight } from "react-icons/bs";
 import { PiIdentificationBadgeFill } from "react-icons/pi";
+import TopLoadingBar from "react-top-loading-bar";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useGetSession } from "../../hooks/useGetSession";
 
 export const Register: React.FC = () => {
+	const { setSession } = useGetSession();
 	const navigate = useNavigate();
 	const [errorMessage, setErrorMessage] = useState<string>("");
 	const firstInput = useRef<HTMLInputElement>(null);
@@ -28,6 +33,7 @@ export const Register: React.FC = () => {
 	const [position, setPosition] = useState<string>("");
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [isVisible2, setIsVisible2] = useState<boolean>(false);
+	const [progress, setProgress] = useState<number>(0);
 
 	const handleVisible = (type: string) => {
 		switch (type) {
@@ -50,16 +56,17 @@ export const Register: React.FC = () => {
 		}
 
 		const data = {
-			firstName,
-			lastName,
-			studentID,
-			email,
-			password,
-			position,
+			first_name: firstName,
+			last_name: lastName,
+			student_id: studentID,
+			email: email,
+			password: password,
+			position: position,
 		};
 
 		try {
-			const response = await fetch("http://localhost:8080/api/register", {
+			setProgress(30);
+			const response = await fetch("http://localhost:8080/api/auth/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -69,11 +76,21 @@ export const Register: React.FC = () => {
 
 			const result = await response.json();
 
-			if (result.status === "success") {
-				setErrorMessage("");
-				navigate("/verification");
+			if (response.status === 200 || response.ok) {
+				toast.success(result.message, {
+					autoClose: 1400,
+				});
+				setProgress(100);
+				console.log(result);
+				setSession("session", result.token);
+				setSession("student_id", result.admin.student_id);
+				setSession("email", result.admin.email);
+				setTimeout(() => {
+					navigate("/verification");
+				}, 2000);
 			} else {
-				setErrorMessage(result.message);
+				toast.error(result.message);
+				setProgress(100);
 			}
 		} catch (err) {
 			console.log(err);
@@ -105,6 +122,13 @@ export const Register: React.FC = () => {
 				backgroundPosition: "center",
 				backgroundRepeat: "no-repeat",
 			}}>
+			<ToastContainer />
+			<TopLoadingBar
+				color='#59D896'
+				progress={progress}
+				height={3}
+				onLoaderFinished={() => setProgress(0)}
+			/>
 			{/* parent container */}
 			<div className='flex flex-row'>
 				{/* form */}

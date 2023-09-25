@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Preloader } from "./pages/Preloader";
 import { Verify } from "./pages/verification/Verify";
+import { EmailVerification } from "./pages/verification/EmailVerification";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -37,6 +38,10 @@ function App() {
 				<Route
 					path='/verification'
 					element={<Verify />}
+				/>
+				<Route
+					path='/verify-email'
+					element={<EmailVerification />}
 				/>
 			</Routes>
 		</Router>

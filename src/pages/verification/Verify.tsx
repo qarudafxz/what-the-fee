@@ -1,28 +1,20 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bg from "../../assets/bg.svg";
 import logo from "../../assets/full_logo.png";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { QuestionCard } from "../../components/QuestionCard";
 import { useGetSession } from "../../../hooks/useGetSession";
 
 export const Verify: FC = () => {
 	const navigate = useNavigate();
-	const { token } = useGetSession();
-	const [error, setError] = useState<boolean>(false);
-
-	// useEffect(() => {
-	// 	if (!token) {
-	// 		navigate("/register");
-	// 	}
-	// }, [token]);
+	const { getSession } = useGetSession();
+	const token = getSession("session");
 
 	useEffect(() => {
-		if (error) {
-			toast.error("Please fill up all fields");
+		if (!token) {
+			navigate("/register");
 		}
-	}, [error]);
+	}, [token]);
 
 	return (
 		<div
@@ -33,7 +25,6 @@ export const Verify: FC = () => {
 				backgroundRepeat: "no-repeat",
 				backgroundPosition: "center",
 			}}>
-			<ToastContainer />
 			{/* Container */}
 			<div className='p-4'>
 				<img
@@ -42,7 +33,7 @@ export const Verify: FC = () => {
 					alt='WTF Logo'
 				/>
 				<div className='flex justify-center items-center h-screen'>
-					<QuestionCard setError={setError} />
+					<QuestionCard />
 				</div>
 			</div>
 		</div>

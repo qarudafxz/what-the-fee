@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-
 export const useGetSession = () => {
-	const [token, setToken] = useState<string | null>("");
-	useEffect(() => {
-		return () => {
-			setToken(document.cookie);
-		};
-	}, []);
-	return { token };
+	const setSession = (key: string, token: string) => {
+		sessionStorage.setItem(key, token);
+	};
+
+	const getSession = (key: string) => {
+		return sessionStorage.getItem(key);
+	};
+
+	return { setSession, getSession };
 };
