@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../database/connect.ts";
 import bcrypt from "bcrypt";
+import { v4 } from "uuid";
 
 export const register = async (req: Request, res: Response) => {
 	const {
@@ -67,9 +68,19 @@ export const registerAdmin = async (req: Request, res: Response) => {
 			VALUES (''${student_id}', ${first_name}','' , '${last_name}', '${email}', '${hashedPassword}', '${position}')`
 		);
 
-		console.log(newStudentAdmin);
+		const sessionToken = v4;
 
-		res.status(200).json({ message: "Student Admin registered successfuly" });
+		res.cookie("student_id", newStudentAdmin.rows[0].student_id, {
+			httpOnly: true,
+			secure: true,
+			sameSite: "none",
+		});
+
+		res.status(200).json({
+			message: "Student Admin registered successfuly",
+			token: sessionToken,
+			admin: newStudentAdmin,
+		});
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ message: "Internal Server Error" });

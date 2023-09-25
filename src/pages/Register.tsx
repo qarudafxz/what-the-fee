@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import poster from "../assets/poster.svg";
 import bg from "../assets/bg.svg";
 import logo from "../assets/full_logo_whitr.png";
@@ -16,6 +16,7 @@ import { BsArrowReturnRight } from "react-icons/bs";
 import { PiIdentificationBadgeFill } from "react-icons/pi";
 
 export const Register: React.FC = () => {
+	const navigate = useNavigate();
 	const [errorMessage, setErrorMessage] = useState<string>("");
 	const firstInput = useRef<HTMLInputElement>(null);
 	const [firstName, setFirstName] = useState<string>("");
@@ -39,9 +40,8 @@ export const Register: React.FC = () => {
 		}
 	};
 
-	const handleRegister = async (
-		e: React.FormEvent<HTMLFormElement>
-	): Promise<void> => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const handleRegister = async (e: FormEvent): Promise<void> => {
 		e.preventDefault();
 
 		if (password !== confirmPassword) {
@@ -71,6 +71,7 @@ export const Register: React.FC = () => {
 
 			if (result.status === "success") {
 				setErrorMessage("");
+				navigate("/verification");
 			} else {
 				setErrorMessage(result.message);
 			}
@@ -78,6 +79,14 @@ export const Register: React.FC = () => {
 			console.log(err);
 		}
 	};
+
+	useEffect(() => {
+		if (errorMessage) {
+			setTimeout(() => {
+				setErrorMessage("");
+			}, 2000);
+		}
+	}, [errorMessage]);
 
 	useEffect(() => {
 		firstInput?.current?.focus();
@@ -158,7 +167,10 @@ export const Register: React.FC = () => {
 							<Input
 								onChange={(e) => setPassword(e.target.value)}
 								type={isVisible ? "text" : "password"}
-								className='w-full bg-transparent border border-primary rounded-md px-4 py-2 text-primary focus:outline-2 outline-blue-600 pr-12'
+								className={`w-full bg-transparent border border-primary rounded-md px-4 py-2 text-primary focus:outline-2 outline-blue-600 pr-12 ${
+									errorMessage === "Password does not match" &&
+									"border-red-500 text-red-500"
+								}`}
 								placeholder='Password'
 							/>
 							<div className='absolute right-3 top-2'>
@@ -176,9 +188,13 @@ export const Register: React.FC = () => {
 							<Input
 								type={isVisible2 ? "text" : "password"}
 								onChange={(e) => setConfirmPassword(e.target.value)}
-								className='w-full bg-transparent border border-primary rounded-md px-4 py-2 text-primary focus:outline-2 outline-blue-600 pr-12'
+								className={`w-full bg-transparent border border-primary rounded-md px-4 py-2 text-primary focus:outline-2 outline-blue-600 pr-12 ${
+									errorMessage === "Password does not match" &&
+									"border-red-500 text-red-500"
+								}`}
 								placeholder='Confirm Password'
 							/>
+
 							<div className='absolute right-3 top-2'>
 								<IconButton
 									onClick={() => handleVisible("confirmPassword")}
@@ -194,6 +210,11 @@ export const Register: React.FC = () => {
 								/>
 							</div>
 						</InputGroup>
+						{errorMessage && (
+							<p className='text-red-500 text-xs'>
+								{errorMessage === "Password does not match" && errorMessage}
+							</p>
+						)}
 						<Input
 							type='text'
 							onChange={(e) => setPosition(e.target.value)}
@@ -211,7 +232,7 @@ export const Register: React.FC = () => {
 							</Checkbox>
 						</div>
 						<Button
-							onSubmit={(e: FormEvent<HTMLFormElement>) => handleRegister(e)}
+							onClick={(e) => handleRegister(e)}
 							rightIcon={<BsArrowReturnRight />}
 							className='bg-primary text-secondary py-3 rounded-full font-bold'>
 							Register

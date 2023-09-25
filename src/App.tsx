@@ -6,6 +6,7 @@ import { Auth } from "./pages/Auth";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Preloader } from "./pages/Preloader";
+import { Verify } from "./pages/verification/Verify";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -32,6 +33,10 @@ function App() {
 				<Route
 					path='/register'
 					element={<Register />}
+				/>
+				<Route
+					path='/verification'
+					element={<Verify />}
 				/>
 			</Routes>
 		</Router>
