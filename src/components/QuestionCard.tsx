@@ -56,8 +56,8 @@ export const QuestionCard: FC = () => {
 	};
 
 	const submitQuestions = async () => {
-		console.log(questions);
 		setLoading(true);
+		const format = JSON.stringify(questions);
 		await fetch("http://localhost:8080/api/auth/add-questions", {
 			method: "POST",
 			headers: {
@@ -66,7 +66,7 @@ export const QuestionCard: FC = () => {
 			},
 			body: JSON.stringify({
 				student_id: getSession("student_id"),
-				questions: questions,
+				questions: format,
 			}),
 		}).then(async (res) => {
 			if (res.status === 200 || res.ok) {

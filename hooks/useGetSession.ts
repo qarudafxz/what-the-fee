@@ -7,5 +7,13 @@ export const useGetSession = () => {
 		return sessionStorage.getItem(key);
 	};
 
-	return { setSession, getSession };
+	const removeSession = (key: string) => {
+		sessionStorage.removeItem(key);
+	};
+
+	return {
+		setSession,
+		getSession,
+		removeSession,
+	};
 };

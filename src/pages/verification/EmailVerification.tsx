@@ -9,7 +9,7 @@ import TopLoadingBar from "react-top-loading-bar";
 
 export const EmailVerification: FC = () => {
 	const navigate = useNavigate();
-	const { getSession } = useGetSession();
+	const { getSession, removeSession } = useGetSession();
 	const [number, setNumber] = useState<string[]>(["", "", "", ""]);
 	const [pin, setPin] = useState<string>("");
 	const [error, setError] = useState<boolean>(false);
@@ -32,7 +32,6 @@ export const EmailVerification: FC = () => {
 		})
 			.then(async (res) => {
 				const data = await res.json();
-
 				if (res.status === 200 || res.ok) {
 					setProgress(100);
 					setPin(data.code);
@@ -80,6 +79,9 @@ export const EmailVerification: FC = () => {
 			.then(async (res) => {
 				const data = await res.json();
 				if (res.status === 200 || res.ok) {
+					removeSession("email");
+					removeSession("student_id");
+					removeSession("session");
 					setTimeout(() => {
 						navigate("/");
 					}, 2000);

@@ -8,6 +8,8 @@ import { Register } from "./pages/Register";
 import { Preloader } from "./pages/Preloader";
 import { Verify } from "./pages/verification/Verify";
 import { EmailVerification } from "./pages/verification/EmailVerification";
+import { AdminsQuestion } from "./pages/login/AdminsQuestion";
+import { EnterPassword } from "./pages/login/EnterPassword";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -42,6 +44,14 @@ function App() {
 				<Route
 					path='/verify-email'
 					element={<EmailVerification />}
+				/>
+				<Route
+					path='/question'
+					element={<AdminsQuestion />}
+				/>
+				<Route
+					path='/enter-password'
+					element={<EnterPassword />}
 				/>
 			</Routes>
 		</Router>
