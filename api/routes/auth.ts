@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 //controllers
-import { verifyStudentId } from "../controllers/login.ts";
+import { verifyStudentId, enterPassword } from "../controllers/login.ts";
 import {
 	registerAdmin,
 	verificationQuestions,
@@ -15,6 +15,7 @@ const router: Router = express.Router();
 
 //login
 router.post("/verify", verifyStudentId);
+router.post("/login", enterPassword);
 
 //register
 router.post("/register", registerAdmin);

@@ -22,3 +22,7 @@
 		opacity: 1;
 	}
 }
+.scan.region-highlight,
+.scan-region-highlight-svg {
+	@apply !stroke-[#59D896];
+}

@@ -10,6 +10,7 @@ import { Verify } from "./pages/verification/Verify";
 import { EmailVerification } from "./pages/verification/EmailVerification";
 import { AdminsQuestion } from "./pages/login/AdminsQuestion";
 import { EnterPassword } from "./pages/login/EnterPassword";
+import { EnterOtp } from "./pages/login/EnterOtp";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -52,6 +53,10 @@ function App() {
 				<Route
 					path='/enter-password'
 					element={<EnterPassword />}
+				/>
+				<Route
+					path='/enter-otp'
+					element={<EnterOtp />}
 				/>
 			</Routes>
 		</Router>

@@ -98,7 +98,7 @@ export const AdminsQuestion: FC = () => {
 	};
 
 	useEffect(() => {
-		if (stage !== "2") {
+		if (!stage || stage !== "2") {
 			navigate("/login");
 		}
 	}, [stage]);

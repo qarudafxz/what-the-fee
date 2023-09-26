@@ -26,12 +26,11 @@ const QrLogin: React.FC = () => {
 					await QrScanner.hasCamera();
 					if (videoRef.current) {
 						qrScanner = new QrScanner(videoRef.current, handleScanResult, {
+							preferredCamera: "environment",
 							returnDetailedScanResult: true,
-							preferredCamera: 1,
 							highlightScanRegion: true,
 							maxScansPerSecond: 3,
-							singleChannel: false,
-							calculateScanRegion: (v) => {
+							calculateScanRegion: (v: HTMLVideoElement) => {
 								const heightRegionSize = Math.round(
 									0.7 * Math.min(v.videoWidth, v.videoHeight)
 								);
@@ -42,6 +41,7 @@ const QrLogin: React.FC = () => {
 									width: widthRegionSize,
 									height: heightRegionSize,
 								};
+
 								return region;
 							},
 						});
@@ -59,8 +59,8 @@ const QrLogin: React.FC = () => {
 		initializeScanner();
 	}, []);
 
-	const handleScanResult = (result: QrScanner.ScanResult) => {
-		if (result) {
+	const handleScanResult = (result: QrScanner.ScanResult | string) => {
+		if (!(typeof result === "string")) {
 			setStudentId(result.data);
 		}
 	};
@@ -152,7 +152,6 @@ const QrLogin: React.FC = () => {
 							)}
 						</div>
 					</div>
-					P
 				</div>
 			</div>
 		</div>
