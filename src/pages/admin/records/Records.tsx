@@ -4,14 +4,14 @@ import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 
-export const Overview: FC = () => {
+export const Records: FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
 	const email = getSession("email");
 	const name = getSession("name");
 
 	useEffect(() => {
-		document.title = "Records | WTF";
+		document.title = "Overview | WTF";
 	}, []);
 
 	if (!isLoggedIn) {
@@ -21,10 +21,12 @@ export const Overview: FC = () => {
 	return (
 		<div className='w-full bg-dark h-screen'>
 			<Header
-				page={1}
+				page={2}
 				name={name}
-				title={"Overview"}
-				description={"have a glimpse of the status of your college fee"}
+				title={"Records"}
+				description={
+					"Check student records and address the concern of every student inquiries"
+				}
 				email={email}
 			/>
 			<h1>Hello</h1>

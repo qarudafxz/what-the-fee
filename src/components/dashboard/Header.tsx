@@ -7,9 +7,16 @@ type Props = {
 	description: string;
 	name: string | null;
 	email: string | null;
+	page: number;
 };
 
-export const Header: FC<Props> = ({ title, description, email, name }) => {
+export const Header: FC<Props> = ({
+	title,
+	description,
+	email,
+	name,
+	page,
+}) => {
 	return (
 		<div
 			className='font-main w-full h-56'
@@ -30,9 +37,15 @@ export const Header: FC<Props> = ({ title, description, email, name }) => {
 					</div>
 				</div>
 				<p className='text-[#337151] text-semibold'>{title}</p>
-				<h1 className='text-white text-4xl'>
-					Welcome back, <span className='font-extrabold'>{name?.split(" ")[0]}</span>
-				</h1>
+				{page === 1 && (
+					<h1 className='text-white text-4xl'>
+						Welcome back,{" "}
+						<span className='font-extrabold'>{name?.split(" ")[0]}</span>
+					</h1>
+				)}
+				{page !== 1 && (
+					<h1 className='text-white text-4xl font-extrabold'>{title}</h1>
+				)}
 				<p className='text-xs text-white font-thin'>{description}</p>
 			</div>
 		</div>

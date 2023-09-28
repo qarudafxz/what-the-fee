@@ -4,14 +4,14 @@ import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 
-export const Overview: FC = () => {
+export const AddPayments: FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
 	const email = getSession("email");
 	const name = getSession("name");
 
 	useEffect(() => {
-		document.title = "Records | WTF";
+		document.title = "Add Payments | WTF";
 	}, []);
 
 	if (!isLoggedIn) {
@@ -21,10 +21,12 @@ export const Overview: FC = () => {
 	return (
 		<div className='w-full bg-dark h-screen'>
 			<Header
-				page={1}
+				page={3}
 				name={name}
-				title={"Overview"}
-				description={"have a glimpse of the status of your college fee"}
+				title={"Add Payments"}
+				description={
+					"start the operation of handling college fees from the student. It can be manually inputted or scanned/searched via Student ID. Try now!"
+				}
 				email={email}
 			/>
 			<h1>Hello</h1>

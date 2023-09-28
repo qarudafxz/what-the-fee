@@ -16,6 +16,8 @@ import { ForgotPassword } from "./pages/login/ForgotPassword";
 //admin
 import { Navbar } from "./components/Navbar";
 import { Overview } from "./pages/admin/overview/Overview";
+import { Records } from "./pages/admin/records/Records";
+import { AddPayments } from "./pages/admin/payments/AddPayments";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -80,6 +82,14 @@ function App() {
 								<Route
 									path='/overview'
 									element={<Overview />}
+								/>
+								<Route
+									path='/records'
+									element={<Records />}
+								/>
+								<Route
+									path='/payment'
+									element={<AddPayments />}
 								/>
 							</Routes>
 						</div>
