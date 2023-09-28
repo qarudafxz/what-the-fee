@@ -16,6 +16,7 @@ export const EnterPassword: FC = () => {
 	const studentID = getSession("student_id");
 	const stage = getSession("secret");
 	const session = getSession("session");
+	const name = getSession("name")?.split(" ")[0];
 	const [password, setPassword] = useState<string>("");
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [error, setError] = useState<boolean>(false);
@@ -106,6 +107,7 @@ export const EnterPassword: FC = () => {
 						/>
 						<div className='bg-dark p-4 rounded-md border border-zinc-600'>
 							<h1 className='text-2xl font-bold text-white'>Enter Password</h1>
+							<p className='text-zinc-600 text-xs'>You're almost there, {name}</p>
 							<InputGroup className='relative w-full mt-3'>
 								<Input
 									onChange={(e) => setPassword(e.target.value)}

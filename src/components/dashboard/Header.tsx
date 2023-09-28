@@ -10,8 +10,6 @@ type Props = {
 };
 
 export const Header: FC<Props> = ({ title, description, email, name }) => {
-	const firstName = name?.split(" ")[0];
-
 	return (
 		<div
 			className='font-main w-full h-56'
@@ -33,7 +31,7 @@ export const Header: FC<Props> = ({ title, description, email, name }) => {
 				</div>
 				<p className='text-[#337151] text-semibold'>{title}</p>
 				<h1 className='text-white text-4xl'>
-					Welcome back, <span className='font-extrabold'>{firstName}</span>
+					Welcome back, <span className='font-extrabold'>{name?.split(" ")[0]}</span>
 				</h1>
 				<p className='text-xs text-white font-thin'>{description}</p>
 			</div>
