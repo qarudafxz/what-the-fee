@@ -48,13 +48,13 @@ export const Navbar: FC = () => {
 				initial={{ x: isOpen ? 0 : -140 }}
 				animate={{ x: isOpen ? 0 : -140 }}
 				transition={{ duration: 0.2 }}
-				className='bg-dark px-6 py-10 h-screen shadow-2xl w-64 absolute z-10'>
+				className='bg-[#0f0f0f] px-6 py-10 h-screen shadow-2xl w-64 absolute z-10'>
 				<div className='flex flex-col gap-2 justify-items-center items-center'>
 					<Button
 						onClick={() => setIsOpen(!isOpen)}
-						className='p-2 rounded-full bg-secondary border-4 border-[#0A0A0A] text-primary relative left-[125px]'>
+						className='p-4 rounded-full bg-secondary border-4 border-[#0f0f0f] text-primary relative left-[125px]'>
 						<IoIosArrowForward
-							size={24}
+							size={30}
 							className={`${isOpen && "transform smoothRotate"}`}
 						/>
 					</Button>
@@ -72,7 +72,9 @@ export const Navbar: FC = () => {
 										to={nav.link}
 										className={({ isActive }) =>
 											`flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
-											(isActive ? "text-white duration-150" : "text-zinc-600")
+											(isActive
+												? "text-white duration-150"
+												: "text-zinc-800 hover:text-zinc-600 duration-150")
 										}>
 										{nav.icon as ReactNode}
 										<span className={`${!isOpen && "hidden"} text-sm font-semibold`}>
