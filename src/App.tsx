@@ -13,6 +13,10 @@ import { EnterPassword } from "./pages/login/EnterPassword";
 import { EnterOtp } from "./pages/login/EnterOtp";
 import { ForgotPassword } from "./pages/login/ForgotPassword";
 
+//admin
+import { Navbar } from "./components/Navbar";
+import { Overview } from "./pages/admin/overview/Overview";
+
 function App() {
 	const [loading, setLoading] = useState(true);
 
@@ -62,6 +66,22 @@ function App() {
 				<Route
 					path='/forgot-password'
 					element={<ForgotPassword />}
+				/>
+				<Route
+					path='/admin/*'
+					element={
+						<div className='font-main flex flex-row'>
+							{/* Navbar */}
+							<Navbar />
+							{/* Contents */}
+							<Routes>
+								<Route
+									path='/overview'
+									element={<Overview />}
+								/>
+							</Routes>
+						</div>
+					}
 				/>
 			</Routes>
 		</Router>

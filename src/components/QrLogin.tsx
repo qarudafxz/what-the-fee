@@ -93,6 +93,7 @@ const QrLogin: React.FC = () => {
 				setProgress(100);
 				setSession("student_id", data.payload.student_id);
 				setSession("email", data.payload.email);
+				setSession("name", data.payload.first_name + " " + data.payload.last_name);
 				setSession("session", data.payload.session);
 				setSession("secret", "2");
 				setTimeout(() => {

@@ -8,6 +8,8 @@ type Payload = {
 	session: string;
 	student_id: string;
 	email: string;
+	first_name: string;
+	last_name: string;
 	iat: number;
 };
 
@@ -16,7 +18,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 	console.log(stud_id);
 	try {
 		const student = await db.query(
-			`SELECT student_id, email FROM admin WHERE student_id = '${stud_id}'`
+			`SELECT student_id, email, first_name, last_name FROM admin WHERE student_id = '${stud_id}'`
 		);
 
 		if (student.rows.length === 0) {
@@ -27,8 +29,12 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 			session: uuid(),
 			student_id: student.rows[0].student_id,
 			email: student.rows[0].email,
+			first_name: student.rows[0].first_name,
+			last_name: student.rows[0].last_name,
 			iat: new Date().getTime(),
 		};
+
+		console.log(payload);
 
 		res.status(200).json({
 			student: student.rows[0],
@@ -63,6 +69,8 @@ export const enterPassword = async (req: Request, res: Response) => {
 			session: uuid(),
 			student_id,
 			email: "",
+			first_name: "",
+			last_name: "",
 			iat: new Date().getTime(),
 		};
 

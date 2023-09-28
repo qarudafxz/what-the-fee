@@ -81,8 +81,9 @@ export const EnterOtp: FC = () => {
 			.then(async (res) => {
 				const data = await res.json();
 				if (res.status === 200 || res.ok) {
+					setProgress(100);
 					setTimeout(() => {
-						navigate("/admin/dashboard");
+						navigate("/admin/overview");
 					}, 2000);
 				} else {
 					setError(true);
