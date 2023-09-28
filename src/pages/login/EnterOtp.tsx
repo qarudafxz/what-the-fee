@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import bg from "../../assets/bg.svg";
 import logo from "../../assets/full_logo.png";
 import email_3d from "../../assets/email.png";
@@ -9,8 +9,9 @@ import TopLoadingBar from "react-top-loading-bar";
 import { ProgressBar } from "../../components/ProgressBar";
 
 export const EnterOtp: FC = () => {
-	const navigate = useNavigate();
 	const { getSession } = useGetSession();
+	const navigate = useNavigate();
+	const stage = getSession("secret");
 	const [number, setNumber] = useState<string[]>(["", "", "", ""]);
 	const [pin, setPin] = useState<string>("");
 	const [error, setError] = useState<boolean>(false);
@@ -99,6 +100,14 @@ export const EnterOtp: FC = () => {
 			sendVerification();
 		}
 	}, [session]);
+
+	if (stage && stage !== "4") {
+		return <Navigate to='/enter-password' />;
+	}
+
+	if (!session || !student_id || !email) {
+		return <Navigate to='/login' />;
+	}
 
 	return (
 		<div

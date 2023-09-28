@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import bg from "../../assets/bg.svg";
 import logo from "../../assets/full_logo.png";
 import { useGetSession } from "../../../hooks/useGetSession";
@@ -97,14 +97,12 @@ export const AdminsQuestion: FC = () => {
 	};
 
 	useEffect(() => {
-		if (!stage || stage !== "2") {
-			navigate("/login");
-		}
-	}, [stage]);
-
-	useEffect(() => {
 		getAdmins();
 	}, [studentId]);
+
+	if ((!stage && !session) || stage !== "2") {
+		return <Navigate to='/login' />;
+	}
 
 	return (
 		<div

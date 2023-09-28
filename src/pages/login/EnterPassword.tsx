@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
 import bg from "../../assets/bg.svg";
 import logo from "../../assets/full_logo.png";
@@ -11,10 +11,11 @@ import { ProgressBar } from "../../components/ProgressBar";
 
 export const EnterPassword: FC = () => {
 	const navigate = useNavigate();
-	const { getSession } = useGetSession();
+	const { getSession, setSession } = useGetSession();
 	const { setItem } = useLocalStorage();
 	const studentID = getSession("student_id");
 	const stage = getSession("secret");
+	const session = getSession("session");
 	const [password, setPassword] = useState<string>("");
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [error, setError] = useState<boolean>(false);
@@ -45,6 +46,7 @@ export const EnterPassword: FC = () => {
 				const data = await res.json();
 				if (res.ok || res.status === 200) {
 					setItem("token", data.token);
+					setSession("secret", "4");
 					setProgress(100);
 					navigate("/enter-otp");
 				} else {
@@ -67,11 +69,13 @@ export const EnterPassword: FC = () => {
 		}
 	}, [error]);
 
-	useEffect(() => {
-		if (!stage || stage !== "3") {
-			navigate("/login");
-		}
-	}, [stage]);
+	if (stage && stage !== "3") {
+		return <Navigate to='/question' />;
+	}
+
+	if (!stage && !session) {
+		return <Navigate to='/login' />;
+	}
 
 	return (
 		<div
