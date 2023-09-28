@@ -19,13 +19,13 @@ export const Header: FC<Props> = ({
 }) => {
 	return (
 		<div
-			className='font-main w-full h-56'
+			className='font-main w-full h-[280px]'
 			style={{
 				backgroundImage: `url(${bg})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
 			}}>
-			<div className='px-32 py-10 flex flex-col gap-[3px]'>
+			<div className='pl-64 pr-56 py-10 flex flex-col gap-[3px]'>
 				<div className='flex flex-row-reverse justify-between items-center'>
 					<></>
 					<div className='bg-black text-white rounded-full flex gap-2 items-center pl-8 pr-2 py-1 border border-zinc-500'>
