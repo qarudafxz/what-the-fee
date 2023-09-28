@@ -11,7 +11,7 @@ export const Overview: FC = () => {
 		document.title = "Overview | WTF";
 	}, []);
 	return (
-		<div className='w-full bg-dark'>
+		<div className='w-full bg-dark h-screen'>
 			<Header
 				name={name}
 				title={"Overview"}

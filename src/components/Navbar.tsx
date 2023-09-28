@@ -1,4 +1,4 @@
-import { FC, ReactComponentElement, ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/full_logo.png";
@@ -15,7 +15,7 @@ import {
 import { RiSettings5Fill } from "react-icons/ri";
 
 type Navlinks = {
-	icon: ReactComponentElement<unknown>;
+	icon: ReactNode;
 	title: string;
 	link: string;
 };
