@@ -10,6 +10,8 @@ import { isSessionPresent } from "../middlewares/isSessionPresent.ts";
 import { sendVerification } from "../middlewares/sendVerification.ts";
 import { verify } from "../controllers/verify.ts";
 import { getAdmin } from "../controllers/getAdmin.ts";
+import { validateChangePass } from "../middlewares/validateChangePass.ts";
+import { changePassword } from "../controllers/changePassword.ts";
 
 const router: Router = express.Router();
 
@@ -25,5 +27,8 @@ router.get("/get-code", sendVerification);
 
 //info
 router.get("/info", getAdmin);
+
+//change password
+router.put("/change-password", validateChangePass, changePassword);
 
 export { router as auth };

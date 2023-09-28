@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../database/connect.ts";
 import { v4 as uuid } from "uuid";
-import brcypt from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 type Payload = {
@@ -20,7 +20,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 		);
 
 		if (student.rows.length === 0) {
-			return res.status(400).json({ message: "Student not found!" });
+			return res.status(400).json({ message: "Admin not found!" });
 		}
 
 		const payload: Payload = {
@@ -53,7 +53,7 @@ export const enterPassword = async (req: Request, res: Response) => {
 			return res.status(400).json({ message: "Student not found!" });
 		}
 
-		const match = await brcypt.compare(password, admin.rows[0].password);
+		const match = await bcrypt.compare(password, admin.rows[0].password);
 
 		if (!match) {
 			return res.status(400).json({ message: "Incorrect password!" });

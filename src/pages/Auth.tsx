@@ -54,7 +54,7 @@ export const Auth = () => {
 								alt='logo'
 								className='w-32 h-5'
 							/>
-							<h1 className='text-white font-bold text-2xl'>Options</h1>
+							<h1 className='text-white font-bold text-2xl'>Select</h1>
 						</div>
 						<div className='flex gap-3 items-center mt-8'>
 							{variants.map((variant, index) => (

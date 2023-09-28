@@ -35,7 +35,6 @@ export const AdminsQuestion: FC = () => {
 					setTries(tries - 1);
 					toast.error("Wrong answer, please try again");
 				} else {
-					removeSession("session");
 					removeSession("tries");
 					setSession("secret", "3");
 					setTimeout(() => {

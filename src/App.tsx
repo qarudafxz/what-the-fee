@@ -11,6 +11,7 @@ import { EmailVerification } from "./pages/verification/EmailVerification";
 import { AdminsQuestion } from "./pages/login/AdminsQuestion";
 import { EnterPassword } from "./pages/login/EnterPassword";
 import { EnterOtp } from "./pages/login/EnterOtp";
+import { ForgotPassword } from "./pages/login/ForgotPassword";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -57,6 +58,10 @@ function App() {
 				<Route
 					path='/enter-otp'
 					element={<EnterOtp />}
+				/>
+				<Route
+					path='/forgot-password'
+					element={<ForgotPassword />}
 				/>
 			</Routes>
 		</Router>
