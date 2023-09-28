@@ -1,6 +1,15 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
+import { Link } from "react-router-dom";
+import {
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+	PopoverArrow,
+	Button,
+} from "@chakra-ui/react";
 import bg from "../../assets/header.svg";
 import { HiUserCircle } from "react-icons/hi";
+import { RiUserSettingsFill } from "react-icons/ri";
 
 type Props = {
 	title: string;
@@ -17,6 +26,7 @@ export const Header: FC<Props> = ({
 	name,
 	page,
 }) => {
+	const initialFocusRef = useRef(null);
 	return (
 		<div
 			className='font-main w-full h-[280px]'
@@ -33,7 +43,24 @@ export const Header: FC<Props> = ({
 							<p className='font-bold text-[15px] text-right'>{name}</p>
 							<p className='text-xs text-zinc-500 text-[10px]'>{email}</p>
 						</div>
-						<HiUserCircle className='w-10 h-10 text-primary' />
+						<Popover
+							initialFocusRef={initialFocusRef}
+							placement='bottom'
+							closeOnBlur={false}>
+							<PopoverTrigger>
+								<Button>
+									<HiUserCircle className='w-10 h-10 text-primary' />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								<Link
+									to='/admin/profile-settings'
+									className='bg-primary text-black flex gap-2 items-center py-2 px-4 rounded-md border border-secondary text-md'>
+									<RiUserSettingsFill />
+									Settings
+								</Link>
+							</PopoverContent>
+						</Popover>
 					</div>
 				</div>
 				<p className='text-[#337151] text-semibold'>{title}</p>

@@ -18,6 +18,7 @@ import { Navbar } from "./components/Navbar";
 import { Overview } from "./pages/admin/overview/Overview";
 import { Records } from "./pages/admin/records/Records";
 import { AddPayments } from "./pages/admin/payments/AddPayments";
+import { AdminSettings } from "./pages/admin/admin-settings/AdminSettings";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -90,6 +91,10 @@ function App() {
 								<Route
 									path='/payment'
 									element={<AddPayments />}
+								/>
+								<Route
+									path='/settings'
+									element={<AdminSettings />}
 								/>
 							</Routes>
 						</div>

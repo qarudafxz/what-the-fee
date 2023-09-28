@@ -1,3 +1,4 @@
+import { Tooltip } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaPesoSign } from "react-icons/fa6";
 
@@ -28,14 +29,26 @@ export const Data: FC = () => {
 					<p className='text-zinc-800 text-sm'>
 						Last 7 days <span className='text-green-600'>+7.43%</span>
 					</p>
-					<h1 className='font-bold text-2xl text-zinc-600'>+₱ 3,500.00</h1>
+					<Tooltip
+						hasArrow
+						label='Collection Percentage for the last 7 days'
+						fontSize='md'
+						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
+						<h1 className='font-bold text-2xl text-zinc-500'>+₱ 3,500.00</h1>
+					</Tooltip>
 				</div>
 				{/* stats 3 */}
 				<div className='flex flex-col'>
 					<p className='text-zinc-800 text-sm'>
 						Last 30 days <span className='text-green-600'>+56.0%</span>
 					</p>
-					<h1 className='font-bold text-2xl text-zinc-600'>+₱ 78,948.00</h1>
+					<Tooltip
+						hasArrow
+						label='Collection Percentage for the last 30 day'
+						fontSize='md'
+						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
+						<h1 className='font-bold text-2xl text-zinc-500'>+₱ 78,948.00</h1>
+					</Tooltip>
 				</div>
 			</div>
 		</div>
