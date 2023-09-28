@@ -67,6 +67,8 @@ function App() {
 					path='/forgot-password'
 					element={<ForgotPassword />}
 				/>
+				{/* These are the routes that needs to have the AuthContext */}
+
 				<Route
 					path='/admin/*'
 					element={

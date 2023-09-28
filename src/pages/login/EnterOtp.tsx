@@ -7,9 +7,11 @@ import email_3d from "../../assets/email.png";
 import { useGetSession } from "../../../hooks/useGetSession";
 import TopLoadingBar from "react-top-loading-bar";
 import { ProgressBar } from "../../components/ProgressBar";
+import { useLocalStorage } from "../../../hooks/useLocaleStorage";
 
 export const EnterOtp: FC = () => {
 	const { getSession } = useGetSession();
+	const { setItem } = useLocalStorage();
 	const navigate = useNavigate();
 	const stage = getSession("secret");
 	const [number, setNumber] = useState<string[]>(["", "", "", ""]);
@@ -81,6 +83,7 @@ export const EnterOtp: FC = () => {
 			.then(async (res) => {
 				const data = await res.json();
 				if (res.status === 200 || res.ok) {
+					setItem("ok", "ok");
 					setProgress(100);
 					setTimeout(() => {
 						navigate("/admin/overview");

@@ -1,25 +1,30 @@
-import { useEffect } from "react";
-import { useAdmin, Admin } from "./useAdmin";
+import { useState, useEffect } from "react";
 import { useLocalStorage } from "./useLocaleStorage";
+import { useGetSession } from "./useGetSession";
 
-export const useAuth = () => {
-	const { admin, addAdmin, removeAdmin } = useAdmin();
+export const useAuth = (): boolean => {
+	const { getSession } = useGetSession();
 	const { getItem } = useLocalStorage();
 
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+		const adminID = getSession("student_id");
+		const session = getSession("session");
+		const token = getItem("token");
+		return !!adminID && !!token && !!session;
+	});
+
 	useEffect(() => {
-		const admin = getItem("admin");
-		if (admin) {
-			addAdmin(JSON.parse(admin));
+		const session = getSession("session");
+		const adminID = getSession("student_id");
+		const token = getItem("token");
+		const authenticated = getItem("ok");
+
+		if (adminID && token && session && authenticated) {
+			setIsLoggedIn(true);
+		} else {
+			setIsLoggedIn(false);
 		}
-	}, []);
+	}, [getSession, getItem]);
 
-	const login = (admin: Admin) => {
-		addAdmin(admin);
-	};
-
-	const logout = () => {
-		removeAdmin();
-	};
-
-	return { admin, login, logout };
+	return isLoggedIn;
 };

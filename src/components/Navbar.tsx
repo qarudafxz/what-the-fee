@@ -1,5 +1,5 @@
 import { FC, ReactNode, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/full_logo.png";
 import icon_logo from "../assets/logo_only.png";
@@ -13,6 +13,9 @@ import {
 	AiOutlineMenuUnfold,
 } from "react-icons/ai";
 import { RiSettings5Fill } from "react-icons/ri";
+import { PiUserCirclePlusFill } from "react-icons/pi";
+import { MdLogout } from "react-icons/md";
+import TopLoadingBar from "react-top-loading-bar";
 
 type Navlinks = {
 	icon: ReactNode;
@@ -21,7 +24,22 @@ type Navlinks = {
 };
 
 export const Navbar: FC = () => {
+	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [progress, setProgress] = useState<number>(0);
+
+	const logout = () => {
+		setProgress(50);
+		localStorage.clear();
+		sessionStorage.clear();
+
+		setTimeout(() => {
+			setProgress(100);
+			setTimeout(() => {
+				navigate("/");
+			}, 1000);
+		}, 2500);
+	};
 
 	const navlinks: Navlinks[] = [
 		{ icon: <BsGrid1X2Fill />, title: "Overview", link: "/admin/overview" },
@@ -41,9 +59,19 @@ export const Navbar: FC = () => {
 			title: "Admin Requests",
 			link: "/admin/requests",
 		},
+		{
+			icon: <PiUserCirclePlusFill />,
+			title: "Add Admin",
+			link: "/admin/add",
+		},
 	];
 	return (
 		<>
+			<TopLoadingBar
+				progress={progress}
+				color='#59D896'
+				onLoaderFinished={() => setProgress(0)}
+			/>
 			<motion.div
 				initial={{ x: isOpen ? 0 : -140 }}
 				animate={{ x: isOpen ? 0 : -140 }}
@@ -71,7 +99,9 @@ export const Navbar: FC = () => {
 										key={idx}
 										to={nav.link}
 										className={({ isActive }) =>
-											`flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
+											`${
+												idx === 6 && "mt-24 "
+											} flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
 											(isActive
 												? "text-white duration-150"
 												: "text-zinc-800 hover:text-zinc-600 duration-150")
@@ -83,6 +113,22 @@ export const Navbar: FC = () => {
 									</NavLink>
 								);
 							})}
+							<div className='mt-40'>
+								<hr
+									className='mb-2'
+									style={{
+										border: "1px solid #27272A",
+									}}
+								/>
+								<Button
+									onClick={logout}
+									className='flex items-center gap-4 text-lg py-2 mt rounded-lg text-zinc-800 hover:text-zinc-600 duration-150'>
+									<MdLogout size={23} />
+									<span className={`${!isOpen && "hidden"} text-sm font-semibold`}>
+										Logout
+									</span>
+								</Button>
+							</div>
 						</div>
 					</div>
 				</div>
