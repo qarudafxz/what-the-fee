@@ -75,20 +75,15 @@ export const AdminsQuestion: FC = () => {
 				if (res.status === 200 || res.ok) {
 					setFirstName(data.admin.first_name);
 					//parse the questions to JSON and make it an array
-					if (typeof data.questions === "string") {
-						const questionsString = data.questions.replace(/\\/g, "");
-						const questions = JSON.parse(`[${questionsString}]`);
+					const random = Math.floor(Math.random() * data.questions.length);
 
-						const random = Math.floor(Math.random() * questions[0].length);
-
-						console.log(random);
-						setSelectedQuestion(() => {
-							return {
-								question: questions[0][random].question,
-								answer: questions[0][random].answer,
-							};
-						});
-					}
+					console.log(random);
+					setSelectedQuestion(() => {
+						return {
+							question: data.questions[random].question,
+							answer: data.questions[random].answer,
+						};
+					});
 				}
 			});
 		} catch (err) {

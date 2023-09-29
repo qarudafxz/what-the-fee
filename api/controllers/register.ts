@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { db } from "../database/connect.ts";
 import bcrypt from "bcrypt";
 import { v4 } from "uuid";
+import CryptoJS from "crypto-js";
 
 export const register = async (req: Request, res: Response) => {
 	const {
@@ -96,10 +97,17 @@ export const registerAdmin = async (req: Request, res: Response) => {
 export const verificationQuestions = async (req: Request, res: Response) => {
 	const { student_id, questions } = req.body;
 
+	//encrypt questions using cryptojs
+
+	const cypherQuestions = CryptoJS.AES.encrypt(
+		questions,
+		"sekretong malupet pwede pabulong"
+	).toString();
+
 	try {
 		await db.query(
 			"INSERT INTO questions (student_id, json) VALUES ($1, $2) RETURNING *",
-			[student_id, questions]
+			[student_id, cypherQuestions]
 		);
 
 		res
