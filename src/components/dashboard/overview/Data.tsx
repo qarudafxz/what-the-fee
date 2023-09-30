@@ -4,7 +4,7 @@ import { FaPesoSign } from "react-icons/fa6";
 
 export const Data: FC = () => {
 	return (
-		<div className='font-main bg-dark opacity-90 w-full h-40 flex flex-col gap-2 rounded-md relative bottom-14 border border-zinc-800 p-4 pt-6'>
+		<div className='font-main bg-[#131313] opacity-90 w-full h-40 flex flex-col gap-2 rounded-md relative bottom-14 border border-zinc-800 p-4 pt-6'>
 			<div className='grid grid-cols-4 items-center gap-16'>
 				<div className='col-span-2 flex flex-col gap-2 items-center text-white'>
 					<div className='flex gap-2'>
@@ -26,7 +26,7 @@ export const Data: FC = () => {
 				</div>
 				{/* stats 2 */}
 				<div className='flex flex-col'>
-					<p className='text-zinc-800 text-sm'>
+					<p className='text-zinc-700 text-sm'>
 						Last 7 days <span className='text-green-600'>+7.43%</span>
 					</p>
 					<Tooltip
@@ -39,7 +39,7 @@ export const Data: FC = () => {
 				</div>
 				{/* stats 3 */}
 				<div className='flex flex-col'>
-					<p className='text-zinc-800 text-sm'>
+					<p className='text-zinc-700 text-sm'>
 						Last 30 days <span className='text-green-600'>+56.0%</span>
 					</p>
 					<Tooltip

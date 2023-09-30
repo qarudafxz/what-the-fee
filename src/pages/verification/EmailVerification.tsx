@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, useEffect, useCallback } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import bg from "../../assets/bg.svg";
 import logo from "../../assets/full_logo.png";
 import email_3d from "../../assets/email.png";
@@ -99,10 +99,6 @@ export const EmailVerification: FC = () => {
 	useEffect(() => {
 		sendVerification();
 	}, [session]);
-
-	if (!session || !student_id || !email) {
-		return <Navigate to='/register' />;
-	}
 
 	return (
 		<div

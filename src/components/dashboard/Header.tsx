@@ -55,7 +55,7 @@ export const Header: FC<Props> = ({
 							<PopoverContent>
 								<Link
 									to='/admin/profile-settings'
-									className='bg-primary text-black flex gap-2 items-center py-2 px-4 rounded-md border border-secondary text-md'>
+									className='bg-dark text-primary flex gap-2 items-center py-2 px-4 rounded-md border border-zinc-700 text-md'>
 									<RiUserSettingsFill />
 									Settings
 								</Link>

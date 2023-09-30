@@ -80,9 +80,9 @@ export const Navbar: FC = () => {
 				<div className='flex flex-col gap-2 justify-items-center items-center'>
 					<Button
 						onClick={() => setIsOpen(!isOpen)}
-						className='p-4 rounded-full bg-secondary border-4 border-[#0f0f0f] text-primary relative left-[125px]'>
+						className='p-3 rounded-full bg-secondary border-4 border-[#0f0f0f] text-primary relative left-[125px]'>
 						<IoIosArrowForward
-							size={30}
+							size={20}
 							className={`${isOpen && "transform smoothRotate"}`}
 						/>
 					</Button>

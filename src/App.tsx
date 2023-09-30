@@ -19,6 +19,8 @@ import { Overview } from "./pages/admin/overview/Overview";
 import { Records } from "./pages/admin/records/Records";
 import { AddPayments } from "./pages/admin/payments/AddPayments";
 import { AdminSettings } from "./pages/admin/admin-settings/AdminSettings";
+import { AdminRequests } from "./pages/admin/admin-requests/AdminRequests";
+import { AddAdmin } from "./pages/admin/add-admin/AddAdmin";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -95,6 +97,14 @@ function App() {
 								<Route
 									path='/settings'
 									element={<AdminSettings />}
+								/>
+								<Route
+									path='/requests'
+									element={<AdminRequests />}
+								/>
+								<Route
+									path='/add'
+									element={<AddAdmin />}
 								/>
 							</Routes>
 						</div>
