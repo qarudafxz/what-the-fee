@@ -1,8 +1,13 @@
-import { Tooltip } from "@chakra-ui/react";
 import { FC } from "react";
+import { Tooltip } from "@chakra-ui/react";
 import { FaPesoSign } from "react-icons/fa6";
+import { useCounter } from "../../../../hooks/useCounter";
 
 export const Data: FC = () => {
+	const total = useCounter(452643, 0.9);
+	const last7Days = useCounter(3500, 0.9);
+	const last30Days = useCounter(78948, 0.9);
+
 	return (
 		<div className='font-main bg-[#131313] opacity-90 w-full h-40 flex flex-col gap-2 rounded-md relative bottom-14 border border-zinc-800 p-4 pt-6'>
 			<div className='grid grid-cols-4 items-center gap-16'>
@@ -21,7 +26,7 @@ export const Data: FC = () => {
 					{/* Money */}
 					<h1 className='flex items-center text-6xl font-extrabold text-primary'>
 						<FaPesoSign />
-						423,945.00
+						{total.toFixed(2)}
 					</h1>
 				</div>
 				{/* stats 2 */}
@@ -34,7 +39,9 @@ export const Data: FC = () => {
 						label='Collection Percentage for the last 7 days'
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
-						<h1 className='font-bold text-2xl text-zinc-500'>+₱ 3,500.00</h1>
+						<h1 className='font-bold text-2xl text-zinc-500'>
+							+₱ {last7Days.toFixed(2)}
+						</h1>
 					</Tooltip>
 				</div>
 				{/* stats 3 */}
@@ -47,7 +54,9 @@ export const Data: FC = () => {
 						label='Collection Percentage for the last 30 day'
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
-						<h1 className='font-bold text-2xl text-zinc-500'>+₱ 78,948.00</h1>
+						<h1 className='font-bold text-2xl text-zinc-500'>
+							+₱ {last30Days.toFixed(2)}
+						</h1>
 					</Tooltip>
 				</div>
 			</div>

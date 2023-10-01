@@ -11,7 +11,7 @@ export const AddAdmin: FC = () => {
 	const name = getSession("name");
 
 	useEffect(() => {
-		document.title = "Admin Requests | WTF";
+		document.title = "Add Admin | WTF";
 	}, []);
 
 	if (!isLoggedIn) {

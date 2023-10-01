@@ -10,6 +10,8 @@ type Payload = {
 	email: string;
 	first_name: string;
 	last_name: string;
+	position: string;
+	role: string;
 	iat: number;
 };
 
@@ -18,7 +20,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 	console.log(stud_id);
 	try {
 		const student = await db.query(
-			`SELECT student_id, email, first_name, last_name FROM admin WHERE student_id = '${stud_id}'`
+			`SELECT * FROM admin WHERE student_id = '${stud_id}'`
 		);
 
 		if (student.rows.length === 0) {
@@ -31,8 +33,19 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 			email: student.rows[0].email,
 			first_name: student.rows[0].first_name,
 			last_name: student.rows[0].last_name,
+			position: student.rows[0].position,
+			role: student.rows[0].role,
 			iat: new Date().getTime(),
 		};
+
+		if (!student.rows[0].isverified) {
+			return res.status(400).json({
+				message: "Admin not verified. Please verify your email first",
+				email: student.rows[0].email,
+				student_id: student.rows[0].student_id,
+				session: uuid(),
+			});
+		}
 
 		console.log(payload);
 
@@ -71,6 +84,8 @@ export const enterPassword = async (req: Request, res: Response) => {
 			email: "",
 			first_name: "",
 			last_name: "",
+			position: "",
+			role: "",
 			iat: new Date().getTime(),
 		};
 

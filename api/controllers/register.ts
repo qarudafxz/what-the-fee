@@ -46,8 +46,15 @@ export const register = async (req: Request, res: Response) => {
 
 export const registerAdmin = async (req: Request, res: Response) => {
 	try {
-		const { first_name, last_name, student_id, email, password, position } =
-			req.body;
+		const {
+			first_name,
+			last_name,
+			student_id,
+			email,
+			password,
+			position,
+			is_checked,
+		} = req.body;
 
 		if (
 			!first_name ||
@@ -64,6 +71,8 @@ export const registerAdmin = async (req: Request, res: Response) => {
 			return res.status(400).json({ message: "Please use your school email!" });
 		}
 
+		const isSuper = is_checked ? "super" : "admin";
+
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -76,7 +85,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
 				email,
 				hashedPassword,
 				position,
-				"super",
+				isSuper,
 				false,
 			]
 		);

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import QrScanner from "qr-scanner";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { motion } from "framer-motion";
@@ -17,6 +17,7 @@ const QrLogin: React.FC = () => {
 	const [studentId, setStudentId] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
+	const [notVerified, setNotVerified] = useState<boolean | null>(null);
 
 	useEffect(() => {
 		let qrScanner: QrScanner;
@@ -67,6 +68,7 @@ const QrLogin: React.FC = () => {
 
 	const verifyAdmin = useCallback(
 		async (studentId: string) => {
+			setNotVerified(false);
 			setLoading(true);
 			toast.info("Verifying...", {
 				autoClose: 1500,
@@ -83,6 +85,20 @@ const QrLogin: React.FC = () => {
 					}),
 				});
 				const data = await response.json();
+				if (
+					!response.ok &&
+					data.message === "Admin not verified. Please verify your email first"
+				) {
+					setSession("student_id", data.student_id);
+					setSession("email", data.email);
+					setSession("session", data.session);
+					setProgress(100);
+					setNotVerified(true);
+					toast.error(data.message);
+					setLoading(false);
+					return;
+				}
+
 				if (!response.ok) {
 					setProgress(100);
 					toast.error(data.message);
@@ -93,6 +109,7 @@ const QrLogin: React.FC = () => {
 				setProgress(100);
 				setSession("student_id", data.payload.student_id);
 				setSession("email", data.payload.email);
+				setSession("session", data.payload.session);
 				setSession("name", data.payload.first_name + " " + data.payload.last_name);
 				setSession("session", data.payload.session);
 				setSession("secret", "2");
@@ -153,6 +170,15 @@ const QrLogin: React.FC = () => {
 							)}
 						</div>
 					</div>
+					{notVerified && (
+						<div className='flex justify-center items-center'>
+							<Link
+								to='/verify-email'
+								className='border border-zinc-800 px-4 py-2 text-zinc-500'>
+								Verify Email
+							</Link>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

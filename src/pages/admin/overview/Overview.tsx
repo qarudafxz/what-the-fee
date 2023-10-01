@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
@@ -8,6 +9,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { temp } from "../../../../data/temp.jsx";
+import { ProgramCards } from "../../../components/dashboard/overview/ProgramCards";
+import { Button } from "@chakra-ui/react";
 
 export const Overview: FC = () => {
 	const isLoggedIn = useAuth();
@@ -40,61 +44,99 @@ export const Overview: FC = () => {
 			/>
 			<div className='pl-64 pr-56 flex flex-col w-full'>
 				<Data />
-				<div className='w-full grid grid-cols-6'>
-					<h1 className='col-span-5 text-white font-bold text-4xl'>Overview</h1>
+				<div className='w-full flex justify-between items-center'>
+					<h1 className='text-white font-bold text-4xl'>Overview</h1>
 					{/* change the color of the text on the form control */}
-					<FormControl
-						sx={{
-							m: 1,
-							minWidth: 120,
-							"& label.Mui-focused": {
-								color: "white",
-								fontSize: "1rem",
-								borderColor: "white",
-							},
-							"& .MuiInput-underline:after": {
-								borderBottomColor: "white",
-							},
+					<div className='flex gap-2 items-center'>
+						<FormControl
+							sx={{
+								m: 1,
+								minWidth: 120,
+								"& label.Mui-focused": {
+									color: "white",
+									fontSize: "1rem",
+									borderColor: "white",
+								},
 
-							"& .MuiOutlinedInput-root": {
-								"& fieldset": {
-									borderColor: "#353535",
+								"& .MuiSelect-icon": {
+									color: "white",
 								},
-								"&:hover fieldset": {
-									borderColor: "#353535",
+
+								"& .MuiInput-underline:after": {
+									borderBottomColor: "white",
 								},
-								"& .MuiSelect-root": {
+
+								"& .MuiOutlinedInput-root": {
+									"& fieldset": {
+										borderColor: "#353535",
+									},
+									"&:hover fieldset": {
+										borderColor: "#353535",
+									},
+									"& .MuiSelect-root": {
+										color: "white",
+										fontSize: "1rem",
+									},
+									"& .MuiInputBase-input": {
+										color: "white",
+										fontSize: "1rem",
+									},
+								},
+								"& .MuiInputLabel-root": {
 									color: "white",
 									fontSize: "1rem",
 								},
-								"& .MuiInputBase-input": {
-									color: "white",
-									fontSize: "1rem",
-								},
-							},
-							"& .MuiInputLabel-root": {
-								color: "white",
-								fontSize: "1rem",
-							},
-							"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-								{
-									borderColor: "#353535",
-								},
-						}}
-						className='bg-[#131313] rounded-md border border-zinc-200'>
-						<InputLabel id='label'>Semester</InputLabel>
-						<Select
-							labelId='label'
-							id='demo-simple-select-helper'
-							label='Semester'
-							onChange={(e: SelectChangeEvent) =>
-								setSem(e.target.value as unknown as number)
-							}>
-							{semesters.map((semester) => {
-								return <MenuItem value={semester.value}>{semester.label}</MenuItem>;
-							})}
-						</Select>
-					</FormControl>
+								"& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+									{
+										borderColor: "#353535",
+									},
+							}}
+							className='bg-[#131313] rounded-md border border-zinc-200'>
+							<InputLabel id='label'>Semester</InputLabel>
+							<Select
+								labelId='label'
+								id='demo-simple-select-helper'
+								label='Semester'
+								onChange={(e: SelectChangeEvent) =>
+									setSem(e.target.value as unknown as number)
+								}>
+								{semesters.map((semester) => {
+									return <MenuItem value={semester.value}>{semester.label}</MenuItem>;
+								})}
+							</Select>
+						</FormControl>
+						<Button className='bg-zinc-900 py-4 px-4 text-white rounded-md border border-zinc-700'>
+							Filter
+						</Button>
+					</div>
+				</div>
+				{/* Other data*/}
+				{/* This must be scrollable vertically */}
+				<div className='w-full'>
+					<div className='grid grid-cols-3 gap-4 mt-4 w-full'>
+						{temp.map((program) => {
+							return (
+								<ProgramCards
+									name={program.name}
+									percentage={program.percentage}
+									icon={program.icon}
+									currentPopulation={program.currentPopulation}
+									totalPopulation={program.totalPopulation}
+									data={program.data}
+								/>
+							);
+						})}
+						<div className='col-span-2'>
+							{/* Graph and Pagination */}
+							<div className='flex flex-col gap-4'>
+								{/* Graph */}
+								<div className=''></div>
+								{/* Pagination */}
+								<div className=''></div>
+							</div>
+						</div>
+						<div className='col-span-1'></div>
+					</div>
 				</div>
 			</div>
 		</div>

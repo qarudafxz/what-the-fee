@@ -11,7 +11,7 @@ export const Records: FC = () => {
 	const name = getSession("name");
 
 	useEffect(() => {
-		document.title = "Overview | WTF";
+		document.title = "Payment Records | WTF";
 	}, []);
 
 	if (!isLoggedIn) {

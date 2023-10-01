@@ -34,6 +34,7 @@ export const Register: React.FC = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [isVisible2, setIsVisible2] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
+	const [isChecked, setIsChecked] = useState<boolean>(true);
 
 	const handleVisible = (type: string) => {
 		switch (type) {
@@ -62,6 +63,7 @@ export const Register: React.FC = () => {
 			email: email,
 			password: password,
 			position: position,
+			is_checked: isChecked,
 		};
 
 		try {
@@ -97,6 +99,7 @@ export const Register: React.FC = () => {
 		}
 	};
 
+	console.log(isChecked);
 	useEffect(() => {
 		if (errorMessage) {
 			setTimeout(() => {
@@ -246,9 +249,11 @@ export const Register: React.FC = () => {
 							placeholder='Position'
 						/>
 						<div className='flex gap-2 items-center'>
+							{/* put a border on the actual checkbox */}
 							<Checkbox
+								onChange={(e) => setIsChecked(e.target.checked)}
 								className='text-primary'
-								defaultChecked>
+								defaultChecked={isChecked}>
 								<p className='text-xs text-whiter'>
 									I agree to the terms and condition to be a default super admin and
 									handle huge responsibilities
