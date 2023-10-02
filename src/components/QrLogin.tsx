@@ -68,6 +68,16 @@ const QrLogin: React.FC = () => {
 
 	const verifyAdmin = useCallback(
 		async (studentId: string) => {
+			//always accept only on this format
+			//'211-00483'
+			//3 starting numbers with a dash and 5 numbers
+			const regex = /^[0-9]{3}-[0-9]{5}$/;
+			if (!regex.test(studentId)) {
+				setStudentId(null);
+				toast.error("Invalid Student ID");
+				return;
+			}
+
 			setNotVerified(false);
 			setLoading(true);
 			toast.info("Verifying...", {
