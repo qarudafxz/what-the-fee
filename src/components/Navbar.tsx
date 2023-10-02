@@ -1,10 +1,10 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/full_logo.png";
 import icon_logo from "../assets/logo_only.png";
 import { IoIosArrowForward } from "react-icons/io";
-import { Button } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 
 import { BsGrid1X2Fill } from "react-icons/bs";
 import {
@@ -65,6 +65,25 @@ export const Navbar: FC = () => {
 			link: "/admin/add",
 		},
 	];
+
+	const handleToggle = (e: KeyboardEvent) => {
+		if (e.key === "/") {
+			setIsOpen(!isOpen);
+		}
+	};
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			handleToggle(e);
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [isOpen]);
+
 	return (
 		<>
 			<TopLoadingBar
@@ -78,14 +97,19 @@ export const Navbar: FC = () => {
 				transition={{ duration: 0.2 }}
 				className='bg-[#0f0f0f] px-6 py-10 h-screen shadow-2xl w-64 absolute z-10'>
 				<div className='flex flex-col gap-2 justify-items-center items-center'>
-					<Button
-						onClick={() => setIsOpen(!isOpen)}
-						className='p-3 rounded-full bg-secondary border-4 border-[#0f0f0f] text-primary relative left-[125px]'>
-						<IoIosArrowForward
-							size={20}
-							className={`${isOpen && "transform smoothRotate"}`}
-						/>
-					</Button>
+					<Tooltip
+						label='/ to toggle menu'
+						placement='right-end'
+						className='bg-dark px-2 py-1 rounded-md text-zinc-500 text-xs font-thin'>
+						<Button
+							onClick={() => setIsOpen(!isOpen)}
+							className='p-3 rounded-full bg-secondary border-4 border-[#0f0f0f] text-primary relative left-[125px]'>
+							<IoIosArrowForward
+								size={20}
+								className={`${isOpen && "transform smoothRotate"}`}
+							/>
+						</Button>
+					</Tooltip>
 					<div className={`${!isOpen && "pl-32"} mt-10`}>
 						<img
 							src={isOpen ? logo : icon_logo}

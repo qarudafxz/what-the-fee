@@ -36,7 +36,7 @@ export const Data: FC = () => {
 					</p>
 					<Tooltip
 						hasArrow
-						label='Collection Percentage for the last 7 days'
+						label='Percentage came from calculating the difference of the last 7 days and the previous 7 days.'
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
 						<h1 className='font-bold text-2xl text-zinc-500'>
@@ -51,7 +51,7 @@ export const Data: FC = () => {
 					</p>
 					<Tooltip
 						hasArrow
-						label='Collection Percentage for the last 30 day'
+						label='Percentage came from calculating the difference of the last 30 days and the previous 30 days.'
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
 						<h1 className='font-bold text-2xl text-zinc-500'>

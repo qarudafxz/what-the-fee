@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
 import { FaUsers } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useCounter } from "../../../../hooks/useCounter";
 
 type Props = {
 	name: string;
@@ -19,6 +20,7 @@ export const ProgramCards: FC<Props> = ({
 	totalPopulation,
 	data,
 }) => {
+	const count: number = useCounter(percentage, 0.5);
 	return (
 		<motion.div
 			whileHover={{ scale: 1.04 }}
@@ -61,7 +63,7 @@ export const ProgramCards: FC<Props> = ({
 					}`}
 				/>
 				<div className='flex flex-col'>
-					<h1 className='font-bold text-white text-7xl'>{percentage}%</h1>
+					<h1 className='font-bold text-white text-7xl'>{count}%</h1>
 					<p className='text-zinc-700'>of the population</p>
 				</div>
 			</div>

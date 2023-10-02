@@ -12,6 +12,8 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { temp } from "../../../../data/temp.jsx";
 import { ProgramCards } from "../../../components/dashboard/overview/ProgramCards";
 import { Button } from "@chakra-ui/react";
+import MonthlyTraction from "../../../components/dashboard/overview/MonthlyTraction.js";
+import { AdminList } from "../../../components/dashboard/overview/AdminList.js";
 
 export const Overview: FC = () => {
 	const isLoggedIn = useAuth();
@@ -42,8 +44,10 @@ export const Overview: FC = () => {
 				description={"have a glimpse of the status of your college fee"}
 				email={email}
 			/>
-			<div className='pl-64 pr-56 flex flex-col w-full'>
+			<div className='pl-64 pr-56'>
 				<Data />
+			</div>
+			<div className='pl-64 pr-56 -mt-10 flex flex-col w-full max-h-[390px] overflow-y-auto custom'>
 				<div className='w-full flex justify-between items-center'>
 					<h1 className='text-white font-bold text-4xl'>Overview</h1>
 					{/* change the color of the text on the form control */}
@@ -129,13 +133,13 @@ export const Overview: FC = () => {
 						<div className='col-span-2'>
 							{/* Graph and Pagination */}
 							<div className='flex flex-col gap-4'>
-								{/* Graph */}
-								<div className=''></div>
-								{/* Pagination */}
-								<div className=''></div>
+								<MonthlyTraction />
 							</div>
 						</div>
-						<div className='col-span-1'></div>
+						{/* Names */}
+						<div className='col-span-1'>
+							<AdminList />
+						</div>
 					</div>
 				</div>
 			</div>
