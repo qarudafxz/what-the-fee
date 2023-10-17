@@ -20,7 +20,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 	console.log(stud_id);
 	try {
 		const student = await db.query(
-			`SELECT * FROM admins WHERE student_id = '${stud_id}'`
+			`SELECT * FROM admins WHERE admin_id = '${stud_id}'`
 		);
 
 		if (student.rows.length === 0) {
@@ -29,7 +29,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 
 		const payload: Payload = {
 			session: uuid(),
-			student_id: student.rows[0].student_id,
+			student_id: student.rows[0].admin_id,
 			email: student.rows[0].email,
 			first_name: student.rows[0].first_name,
 			last_name: student.rows[0].last_name,
@@ -42,7 +42,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 			return res.status(400).json({
 				message: "Admin not verified. Please verify your email first",
 				email: student.rows[0].email,
-				student_id: student.rows[0].student_id,
+				student_id: student.rows[0].admin_id,
 				session: uuid(),
 			});
 		}
@@ -65,7 +65,7 @@ export const enterPassword = async (req: Request, res: Response) => {
 
 	try {
 		const admin = await db.query(
-			`SELECT * FROM admins WHERE student_id = '${student_id}'`
+			`SELECT * FROM admins WHERE admin_id = '${student_id}'`
 		);
 
 		if (admin.rows.length === 0) {

@@ -19,10 +19,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGetSession } from "../../hooks/useGetSession";
 
-type Colleges = {
-	college_id: number;
-	college_name: string;
-};
+// type Colleges = {
+// 	college_id: number;
+// 	college_name: string;
+// };
 
 export const Register: React.FC = () => {
 	const { setSession } = useGetSession();
