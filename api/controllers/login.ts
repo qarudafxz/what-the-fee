@@ -20,7 +20,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 	console.log(stud_id);
 	try {
 		const student = await db.query(
-			`SELECT * FROM admin WHERE student_id = '${stud_id}'`
+			`SELECT * FROM admins WHERE student_id = '${stud_id}'`
 		);
 
 		if (student.rows.length === 0) {
@@ -38,7 +38,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 			iat: new Date().getTime(),
 		};
 
-		if (!student.rows[0].isverified) {
+		if (!student.rows[0].is_verified) {
 			return res.status(400).json({
 				message: "Admin not verified. Please verify your email first",
 				email: student.rows[0].email,
@@ -65,7 +65,7 @@ export const enterPassword = async (req: Request, res: Response) => {
 
 	try {
 		const admin = await db.query(
-			`SELECT * FROM admin WHERE student_id = '${student_id}'`
+			`SELECT * FROM admins WHERE student_id = '${student_id}'`
 		);
 
 		if (admin.rows.length === 0) {
@@ -92,12 +92,12 @@ export const enterPassword = async (req: Request, res: Response) => {
 		//create a token using bcrypt.sign
 		const token = jwt.sign(payload, "super-secret", { expiresIn: "1h" });
 
-		res.status(200).json({
+		return res.status(200).json({
 			message: "Login successful!",
 			token,
 		});
 	} catch (err) {
 		console.log(err);
-		res.status(500).json({ message: "Internal Server Error" });
+		return res.status(500).json({ message: "Internal Server Error" });
 	}
 };

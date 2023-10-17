@@ -20,9 +20,10 @@ export const register = async (req: Request, res: Response) => {
 
 	try {
 		const student = await db.query(
-			`SELECT * FROM student WHERE student_id = "${student_id}"`
+			`SELECT * FROM admins WHERE student_id = "${student_id}"`
 		);
 
+		console.log(student);
 		if (student) {
 			return res.status(400).json({ message: "Student already exists!" });
 		}
@@ -31,7 +32,7 @@ export const register = async (req: Request, res: Response) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		const newStudent = await db.query(
-			`INSERT INTO student (student_id, password, first_name, middle_name, last_name, email, program, year, balance, role)
+			`INSERT INTO admins (student_id, password, first_name, middle_name, last_name, email, program, year, balance, role)
    VALUES ('${student_id}', '${hashedPassword}','${first_name}', '${middle_name}', '${last_name}', '${email}', '${program}', '${year}', '${balance}', '${role}')`
 		);
 
@@ -77,7 +78,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		const newStudentAdmin = await db.query(
-			"INSERT INTO admin (student_id, first_name, last_name, email, password, position, role, isverified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING student_id, email",
+			"INSERT INTO admins (student_id, first_name, last_name, email, password, position, role, is_verified, college_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING student_id, email",
 			[
 				student_id,
 				first_name,
@@ -87,6 +88,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
 				position,
 				isSuper,
 				false,
+				1,
 			]
 		);
 
@@ -115,7 +117,7 @@ export const verificationQuestions = async (req: Request, res: Response) => {
 
 	try {
 		await db.query(
-			"INSERT INTO questions (student_id, json) VALUES ($1, $2) RETURNING *",
+			"INSERT INTO questions (student_id, question) VALUES ($1, $2) RETURNING *",
 			[student_id, cypherQuestions]
 		);
 

@@ -9,7 +9,7 @@ import {
 import { isSessionPresent } from "../middlewares/isSessionPresent.ts";
 import { sendVerification } from "../middlewares/sendVerification.ts";
 import { verify } from "../controllers/verify.ts";
-import { getAdmin } from "../controllers/getAdmin.ts";
+import { getAdmin, getColleges } from "../controllers/getAdmin.ts";
 import { validateChangePass } from "../middlewares/validateChangePass.ts";
 import { changePassword } from "../controllers/changePassword.ts";
 
@@ -23,6 +23,7 @@ router.post("/login", enterPassword);
 router.post("/register", registerAdmin);
 router.post("/add-questions", isSessionPresent, verificationQuestions);
 router.post("/verify-code", isSessionPresent, verify);
+router.get("/get-colleges", getColleges);
 router.get("/get-code", sendVerification);
 
 //info

@@ -19,6 +19,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGetSession } from "../../hooks/useGetSession";
 
+type Colleges = {
+	college_id: number;
+	college_name: string;
+};
+
 export const Register: React.FC = () => {
 	const { setSession } = useGetSession();
 	const navigate = useNavigate();
@@ -35,6 +40,7 @@ export const Register: React.FC = () => {
 	const [isVisible2, setIsVisible2] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
 	const [isChecked, setIsChecked] = useState<boolean>(true);
+	// const [colleges, setColleges] = useState<Colleges[]>([]);
 
 	const handleVisible = (type: string) => {
 		switch (type) {
@@ -99,6 +105,22 @@ export const Register: React.FC = () => {
 		}
 	};
 
+	// const getColleges = async (): Promise<void> => {
+	// 	try {
+	// 		await fetch("http://localhost:8080/api/auth/get-colleges", {
+	// 			method: "GET",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 		}).then(async (res) => {
+	// 			const data = await res.json();
+	// 			console.log("Hello", data);
+	// 		});
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
+
 	console.log(isChecked);
 	useEffect(() => {
 		if (errorMessage) {
@@ -110,7 +132,7 @@ export const Register: React.FC = () => {
 
 	useEffect(() => {
 		firstInput?.current?.focus();
-
+		// getColleges();
 		return () => {
 			document.title = "Register | WTF";
 		};

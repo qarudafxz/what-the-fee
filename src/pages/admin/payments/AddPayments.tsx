@@ -1,5 +1,6 @@
 import { FC, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { Payment } from "../../../components/dashboard/payment/Payment";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
@@ -29,7 +30,7 @@ export const AddPayments: FC = () => {
 				}
 				email={email}
 			/>
-			<h1>Hello</h1>
+			<Payment />
 		</div>
 	);
 };
