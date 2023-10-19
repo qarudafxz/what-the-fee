@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
@@ -53,6 +53,8 @@ export const Records: FC = () => {
 		getPayments();
 	}, []);
 
+	const cachedPayments = useMemo(() => payments, [payments]);
+
 	useEffect(() => {
 		document.title = "Payment Records | WTF";
 	}, []);
@@ -73,7 +75,7 @@ export const Records: FC = () => {
 				email={email}
 			/>
 			<div className='pl-64 pr-56 -mt-20 flex flex-col w-full overflow-y-auto custom'>
-				<PaymentsPagination payments={payments} />
+				<PaymentsPagination payments={cachedPayments} />
 			</div>
 		</div>
 	);

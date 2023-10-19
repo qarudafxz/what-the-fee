@@ -211,9 +211,8 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 			</TableContainer>
 			<Stack
 				spacing={6}
-				className='mt-6'>
+				className='mt-6 flex place-items-end'>
 				<Pagination
-					//making the color and the text of the pagination buttons white
 					sx={{
 						"& .MuiPaginationItem-root": {
 							color: "white",
