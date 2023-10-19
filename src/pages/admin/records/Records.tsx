@@ -7,8 +7,14 @@ import PaymentsPagination from "../../../components/dashboard/get-payments/Payme
 
 type Payments = {
 	ar_no: string;
-	date: Date;
+	created_at: Date;
 	student_id: string;
+	first_name: string;
+	last_name: string;
+	program_name: string;
+	semester_name: string;
+	admin_first_name: string;
+	admin_last_name: string;
 	desc: string;
 	amount: number;
 	acad_year: string;
@@ -66,8 +72,8 @@ export const Records: FC = () => {
 				}
 				email={email}
 			/>
-			<div className='pl-64 pr-56 -mt-10 flex flex-col w-full overflow-y-auto custom'>
-				<PaymentsPagination />
+			<div className='pl-64 pr-56 -mt-20 flex flex-col w-full overflow-y-auto custom'>
+				<PaymentsPagination payments={payments} />
 			</div>
 		</div>
 	);
