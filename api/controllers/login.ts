@@ -8,6 +8,7 @@ type Payload = {
 	session: string;
 	student_id: string;
 	email: string;
+	college_id?: number;
 	first_name: string;
 	last_name: string;
 	position: string;
@@ -31,6 +32,7 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 			session: uuid(),
 			student_id: student.rows[0].admin_id,
 			email: student.rows[0].email,
+			college_id: student.rows[0].college_id,
 			first_name: student.rows[0].first_name,
 			last_name: student.rows[0].last_name,
 			position: student.rows[0].position,

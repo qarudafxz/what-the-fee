@@ -78,7 +78,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
 		const hashedPassword = await bcrypt.hash(password, salt);
 
 		const newStudentAdmin = await db.query(
-			"INSERT INTO admins (admin_id, first_name, last_name, email, password, position, role, is_verified, college_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING student_id, email",
+			"INSERT INTO admins (admin_id, first_name, last_name, email, password, position, role, is_verified, college_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING admin_id, email",
 			[
 				student_id,
 				first_name,

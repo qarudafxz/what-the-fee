@@ -101,6 +101,7 @@ const QrLogin: React.FC = () => {
 				) {
 					setSession("student_id", data.student_id);
 					setSession("email", data.email);
+					setSession("college_id", data.college_id);
 					setSession("session", data.session);
 					setProgress(100);
 					setNotVerified(true);
@@ -119,6 +120,7 @@ const QrLogin: React.FC = () => {
 				setProgress(100);
 				setSession("student_id", data.payload.student_id);
 				setSession("email", data.payload.email);
+				setSession("college_id", data.payload.college_id);
 				setSession("session", data.payload.session);
 				setSession("name", data.payload.first_name + " " + data.payload.last_name);
 				setSession("session", data.payload.session);

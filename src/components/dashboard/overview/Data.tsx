@@ -1,12 +1,46 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Tooltip } from "@chakra-ui/react";
 import { FaPesoSign } from "react-icons/fa6";
 import { useCounter } from "../../../../hooks/useCounter";
+import { useGetSession } from "../../../../hooks/useGetSession";
+import { numberWithCommas } from "../../../../utils/numberWithCommas";
 
 export const Data: FC = () => {
-	const total = useCounter(452643, 0.9);
-	const last7Days = useCounter(3500, 0.9);
-	const last30Days = useCounter(78948, 0.9);
+	const [totalPayment, setTotalPayment] = useState<number>(0);
+	const [paymentOf7Days] = useState<number>(0);
+	const [paymentOf30Days] = useState<number>(0);
+	const { getSession } = useGetSession();
+	// const last7Days = useCounter(3500, 0.9);
+	// const last30Days = useCounter(78948, 0.9);
+	const college_id = getSession("college_id");
+
+	const fetchTotalPayment = async () => {
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+			} as HeadersInit);
+
+			await fetch(`http://localhost:8000/api/get-all-payment/${college_id}`, {
+				method: "GET",
+				headers,
+			})
+				.then(async (res) => {
+					const data = await res.json();
+					if (res.status === 200 || res.ok) {
+						setTotalPayment(data.total_payment);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching total payment:", error);
+				});
+		} catch (err) {
+			console.error("Error fetching total payment:", err);
+		}
+	};
+
+	useEffect(() => {
+		fetchTotalPayment();
+	}, []);
 
 	return (
 		<div className='font-main bg-[#131313] opacity-90 w-full h-40 flex flex-col gap-2 rounded-md relative bottom-14 border border-zinc-800 p-4 pt-6'>
@@ -26,7 +60,7 @@ export const Data: FC = () => {
 					{/* Money */}
 					<h1 className='flex items-center text-6xl font-extrabold text-primary'>
 						<FaPesoSign />
-						{total.toFixed(2)}
+						{numberWithCommas(useCounter(totalPayment, 0.4).toFixed(2).toString())}
 					</h1>
 				</div>
 				{/* stats 2 */}
@@ -40,7 +74,7 @@ export const Data: FC = () => {
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
 						<h1 className='font-bold text-2xl text-zinc-500'>
-							+₱ {last7Days.toFixed(2)}
+							+₱ {paymentOf7Days.toFixed(2)}
 						</h1>
 					</Tooltip>
 				</div>
@@ -55,7 +89,7 @@ export const Data: FC = () => {
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
 						<h1 className='font-bold text-2xl text-zinc-500'>
-							+₱ {last30Days.toFixed(2)}
+							+₱ {paymentOf30Days.toFixed(2)}
 						</h1>
 					</Tooltip>
 				</div>
