@@ -20,7 +20,7 @@ export const Data: FC = () => {
 				"Content-Type": "application/json",
 			} as HeadersInit);
 
-			await fetch(`http://localhost:8000/api/get-all-payment/${college_id}`, {
+			await fetch(`http://localhost:8000/api/get-total-payment/${college_id}`, {
 				method: "GET",
 				headers,
 			})
@@ -57,7 +57,6 @@ export const Data: FC = () => {
 							})}
 						</p>
 					</div>
-					{/* Money */}
 					<h1 className='flex items-center text-6xl font-extrabold text-primary'>
 						<FaPesoSign />
 						{numberWithCommas(useCounter(totalPayment, 0.4).toFixed(2).toString())}

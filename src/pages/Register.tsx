@@ -91,7 +91,7 @@ export const Register: React.FC = () => {
 				setProgress(100);
 				console.log(result);
 				setSession("session", result.token);
-				setSession("student_id", result.admin.student_id);
+				setSession("student_id", result.admin.admin_id);
 				setSession("email", result.admin.email);
 				setTimeout(() => {
 					navigate("/verification");

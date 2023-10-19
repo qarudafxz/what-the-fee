@@ -22,7 +22,11 @@ export const Payment: FC = () => {
 						className='bg-transparent p-3 rounded-md border border-primary mt-4'
 					/>
 				</div>
-				<Button size='xs'>Search</Button>
+				<Button
+					size='xs'
+					className='bg-[#59D896] text-[#268454] font-bold rounded-md'>
+					Scan ID
+				</Button>
 			</div>
 		</div>
 	);

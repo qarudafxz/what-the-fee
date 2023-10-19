@@ -36,7 +36,7 @@ export const Overview: FC = () => {
 	}
 
 	return (
-		<div className='w-full bg-dark h-screen'>
+		<div className='w-full bg-dark h-screen overflow-y-hidden'>
 			<Header
 				page={1}
 				name={name}
