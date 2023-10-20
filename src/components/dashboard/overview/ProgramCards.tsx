@@ -101,9 +101,7 @@ export const ProgramCards: FC<Props> = ({
 						{currentPopulation} out of {totalPopulation}
 					</p>
 				)}
-				<p className={`text-xs ${0 ? "text-red-900" : "text-green-800"}`}>
-					0% for the last 7 days
-				</p>
+				<p className={`text-xs text-green-800`}>0% for the last 7 days</p>
 			</div>
 		</motion.div>
 	);
