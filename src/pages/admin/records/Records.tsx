@@ -24,7 +24,6 @@ export const Records: FC = () => {
 	const isLoggedIn = useAuth();
 	const [payments, setPayments] = useState<Payments[]>([]);
 	const { getSession } = useGetSession();
-	const college_id = getSession("college_id");
 	const email = getSession("email");
 	const name = getSession("name");
 
@@ -34,14 +33,13 @@ export const Records: FC = () => {
 				"Content-Type": "application/json",
 			} as HeadersInit);
 
-			await fetch(`http://localhost:8000/api/get-all-payment/${college_id}`, {
+			await fetch(`http://localhost:8000/api/get-all-payment/`, {
 				method: "GET",
 				headers,
 			}).then(async (res) => {
 				const data = await res.json();
 				if (res.status === 200 || res.ok) {
 					setPayments(data.payments);
-					console.log(data.payments);
 				}
 			});
 		} catch (err) {
