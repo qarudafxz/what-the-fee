@@ -1,14 +1,13 @@
 import { FC, ReactNode } from "react";
 import { FaUsers } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { useCounter } from "../../../../hooks/useCounter";
 import { TbDiamondsFilled } from "react-icons/tb";
 import { BsFillSuitSpadeFill, BsSuitClubFill } from "react-icons/bs";
 import Skeleton from "@mui/material/Skeleton";
 
 type Props = {
 	name: string;
-	percentage: number;
+	percentage?: number;
 	loading: boolean;
 	currentPopulation: number;
 	totalPopulation: number;
@@ -21,7 +20,6 @@ export const ProgramCards: FC<Props> = ({
 	currentPopulation,
 	totalPopulation,
 }) => {
-	const count: number = useCounter(percentage, 0.5);
 	const icons: ReactNode[] = [
 		<BsFillSuitSpadeFill />,
 		<TbDiamondsFilled />,
@@ -83,7 +81,9 @@ export const ProgramCards: FC<Props> = ({
 						/>
 					) : (
 						<div>
-							<h1 className='font-bold text-white text-7xl'>{count}%</h1>
+							<h1 className='font-bold text-white text-5xl'>
+								{percentage?.toFixed(2)}%
+							</h1>
 							<p className='text-zinc-700'>of the population</p>
 						</div>
 					)}

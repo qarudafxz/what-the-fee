@@ -228,7 +228,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 						"& .MuiPaginationItem-outlined": {
 							border: "1px solid #2C2C2C",
 						},
-						"& .MuiPaginationItem-page.Mui-selected:hover": {
+						"& .MuiPaginationItem-page.Mui-selected": {
 							backgroundColor: "#59D896",
 							color: "#025D59",
 						},
