@@ -27,6 +27,20 @@ type PaymentsProps = {
 	last_name: string;
 	program_name: string;
 	semester_name: string;
+	student?: {
+		first_name: string;
+		last_name: string;
+	};
+	program?: {
+		program_name: string;
+	};
+	semester?: {
+		semester_name: string;
+	};
+	collector?: {
+		first_name: string;
+		last_name: string;
+	};
 	desc: string;
 	amount: number;
 	admin_first_name: string;
@@ -38,7 +52,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 	payments,
 }) => {
 	const [page, setPage] = useState(1);
-	const rowsPerPage = 3;
+	const rowsPerPage = 7;
 
 	const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setPage(value);
@@ -48,11 +62,11 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 	const indexOfFirstRow = indexOfLastRow - rowsPerPage;
 	const currentRows = payments.slice(indexOfFirstRow, indexOfLastRow);
 	return (
-		<div className='text-white font-main bg-[#131313] opacity-90 w-full h-full flex flex-col gap-2 rounded-md border border-zinc-800 p-10'>
+		<div className='text-white font-main bg-[#131313] opacity-90 w-full h-full flex flex-col gap-2 rounded-md border border-zinc-800 p-3'>
 			<div className='grid grid-cols-7 gap-4 mb-4 items-center'>
 				<h1 className='col-span-1 font-bold text-3xl'>Student</h1>
 				<Input
-					className='col-span-2 py-4 rounded-md bg-transparent border border-zinc-800 pl-4'
+					className='col-span-2 py-2 rounded-md bg-transparent border border-zinc-800 pl-4'
 					placeholder='Search'
 				/>
 				<Box
@@ -162,6 +176,8 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 										color: "white",
 										borderBottom: "1px solid #2C2C2C",
 										backgroundColor: index % 2 === 0 ? "#1A1A1A" : "#0A0A0A",
+										padding: "0.8rem 0 0.8rem 0.6rem",
+										textAlign: "left",
 									},
 								}}>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
@@ -178,23 +194,23 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 									{payment.student_id}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.first_name + " " + payment.last_name}
+									{payment?.student?.first_name + " " + payment?.student?.last_name}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.program_name}
+									{payment?.program?.program_name}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
 									{payment.acad_year}
 								</TableCell>
 								<TableCell className='rounded-md'>{payment.desc}</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.semester_name}
+									{payment?.semester?.semester_name}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
 									{payment.amount}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.admin_first_name + " " + payment.admin_last_name}
+									{payment?.collector?.first_name + " " + payment?.collector?.last_name}
 								</TableCell>
 								<TableCell>
 									<button className='mr-4'>
