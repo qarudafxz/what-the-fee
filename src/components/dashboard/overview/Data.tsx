@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { Tooltip } from "@chakra-ui/react";
 import { FaPesoSign } from "react-icons/fa6";
 import { useCounter } from "../../../../hooks/useCounter";
@@ -38,9 +38,13 @@ export const Data: FC = () => {
 		}
 	};
 
+	const cachedTotalPayment = useMemo(() => totalPayment, [totalPayment]);
+
 	useEffect(() => {
-		fetchTotalPayment();
-	}, []);
+		if (!cachedTotalPayment) {
+			fetchTotalPayment();
+		}
+	}, [cachedTotalPayment]);
 
 	return (
 		<div className='font-main bg-[#131313] opacity-90 w-full h-40 flex flex-col gap-2 rounded-md relative bottom-14 border border-zinc-800 p-4 pt-6'>

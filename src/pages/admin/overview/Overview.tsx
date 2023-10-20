@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
@@ -15,17 +15,54 @@ import { Button } from "@chakra-ui/react";
 import MonthlyTraction from "../../../components/dashboard/overview/MonthlyTraction.js";
 import { AdminList } from "../../../components/dashboard/overview/AdminList.js";
 
+type StudentsProps = {
+	percentage: number;
+	name: string;
+	currentPopulation: number;
+	totalPopulation: number;
+};
+
 export const Overview: FC = () => {
+	const [percent, setPercent] = useState<number[]>([]);
+	const [numOfStudents, setNumOfStudents] = useState<StudentsProps[]>([]);
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
 	const email = getSession("email");
 	const name = getSession("name");
+	const [loading, setLoading] = useState<boolean>(false);
 	const [sem, setSem] = useState<number>(0);
 
 	const semesters = [
 		{ label: "1st Semester", value: 1 },
 		{ label: "2nd Semester", value: 2 },
 	];
+
+	const numberOfStudentsPerProgram = async () => {
+		try {
+			setLoading(true);
+			await fetch("http://localhost:8000/api/get-count-programs/", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}).then(async (res) => {
+				const data = await res.json();
+				if (res.status === 200 || res.ok) {
+					console.log(data);
+					setNumOfStudents(data.students);
+					setTimeout(() => setLoading(false), 2000);
+				}
+			});
+		} catch (err) {
+			console.error("Error fetching number of students per program:", err);
+		}
+	};
+
+	const cachedData = useMemo(() => numOfStudents, [numOfStudents]);
+
+	useEffect(() => {
+		if (!cachedData || cachedData.length === 0) numberOfStudentsPerProgram();
+	}, [cachedData]);
 
 	useEffect(() => {
 		document.title = "Records | WTF";
@@ -118,15 +155,14 @@ export const Overview: FC = () => {
 				{/* This must be scrollable vertically */}
 				<div className='w-full'>
 					<div className='grid grid-cols-3 gap-4 mt-4 w-full'>
-						{temp.map((program) => {
+						{cachedData.map((program) => {
 							return (
 								<ProgramCards
 									name={program.name}
 									percentage={program.percentage}
-									icon={program.icon}
 									currentPopulation={program.currentPopulation}
 									totalPopulation={program.totalPopulation}
-									data={program.data}
+									loading={loading}
 								/>
 							);
 						})}
