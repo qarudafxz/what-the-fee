@@ -11,6 +11,7 @@ type Props = {
 	loading: boolean;
 	currentPopulation: number;
 	totalPopulation: number;
+	last7Days: number;
 };
 
 export const ProgramCards: FC<Props> = ({
@@ -19,6 +20,7 @@ export const ProgramCards: FC<Props> = ({
 	loading,
 	currentPopulation,
 	totalPopulation,
+	last7Days,
 }) => {
 	const icons: ReactNode[] = [
 		<BsFillSuitSpadeFill />,
@@ -101,7 +103,12 @@ export const ProgramCards: FC<Props> = ({
 						{currentPopulation} out of {totalPopulation}
 					</p>
 				)}
-				<p className={`text-xs text-green-800`}>0% for the last 7 days</p>
+				<p
+					className={`text-xs ${
+						last7Days > 0 ? "text-green-800" : "text-zinc-600"
+					} `}>
+					{last7Days} for the last 7 days
+				</p>
 			</div>
 		</motion.div>
 	);

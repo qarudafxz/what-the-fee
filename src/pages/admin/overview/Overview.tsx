@@ -162,6 +162,7 @@ export const Overview: FC = () => {
 									percentage={program.percentage}
 									currentPopulation={program.currentPopulation}
 									totalPopulation={program.totalPopulation}
+									last7Days={program.lastSevenDays}
 									loading={loading}
 								/>
 							);
