@@ -20,6 +20,7 @@ type StudentsProps = {
 	name: string;
 	currentPopulation: number;
 	totalPopulation: number;
+	lastSevenDays: number;
 };
 
 export const Overview: FC = () => {
