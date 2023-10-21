@@ -47,11 +47,13 @@ export const Records: FC = () => {
 		}
 	};
 
-	useEffect(() => {
-		getPayments();
-	}, []);
-
 	const cachedPayments = useMemo(() => payments, [payments]);
+
+	useEffect(() => {
+		if (!cachedPayments || cachedPayments.length === 0) getPayments();
+	}, [cachedPayments]);
+
+	console.log(cachedPayments);
 
 	useEffect(() => {
 		document.title = "Payment Records | WTF";

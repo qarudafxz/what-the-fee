@@ -4,7 +4,6 @@ import {
 	Popover,
 	PopoverTrigger,
 	PopoverContent,
-	PopoverArrow,
 	Button,
 } from "@chakra-ui/react";
 import bg from "../../assets/header.svg";

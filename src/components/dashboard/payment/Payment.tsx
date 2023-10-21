@@ -2,10 +2,15 @@ import { FC } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
 
-export const Payment: FC = () => {
+export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	return (
 		<div className='font-main bg-[#0F0F0F] opacity-90 rounded-md border border-zinc-600 ml-64 mr-56 p-4 relative bottom-20'>
-			<h1 className='font-bold text-white text-3xl pb-8'>Payment Details</h1>
+			<div className='flex justify-between'>
+				<h1 className='font-bold text-white text-3xl pb-8'>Payment Details</h1>
+				<h1 className='text-white'>
+					Last AR Number: <span className='text-primary'>{ar_no}</span>
+				</h1>
+			</div>
 			<div className='grid grid-cols-6 text-primary gap-x-4'>
 				<div className='col-span-3 flex flex-col'>
 					<p className='font-semibold'>Date</p>
@@ -58,21 +63,21 @@ export const Payment: FC = () => {
 			{/* Program, year, semester */}
 			<div className='grid grid-cols-9 gap-2 mt-6'>
 				<div className='col-span-3 flex flex-col gap-2 text-primary'>
-					<h1>First name</h1>
+					<h1>Program</h1>
 					<input
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>
 				</div>
 				<div className='col-span-3 flex flex-col gap-2 text-primary'>
-					<h1>Middle name</h1>
+					<h1>Year</h1>
 					<input
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>
 				</div>
 				<div className='col-span-3 flex flex-col gap-2 text-primary'>
-					<h1>Last name</h1>
+					<h1>Semester</h1>
 					<input
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
@@ -82,21 +87,21 @@ export const Payment: FC = () => {
 			{/* Ar Number, Amount, Status */}
 			<div className='grid grid-cols-9 gap-2 mt-6'>
 				<div className='col-span-3 flex flex-col gap-2 text-primary'>
-					<h1>First name</h1>
+					<h1>AR Number</h1>
 					<input
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>
 				</div>
 				<div className='col-span-3 flex flex-col gap-2 text-primary'>
-					<h1>Middle name</h1>
+					<h1>Amount</h1>
 					<input
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>
 				</div>
 				<div className='col-span-3 flex flex-col gap-2 text-primary'>
-					<h1>Last name</h1>
+					<h1>Status</h1>
 					<input
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
