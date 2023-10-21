@@ -181,7 +181,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 									},
 								}}>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.ar_no}
+									<p className='text-center'> {payment.ar_no}</p>
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
 									{new Date(payment.created_at).toLocaleString("en-US", {
@@ -191,18 +191,31 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 									})}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.student_id}
+									<p className='text-center'> {payment.student_id}</p>
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment?.student?.first_name + " " + payment?.student?.last_name}
+									<p className='text-center'>
+										{payment?.student?.first_name + " " + payment?.student?.last_name}
+									</p>
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment?.program?.program_name}
+									<p className='text-center'> {payment?.program?.program_name}</p>
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
 									{payment.acad_year}
 								</TableCell>
-								<TableCell className='rounded-md'>{payment.desc}</TableCell>
+
+								<TableCell>
+									<p
+										className={`text-center rounded-md ${
+											payment.desc === "full"
+												? "text-[#1EF581] bg-[#2B3A29]"
+												: "text-[#FFFB93] bg-[#3B3F27]"
+										}`}>
+										{payment.desc}
+									</p>
+								</TableCell>
+
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
 									{payment?.semester?.semester_name}
 								</TableCell>

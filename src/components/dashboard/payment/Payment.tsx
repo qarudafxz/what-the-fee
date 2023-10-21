@@ -63,9 +63,9 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			admin_id: admin_id,
 			semester_id: parsedSemester,
 			acad_year: acadYear,
-			desc: "partial",
 		};
 
+		console.log(data);
 		try {
 			await fetch("http://localhost:8000/api/add-payment/", {
 				method: "POST",
