@@ -18,6 +18,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const [acadYear, setAcadYear] = useState("2023-2024");
 	const [semester, setSemester] = useState("1");
 	const [amount, setAmount] = useState("");
+	const [balance, setBalance] = useState("");
 	const [arNo, setArNo] = useState("");
 	const [isQrScan, setIsQrScan] = useState(false);
 
@@ -39,6 +40,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 					setStudentID(data.student.student_id);
 					setFirstName(data.student.first_name);
 					setLastName(data.student.last_name);
+					setBalance(data.student.balance);
 					setYear(data.student.year_level_code);
 					setProgram(data.student.program.program_id);
 				});
@@ -226,7 +228,13 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>
 				</div>
-				<div className='col-span-5 flex flex-col gap-2 text-primary'>
+				<div className='col-span-2 flex flex-col gap-2 text-primary'>
+					<h1>Remaining Balance</h1>
+					<h1 className='bg-primary text-zinc-950 px-3 py-2 rounded-md'>
+						₱{balance}
+					</h1>
+				</div>
+				<div className='col-span-3 flex flex-col gap-2 text-primary'>
 					<h1>Amount</h1>
 					<input
 						type='text'

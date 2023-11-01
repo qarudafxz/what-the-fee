@@ -220,7 +220,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 									{payment?.semester?.semester_name}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment.amount}
+									₱{payment.amount}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
 									{payment?.collector?.first_name + " " + payment?.collector?.last_name}
