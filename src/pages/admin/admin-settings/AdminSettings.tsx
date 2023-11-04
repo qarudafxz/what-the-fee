@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
+import AdminPrivileges from "../../../components/dashboard/admin-settings/AdminPrivileges";
 
 export const AdminSettings: FC = () => {
 	const isLoggedIn = useAuth();
@@ -29,7 +30,9 @@ export const AdminSettings: FC = () => {
 				}
 				email={email}
 			/>
-			<h1>Hello</h1>
+			<div className='pl-64 pr-56 mt-5 flex flex-col w-full'>
+				<AdminPrivileges />
+			</div>
 		</div>
 	);
 };

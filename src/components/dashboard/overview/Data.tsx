@@ -5,14 +5,23 @@ import { useCounter } from "../../../../hooks/useCounter";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { numberWithCommas } from "../../../../utils/numberWithCommas";
 
+interface PercentageProps {
+	payment: number;
+	percentage: number;
+}
+
 export const Data: FC = () => {
 	const [totalPayment, setTotalPayment] = useState<number>(0);
-	const [paymentOf7Days] = useState<number>(0);
-	const [paymentOf30Days] = useState<number>(0);
 	const { getSession } = useGetSession();
-	// const last7Days = useCounter(3500, 0.9);
-	// const last30Days = useCounter(78948, 0.9);
 	const college_id = getSession("college_id");
+	const [last7DaysPercentage, setLast7DaysPercentage] =
+		useState<PercentageProps>();
+	const [last30DaysPercentage, setLast30DaysPercentage] =
+		useState<PercentageProps>();
+
+	//useCounters
+	const _7days = useCounter(last7DaysPercentage?.payment ?? 0, 0.4);
+	const _30days = useCounter(last30DaysPercentage?.payment ?? 0, 0.4);
 
 	const fetchTotalPayment = async () => {
 		try {
@@ -38,13 +47,89 @@ export const Data: FC = () => {
 		}
 	};
 
+	const fetchLast7DaysPercentage = async () => {
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+			} as HeadersInit);
+
+			await fetch(`http://127.0.0.1:8000/api/last-7-days/${college_id}`, {
+				method: "GET",
+				headers,
+			})
+				.then(async (res) => {
+					const data = await res.json();
+					if (res.status === 200 || res.ok) {
+						setLast7DaysPercentage({
+							payment: data.payment,
+							percentage: data.percentage,
+						});
+						console.log(last7DaysPercentage);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching last 7 days percentage:", error);
+				});
+		} catch (err) {
+			console.error("Error fetching last 7 days percentage:", err);
+		}
+	};
+
+	const fetchLast30DaysPercentage = async () => {
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+			} as HeadersInit);
+
+			await fetch(`http://127.0.0.1:8000/api/last-30-days/${college_id}`, {
+				method: "GET",
+				headers,
+			})
+				.then(async (res) => {
+					const data = await res.json();
+					if (res.status === 200 || res.ok) {
+						setLast30DaysPercentage({
+							payment: data.payment,
+							percentage: data.percentage,
+						});
+						console.log(last7DaysPercentage);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching last 7 days percentage:", error);
+				});
+		} catch (err) {
+			console.error("Error fetching last 7 days percentage:", err);
+		}
+	};
+
 	const cachedTotalPayment = useMemo(() => totalPayment, [totalPayment]);
+	const cachedLast7DaysPercentage = useMemo(
+		() => last7DaysPercentage,
+		[last7DaysPercentage]
+	);
+	const cachedLast30DaysPercentage = useMemo(
+		() => last30DaysPercentage,
+		[last30DaysPercentage]
+	);
 
 	useEffect(() => {
 		if (!cachedTotalPayment) {
 			fetchTotalPayment();
 		}
 	}, [cachedTotalPayment]);
+
+	useEffect(() => {
+		if (!cachedLast7DaysPercentage) {
+			fetchLast7DaysPercentage();
+		}
+	}, [cachedLast7DaysPercentage]);
+
+	useEffect(() => {
+		if (!cachedLast30DaysPercentage) {
+			fetchLast30DaysPercentage();
+		}
+	}, [cachedLast30DaysPercentage]);
 
 	return (
 		<div className='font-main bg-[#131313] opacity-90 w-full h-40 flex flex-col gap-2 rounded-md relative bottom-14 border border-zinc-800 p-4 pt-6'>
@@ -69,7 +154,10 @@ export const Data: FC = () => {
 				{/* stats 2 */}
 				<div className='flex flex-col'>
 					<p className='text-zinc-700 text-sm'>
-						Last 7 days <span className='text-green-600'>+7.43%</span>
+						Last 7 days{" "}
+						<span className='text-green-600'>
+							+{last7DaysPercentage?.percentage?.toFixed(2) ?? 0}%
+						</span>
 					</p>
 					<Tooltip
 						hasArrow
@@ -77,14 +165,17 @@ export const Data: FC = () => {
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
 						<h1 className='font-bold text-2xl text-zinc-500'>
-							+₱ {paymentOf7Days.toFixed(2)}
+							+₱ {_7days.toFixed(2) ?? 0}
 						</h1>
 					</Tooltip>
 				</div>
 				{/* stats 3 */}
 				<div className='flex flex-col'>
 					<p className='text-zinc-700 text-sm'>
-						Last 30 days <span className='text-green-600'>+56.0%</span>
+						Last 30 days{" "}
+						<span className='text-green-600'>
+							+{last30DaysPercentage?.percentage ?? 0}%
+						</span>
 					</p>
 					<Tooltip
 						hasArrow
@@ -92,7 +183,7 @@ export const Data: FC = () => {
 						fontSize='md'
 						className='bg-dark w-full text-white rounded-md px-4 py-2 text-xs'>
 						<h1 className='font-bold text-2xl text-zinc-500'>
-							+₱ {paymentOf30Days.toFixed(2)}
+							+₱ {_30days.toFixed(2)}
 						</h1>
 					</Tooltip>
 				</div>
