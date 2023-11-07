@@ -4,6 +4,7 @@ import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 import AdminPrivileges from "../../../components/dashboard/admin-settings/AdminPrivileges";
+import Logs from "../../../components/dashboard/admin-settings/Logs";
 
 export const AdminSettings: FC = () => {
 	const isLoggedIn = useAuth();
@@ -30,8 +31,11 @@ export const AdminSettings: FC = () => {
 				}
 				email={email}
 			/>
-			<div className='pl-64 pr-56 mt-5 grid grid-cols-3 w-full'>
+			<div className='pl-64 pr-56 mt-5 grid grid-cols-3 w-full gap-4'>
 				<AdminPrivileges />
+				<div className='flex flex-col gap-2'>
+					<Logs />
+				</div>
 			</div>
 		</div>
 	);

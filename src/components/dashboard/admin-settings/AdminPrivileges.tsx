@@ -31,10 +31,15 @@ const AdminPrivileges: React.FC = () => {
 									/>
 									<div className='text-zinc-950'>
 										<h1 className='font-bold text-zinc-800 text-2xl'>{admin}</h1>
-										<p>Receive payments, send notification, and monitor transaction</p>
+										{/* This must be dynamic, based on the access of */}
+										<p className='text-sm'>
+											Receive payments, send notification, and monitor transaction
+										</p>
 									</div>
+									<button className='bg-primary px-10 py-2 rounded-xl font-bold'>
+										Edit
+									</button>
 								</div>
-								<button>Edit</button>
 							</div>
 						);
 					}

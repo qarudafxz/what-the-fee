@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
 import { useGetSession } from "../../../../hooks/useGetSession";
@@ -72,7 +72,6 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			acad_year: acadYear,
 		};
 
-		console.log(data);
 		try {
 			await fetch("http://localhost:8000/api/add-payment/", {
 				method: "POST",
@@ -83,6 +82,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				body: JSON.stringify(data),
 			}).then(async (res) => {
 				const data = await res.json();
+				console.log(data);
 				if (data.statusCode !== 400 || data.status !== "failed") {
 					console.log(data);
 					toast.success("Payment added.", {
@@ -90,6 +90,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 						theme: "dark",
 					});
 					setIsPaymentAdded(false);
+					setConfirmation(false);
 				} else {
 					toast.error(data.message, {
 						autoClose: 2000,
@@ -103,11 +104,9 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 		}
 	};
 
-	useEffect(() => {
-		if (isPaymentAdded) {
-			handleAddPayment();
-		}
-	}, [isPaymentAdded]);
+	if (isPaymentAdded) {
+		handleAddPayment();
+	}
 
 	return (
 		<div className='font-main bg-[#0F0F0F] opacity-90 rounded-md border border-zinc-600 ml-64 mr-56 p-4 relative bottom-20'>

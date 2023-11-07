@@ -15,7 +15,6 @@ const Confirmation: React.FC<Props> = ({
 	setConfirmation,
 	setIsPaymentAdded,
 }) => {
-	console.log(confirmation);
 	return (
 		<>
 			{confirmation && (
