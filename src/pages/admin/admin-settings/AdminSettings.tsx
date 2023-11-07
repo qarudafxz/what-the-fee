@@ -30,7 +30,7 @@ export const AdminSettings: FC = () => {
 				}
 				email={email}
 			/>
-			<div className='pl-64 pr-56 mt-5 flex flex-col w-full'>
+			<div className='pl-64 pr-56 mt-5 grid grid-cols-3 w-full'>
 				<AdminPrivileges />
 			</div>
 		</div>

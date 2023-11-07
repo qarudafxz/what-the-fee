@@ -1,10 +1,11 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PaymentQrScanner from "./PaymentQrScanner";
+import Confirmation from "../../Confirmation";
 
 export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const { getSession } = useGetSession();
@@ -21,6 +22,10 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const [balance, setBalance] = useState("");
 	const [arNo, setArNo] = useState("");
 	const [isQrScan, setIsQrScan] = useState(false);
+	const [isPaymentAdded, setIsPaymentAdded] = useState(false);
+	const [confirmation, setConfirmation] = useState(false);
+	const message =
+		"Confirm payment	of ₱" + amount + " for " + firstName + " " + lastName + "?";
 
 	const handleSearchStudent = async (): Promise<void> => {
 		try {
@@ -84,6 +89,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 						autoClose: 2000,
 						theme: "dark",
 					});
+					setIsPaymentAdded(false);
 				} else {
 					toast.error(data.message, {
 						autoClose: 2000,
@@ -96,6 +102,12 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			console.log(err);
 		}
 	};
+
+	useEffect(() => {
+		if (isPaymentAdded) {
+			handleAddPayment();
+		}
+	}, [isPaymentAdded]);
 
 	return (
 		<div className='font-main bg-[#0F0F0F] opacity-90 rounded-md border border-zinc-600 ml-64 mr-56 p-4 relative bottom-20'>
@@ -244,7 +256,25 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				</div>
 			</div>
 			<button
-				onClick={handleAddPayment}
+				onClick={() => {
+					if (
+						!firstName ||
+						!lastName ||
+						!program ||
+						!year ||
+						!acadYear ||
+						!semester ||
+						!amount
+					) {
+						toast.error("Please fill out all fields.", {
+							autoClose: 2000,
+							theme: "dark",
+						});
+						return;
+					}
+
+					setConfirmation(true);
+				}}
 				className='w-full py-2 font-bold text-white text-center rounded-md bg-primary mt-4'>
 				Add Payment
 			</button>
@@ -254,6 +284,12 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				handleStudentSearch={handleSearchStudent}
 				setStudentID={setStudentID}
 				studentID={studentID}
+			/>
+			<Confirmation
+				message={message}
+				setConfirmation={setConfirmation}
+				confirmation={confirmation}
+				setIsPaymentAdded={setIsPaymentAdded}
 			/>
 		</div>
 	);
