@@ -1,33 +1,32 @@
-import { FC, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import React from "react";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
-export const AddAdmin: FC = () => {
+const Receipts: React.FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
 	const email = getSession("email");
 	const name = getSession("name");
-
-	useEffect(() => {
-		document.title = "Add Admin | WTF";
-	}, []);
 
 	if (!isLoggedIn) {
 		return <Navigate to='/login' />;
 	}
 
 	return (
-		<div className='w-full bg-dark h-screen'>
+		<div className='w-full bg-dark h-screen overflow-y-hidden'>
 			<Header
-				page={5}
+				page={3}
 				name={name}
-				title={"Add Admin"}
-				description={"Add a new admin to the system. "}
+				title={"Receipts"}
+				description={
+					"Send these backed up receipts to its corresponding student payee."
+				}
 				email={email}
 			/>
-			<h1>Hello</h1>
 		</div>
 	);
 };
+
+export default Receipts;

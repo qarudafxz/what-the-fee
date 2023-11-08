@@ -1,29 +1,56 @@
 import { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto";
-import { Button } from "@chakra-ui/react";
+
+interface RowProps {
+	month: string;
+	total_payment: number;
+}
 
 const MonthlyTraction = () => {
-	const [active, setActive] = useState<number>(0);
 	const chartRef = useRef(null);
+	const [data, setData] = useState([]);
+
+	const getData = async () => {
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+			} as HeadersInit);
+
+			await fetch(`http://127.0.0.1:8000/api/get-total-payment-per-month/1`, {
+				method: "GET",
+				headers,
+			})
+				.then(async (res) => {
+					const data = await res.json();
+
+					if (res.status === 200 || res.ok) {
+						setData(data.monthly_data);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching monthly traction:", error);
+				});
+		} catch (err) {
+			console.error("Error fetching monthly traction:", err);
+		}
+	};
 
 	useEffect(() => {
-		const data = [
-			{ date: "May 20, 2023", count: 2 },
-			{ date: "May 21, 2023", count: 10 },
-			{ date: "May 22, 2023", count: 7.8 },
-			{ date: "May 23, 2023", count: 23 },
-			{ date: "May 24, 2023", count: 12 },
-			{ date: "May 25, 2023", count: 5 },
-			{ date: "May 26, 2023", count: 12 },
-		];
+		getData();
+	}, []);
 
-		const labels = data.map((row) => row.date);
-		const counts = data.map((row) => row.count);
+	useEffect(() => {
+		const labels = data?.map((row: RowProps) => row?.month);
+		const counts = data?.map((row: RowProps) => row?.total_payment);
 
 		if (chartRef.current) {
+			//eslint-disable-next-line
+			//@ts-ignore
 			chartRef.current.destroy();
 		}
 
+		//eslint-disable-next-line
+		//@ts-ignore
 		chartRef.current = new Chart(document.getElementById("monthly-traction"), {
 			type: "line",
 			data: {
@@ -59,28 +86,17 @@ const MonthlyTraction = () => {
 				},
 			},
 		});
-	}, []);
+	}, [data]);
 
 	return (
 		<div className='shadow-xl p-10 rounded-xl h-96 bg-[#0F0F0F] border border-zinc-800'>
 			<div className='flex gap-24 items-center'>
-				<h1 className='font-bold text-2xl text-white'>Monthly Traction</h1>
-				<div className='flex gap-2'>
-					{["MAY", "AUG", "SEP", "OCT", "NOV", "DEC"].map((month, idx) => {
-						return (
-							<Button
-								key={idx}
-								onClick={() => setActive(idx)}
-								className={`${
-									active === idx
-										? "bg-gradient-to-tr from-secondary to-primary border border-primary animate-pulse"
-										: "bg-zinc-700 border border-zinc-500"
-								} px-4 py-2 rounded-md text-xs text-white font-semibold`}>
-								{month}
-							</Button>
-						);
+				<h1 className='font-bold text-2xl text-white'>
+					Monthly Total Collection of year{" "}
+					{new Date().toLocaleString("en-us", {
+						year: "numeric",
 					})}
-				</div>
+				</h1>
 			</div>
 			<div className='chart-container'>
 				<canvas id='monthly-traction'></canvas>

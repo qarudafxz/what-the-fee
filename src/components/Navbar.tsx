@@ -6,14 +6,14 @@ import icon_logo from "../assets/logo_only.png";
 import { IoIosArrowForward } from "react-icons/io";
 import { Button, Tooltip } from "@chakra-ui/react";
 
-import { BsGrid1X2Fill } from "react-icons/bs";
+import { BsGrid1X2Fill, BsReceipt } from "react-icons/bs";
 import {
 	AiFillFileAdd,
 	AiFillCalculator,
 	AiOutlineMenuUnfold,
+	AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { RiSettings5Fill } from "react-icons/ri";
-import { PiUserCirclePlusFill } from "react-icons/pi";
 import { MdLogout } from "react-icons/md";
 import TopLoadingBar from "react-top-loading-bar";
 
@@ -60,9 +60,14 @@ export const Navbar: FC = () => {
 			link: "/admin/requests",
 		},
 		{
-			icon: <PiUserCirclePlusFill />,
-			title: "Add Admin",
-			link: "/admin/add",
+			icon: <AiOutlineShoppingCart />,
+			title: "Expenses",
+			link: "/admin/expenses",
+		},
+		{
+			icon: <BsReceipt />,
+			title: "Receipts",
+			link: "/admin/receipts",
 		},
 	];
 
@@ -124,7 +129,7 @@ export const Navbar: FC = () => {
 										to={nav.link}
 										className={({ isActive }) =>
 											`${
-												idx === 6 && "mt-24 "
+												idx === 7 && "mt-24 "
 											} flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
 											(isActive
 												? "text-white duration-150"

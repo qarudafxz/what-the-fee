@@ -18,7 +18,7 @@ type Payload = {
 
 export const verifyStudentId = async (req: Request, res: Response) => {
 	const { stud_id } = req.body;
-	console.log(stud_id);
+
 	try {
 		const student = await db.query(
 			`SELECT * FROM admins WHERE admin_id = '${stud_id}'`

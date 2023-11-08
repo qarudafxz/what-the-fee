@@ -6,7 +6,7 @@ export const useCounter = (target: number, delay: number) => {
 
 	useEffect(() => {
 		let count = 0;
-		const increment = 75;
+		const increment = 70;
 
 		const updateCount = () => {
 			if (count < target) {

@@ -21,7 +21,7 @@ import {
 
 type PaymentsProps = {
 	ar_no: string;
-	created_at: Date;
+	date: Date;
 	student_id: string;
 	first_name: string;
 	last_name: string;
@@ -184,7 +184,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 									<p className='text-center'> {payment.ar_no}</p>
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{new Date(payment.created_at).toLocaleString("en-US", {
+									{new Date(payment.date).toLocaleString("en-US", {
 										month: "long",
 										day: "numeric",
 										year: "numeric",
