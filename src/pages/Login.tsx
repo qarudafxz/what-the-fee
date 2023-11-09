@@ -9,7 +9,7 @@ export const Login = () => {
 
 	return (
 		<div
-			className='w-full h-full bg-dark font-main overflow-y-hidden'
+			className='w-full h-screen bg-dark font-main overflow-hidden'
 			style={{
 				backgroundImage: `url(${bg})`,
 				backgroundSize: "cover",

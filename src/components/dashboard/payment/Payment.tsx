@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
@@ -6,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PaymentQrScanner from "./PaymentQrScanner";
 import Confirmation from "../../Confirmation";
+import PaymentReceipt from "./PaymentReceipt";
 
 export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const { getSession } = useGetSession();
@@ -24,6 +26,9 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const [isQrScan, setIsQrScan] = useState(false);
 	const [isPaymentAdded, setIsPaymentAdded] = useState(false);
 	const [confirmation, setConfirmation] = useState(false);
+	const [isBackupReceipt, setIsBackupReceipt] = useState(false);
+	const [receiptContent, setReceiptContent] = useState({} as any);
+
 	const message =
 		"Confirm payment	of ₱" + amount + " for " + firstName + " " + lastName + "?";
 
@@ -91,6 +96,8 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 					});
 					setIsPaymentAdded(false);
 					setConfirmation(false);
+					setIsBackupReceipt(true);
+					setReceiptContent(data);
 				} else {
 					toast.error(data.message, {
 						autoClose: 2000,
@@ -289,6 +296,11 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				setConfirmation={setConfirmation}
 				confirmation={confirmation}
 				setIsPaymentAdded={setIsPaymentAdded}
+			/>
+			<PaymentReceipt
+				isBackupReceipt={isBackupReceipt}
+				setIsBackupReceipt={setIsBackupReceipt}
+				receiptContent={receiptContent}
 			/>
 		</div>
 	);
