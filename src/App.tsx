@@ -22,6 +22,7 @@ import { AdminSettings } from "./pages/admin/admin-settings/AdminSettings";
 import { AdminRequests } from "./pages/admin/admin-requests/AdminRequests";
 import Expenses from "./pages/admin/expenses/Expenses";
 import Receipts from "./pages/admin/receipts/Receipts";
+import Landing from "./pages/Landing";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -39,6 +40,10 @@ function App() {
 			<Routes>
 				<Route
 					path='/'
+					element={<Landing />}
+				/>
+				<Route
+					path='/auth'
 					element={<Auth />}
 				/>
 				<Route
