@@ -1,14 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
+import ReceiptCards from "../../../components/dashboard/receipts/ReceiptCards";
+import { BiArchiveIn } from "react-icons/bi";
 
 const Receipts: React.FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
 	const email = getSession("email");
 	const name = getSession("name");
+	const [receipts, setReceipts] = useState([]);
+	const [loading, setLoading] = useState(false);
+
+	const getAllReceipts = async () => {
+		try {
+			setLoading(true);
+			await fetch("http://127.0.0.1:8000/api/receipts", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${getSession("student_id")}`,
+				},
+			}).then(async (res) => {
+				const data = await res.json();
+				console.log(data);
+				setReceipts(data.receipts);
+				setTimeout(() => {
+					setLoading(false);
+				}, 1500);
+			});
+		} catch (err) {
+			throw new Error("Error getting all receipts.");
+		}
+	};
+
+	useEffect(() => {
+		getAllReceipts();
+	}, []);
 
 	if (!isLoggedIn) {
 		return <Navigate to='/login' />;
@@ -24,6 +54,21 @@ const Receipts: React.FC = () => {
 					"Send these backed up receipts to its corresponding student payee."
 				}
 				email={email}
+			/>
+			<div
+				className='pl-64 pr-56'
+				style={{
+					maxHeight: "calc(100vh - 4rem)",
+				}}>
+				<ReceiptCards
+					loading={loading}
+					receipts={receipts}
+					setReceipts={setReceipts}
+				/>
+			</div>
+			<BiArchiveIn
+				size={50}
+				className='absolute bottom-4 right-4 text-primary'
 			/>
 		</div>
 	);

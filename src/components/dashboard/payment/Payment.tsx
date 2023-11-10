@@ -67,7 +67,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const handleAddPayment = async (): Promise<void> => {
 		const parsedAmount = parseInt(amount);
 		const parsedSemester = parseInt(semester);
-		const data = {
+		const inputData = {
 			date,
 			ar_no: arNo,
 			amount: parsedAmount,
@@ -84,7 +84,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${admin_id}`,
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify(inputData),
 			}).then(async (res) => {
 				const data = await res.json();
 				console.log(data);
@@ -97,7 +97,11 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 					setIsPaymentAdded(false);
 					setConfirmation(false);
 					setIsBackupReceipt(true);
-					setReceiptContent(data);
+					setReceiptContent({
+						...inputData,
+						first_name: firstName,
+						last_name: lastName,
+					});
 				} else {
 					toast.error(data.message, {
 						autoClose: 2000,
