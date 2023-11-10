@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import bg from "../assets/bg.svg";
 import mockup from "../assets/mockup.png";
 import logo from "../assets/logo_only.png";
@@ -16,7 +15,7 @@ import Marquee from "react-fast-marquee";
 import mobile from "../assets/mob.png";
 import { Aubriel, Le, Cj, Carlo, Fra } from "../assets/member";
 
-const TeamCard = () => {
+const TeamCard: React.FC = () => {
 	const data = [
 		{
 			name: "Aubriel Bolotaolo",
@@ -40,7 +39,7 @@ const TeamCard = () => {
 		},
 		{
 			name: "Carl John Padencio",
-			role: "Documentator",
+			role: "Documenter",
 			image: (
 				<img
 					src={Cj}
@@ -98,8 +97,7 @@ const TeamCard = () => {
 	);
 };
 
-const Landing = () => {
-	const navigate = useNavigate();
+const Landing: React.FC = () => {
 	const menu = [
 		{
 			title: "Goal",
@@ -155,7 +153,7 @@ const Landing = () => {
 	];
 
 	const getStarted = () => {
-		navigate("/auth");
+		window.location.href = "/auth";
 	};
 
 	useEffect(() => {
@@ -348,7 +346,7 @@ const Landing = () => {
 			</div>
 			{/* End of features */}
 			<div className='bg-[#0D0D0D] py-44 xxxxs:px-4 xxxs:px-6 xxs:px-10 xs:px-14 sm:px-18 md:px-20 lg:px-32'>
-				<div className='bg-[#49B0AD]  rounded-lg flex justify-between items-center'>
+				<div className='bg-[#49B0AD] rounded-2xl flex justify-between items-center'>
 					<div className='flex flex-col py-10 pl-6 gap-4 w-[490px]'>
 						<h1 className='font-bold text-[66px] leading-none text-black '>
 							Monitor your balance

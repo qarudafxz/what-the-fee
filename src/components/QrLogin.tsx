@@ -150,7 +150,7 @@ const QrLogin: React.FC = () => {
 				onLoaderFinished={() => setProgress(0)}
 			/>
 			<ToastContainer />
-			<div className='grid grid-cols-1 place-items-center mt-28 pb-10'>
+			<div className='grid grid-cols-1 place-items-center mt-16 pb-10'>
 				<ProgressBar
 					progress='30'
 					steps='1 out of 4'
