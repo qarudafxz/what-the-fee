@@ -13,9 +13,12 @@ const Expenses: React.FC = () => {
 	const name = getSession("name");
 	const college_id = getSession("college_id");
 	const [remainingBalance, setRemainingBalance] = useState<number>(0);
+	const [expenses, setExpenses] = useState<unknown[]>([]);
+	const [loading, setLoading] = useState(false);
 
 	const fetchTotalPayment = async () => {
 		try {
+			setLoading(true);
 			const headers = new Headers({
 				"Content-Type": "application/json",
 			} as HeadersInit);
@@ -28,6 +31,9 @@ const Expenses: React.FC = () => {
 					const data = await res.json();
 					if (res.status === 200 || res.ok) {
 						setRemainingBalance(data.total_payment);
+						setTimeout(() => {
+							setLoading(false);
+						}, 1300);
 					}
 				})
 				.catch((error) => {
@@ -38,7 +44,36 @@ const Expenses: React.FC = () => {
 		}
 	};
 
+	const fetchAllExpenses = async () => {
+		try {
+			setLoading(true);
+			const headers = new Headers({
+				"Content-Type": "application/json",
+			} as HeadersInit);
+
+			await fetch(`http://127.0.0.1:8000/api/expenses/${college_id}`, {
+				method: "GET",
+				headers,
+			})
+				.then(async (res) => {
+					const data = await res.json();
+					if (res.status === 200 || res.ok) {
+						setExpenses(data);
+						setTimeout(() => {
+							setLoading(false);
+						}, 1300);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching all expenses:", error);
+				});
+		} catch (err) {
+			console.error("Error fetching all expenses:", err);
+		}
+	};
+
 	useEffect(() => {
+		fetchAllExpenses();
 		fetchTotalPayment();
 	}, []);
 
@@ -57,9 +92,16 @@ const Expenses: React.FC = () => {
 				}
 				email={email}
 			/>
-			<div className='pl-64 pr-56 grid grid-cols-7 w-full mt-6 space-x-10 relative lg:bottom-24 xl:bottom-18'>
-				<RequestExpense remainingBalance={remainingBalance} />
-				<ExpensesLogs />
+			<div className='pl-64 pr-56 grid grid-cols-8 w-full mt-6 space-x-10 relative lg:bottom-24 xl:bottom-18'>
+				<RequestExpense
+					remainingBalance={remainingBalance}
+					collegeId={college_id}
+					loading={loading}
+				/>
+				<ExpensesLogs
+					expenses={expenses}
+					loading={loading}
+				/>
 			</div>
 		</div>
 	);
