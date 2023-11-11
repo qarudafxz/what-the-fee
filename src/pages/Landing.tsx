@@ -59,7 +59,7 @@ const TeamCard: React.FC = () => {
 		},
 		{
 			name: "Francis Tin-ao",
-			role: "Flexible",
+			role: "All Around",
 			image: (
 				<img
 					src={Fra}
@@ -82,7 +82,9 @@ const TeamCard: React.FC = () => {
 						return (
 							<div
 								key={idx}
-								className={`bg-[#1f1f1f] flex flex-col justify-center place-items-center p-6 rounded-md shadow-md shadow-black text-center`}>
+								className={`bg-[#1f1f1f] flex flex-col justify-center place-items-center p-6 rounded-md shadow-md shadow-black text-center ${
+									idx === 0 && "ml-4"
+								}`}>
 								{member.image}
 								<h1 className='font-bold text-2xl text-primary'>{member.name}</h1>
 								<h1 className='text-md italic text-zinc-500'>{member.role}</h1>
@@ -208,7 +210,7 @@ const Landing: React.FC = () => {
 							animate={{ x: 0 }}
 							transition={{ duration: 1 }}
 							className='col-span-3 text-white font-bold xxxxs:text-2xl md:text-5xl leading-loose'>
-							Track and record your college fee collection with ease.
+							Be FEE-sponsible with What The Fee.
 						</motion.h1>
 						<motion.div
 							initial={{ x: 1000 }}
@@ -216,9 +218,9 @@ const Landing: React.FC = () => {
 							transition={{ duration: 1, delay: 0.4 }}
 							className='col-span-2'>
 							<p className='text-zinc-500 xxxxs:text-xs md:text-sm'>
-								Managing records that intertwine with money could be nerve-wracking.
-								What The Fee offers a wide variety of features that could secure your
-								financial records in a hassle free way.
+								Managing records that intertwine with money could be nerve-racking. What
+								The Fee offers a wide variety of features that could secure and manage
+								your financial records in a hassle free way.
 							</p>
 							<button
 								onClick={getStarted}
