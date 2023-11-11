@@ -96,7 +96,7 @@ export const AdminList: FC = () => {
 												height={20}
 											/>
 										) : (
-											<p className='text-zinc-700 font-thin text-xs'>({admin.role})</p>
+											<p className='text-zinc-500 font-thin text-xs'>({admin.role})</p>
 										)}
 									</div>
 								</div>

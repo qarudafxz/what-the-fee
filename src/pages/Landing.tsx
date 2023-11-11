@@ -82,9 +82,7 @@ const TeamCard: React.FC = () => {
 						return (
 							<div
 								key={idx}
-								className={`bg-[#1f1f1f] flex flex-col justify-center place-items-center p-6 rounded-md shadow-md shadow-black text-center ${
-									idx === 0 && "ml-6"
-								}`}>
+								className={`bg-[#1f1f1f] flex flex-col justify-center place-items-center p-6 rounded-md shadow-md shadow-black text-center`}>
 								{member.image}
 								<h1 className='font-bold text-2xl text-primary'>{member.name}</h1>
 								<h1 className='text-md italic text-zinc-500'>{member.role}</h1>
@@ -326,20 +324,17 @@ const Landing: React.FC = () => {
 							collections of the organization.
 						</p>
 						<div className='flex space-x-4 w-full mt-3'>
-							{[
-								"Security",
-								"Data Integrity",
-								"Real-Time Monitoring",
-								"Backup Receipt",
-							].map((item, idx) => {
-								return (
-									<p
-										key={idx}
-										className='bg-zinc-900 px-4 py-1 text-zinc-500 rounded-md text-xs flex items-center justify-center'>
-										{item}
-									</p>
-								);
-							})}
+							{["Payment", "Monitoring", "Backup", "Automation", "Notification"].map(
+								(item, idx) => {
+									return (
+										<p
+											key={idx}
+											className='bg-zinc-900 px-4 py-3 text-zinc-500 rounded-md text-xs flex items-center justify-center'>
+											{item}
+										</p>
+									);
+								}
+							)}
 						</div>
 					</div>
 				</div>
