@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Header } from "../../../components/dashboard/Header";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
@@ -9,8 +10,12 @@ import { BiArchiveIn } from "react-icons/bi";
 const Receipts: React.FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
 	const email = getSession("email");
 	const name = getSession("name");
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
+
 	const [receipts, setReceipts] = useState([]);
 	const [loading, setLoading] = useState(false);
 
@@ -19,9 +24,12 @@ const Receipts: React.FC = () => {
 			setLoading(true);
 			await fetch("http://127.0.0.1:8000/api/receipts", {
 				method: "GET",
+				//eslint-disable-next-line
+				//@ts-ignore
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${getSession("student_id")}`,
+					Authorization: `Bearer ${token}`,
+					admin_id: admin_id,
 				},
 			}).then(async (res) => {
 				const data = await res.json();

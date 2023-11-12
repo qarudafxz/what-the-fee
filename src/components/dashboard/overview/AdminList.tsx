@@ -1,6 +1,7 @@
 import { FC, useState, useEffect, useMemo } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { useGetSession } from "../../../../hooks/useGetSession";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import Skeleton from "@mui/material/Skeleton";
 
 type Admin = {
@@ -14,6 +15,9 @@ type Admin = {
 export const AdminList: FC = () => {
 	const { getSession } = useGetSession();
 	const college_id = getSession("college_id");
+	const { getItem } = useLocalStorage();
+	const token = getItem("token");
+	const admin_id = getSession("student_id");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [admins, setAdmins] = useState<Admin[]>([]);
 
@@ -22,8 +26,12 @@ export const AdminList: FC = () => {
 			setLoading(true);
 			await fetch(`http://localhost:8000/api/get-admin/${college_id}`, {
 				method: "GET",
+				//eslint-disable-next-line
+				//@ts-ignore
 				headers: {
 					"Content-Type": "application/json",
+					admin_id: admin_id,
+					Authorization: `Bearer ${token}`,
 				},
 			}).then(async (res) => {
 				const data = await res.json();

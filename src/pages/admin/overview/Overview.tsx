@@ -2,6 +2,7 @@
 import { FC, useEffect, useState, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage.js";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 import { Data } from "../../../components/dashboard/overview/Data";
@@ -27,9 +28,12 @@ export const Overview: FC = () => {
 	const [percent, setPercent] = useState<number[]>([]);
 	const [numOfStudents, setNumOfStudents] = useState<StudentsProps[]>([]);
 	const isLoggedIn = useAuth();
+	const { getItem } = useLocalStorage();
 	const { getSession } = useGetSession();
 	const email = getSession("email");
 	const name = getSession("name");
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [sem, setSem] = useState<number>(0);
 
@@ -43,8 +47,12 @@ export const Overview: FC = () => {
 			setLoading(true);
 			await fetch("http://localhost:8000/api/get-count-programs/", {
 				method: "GET",
+				//eslint-disable-next-line
+				//@ts-ignore
 				headers: {
 					"Content-Type": "application/json",
+					admin_id: admin_id,
+					Authorization: `Bearer ${token}`,
 				},
 			}).then(async (res) => {
 				const data = await res.json();

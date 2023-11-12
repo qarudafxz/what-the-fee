@@ -2,6 +2,7 @@ import { FC, useState, useEffect, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useAuth } from "../../../../hooks/useAuth";
 import PaymentsPagination from "../../../components/dashboard/get-payments/PaymentsPagination";
 
@@ -18,12 +19,16 @@ type Payments = {
 	desc: string;
 	amount: number;
 	acad_year: string;
+	date: Date;
 };
 
 export const Records: FC = () => {
 	const isLoggedIn = useAuth();
 	const [payments, setPayments] = useState<Payments[]>([]);
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
+	const token = getItem("token");
+	const admin_id = getSession("student_id");
 	const email = getSession("email");
 	const name = getSession("name");
 
@@ -31,6 +36,8 @@ export const Records: FC = () => {
 		try {
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://localhost:8000/api/get-all-payment/`, {

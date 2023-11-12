@@ -48,7 +48,7 @@ type PaymentsProps = {
 	acad_year: string;
 };
 
-const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
+const PaymentsPagination: FC<{ payments?: PaymentsProps[] }> = ({
 	payments,
 }) => {
 	const [page, setPage] = useState(1);
@@ -60,7 +60,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 
 	const indexOfLastRow = page * rowsPerPage;
 	const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-	const currentRows = payments.slice(indexOfFirstRow, indexOfLastRow);
+	const currentRows = payments!.slice(indexOfFirstRow, indexOfLastRow);
 	return (
 		<div className='text-white font-main bg-[#131313] opacity-90 w-full flex flex-col gap-2 rounded-md border border-zinc-800 p-3'>
 			<div className='grid grid-cols-7 gap-4 mb-4 items-center'>
@@ -265,7 +265,7 @@ const PaymentsPagination: FC<{ payments: PaymentsProps[] }> = ({
 					variant='outlined'
 					shape='rounded'
 					color='secondary'
-					count={Math.ceil(payments.length / rowsPerPage)}
+					count={Math.ceil(payments!.length / rowsPerPage)}
 					page={page}
 					onChange={handleChange}
 				/>

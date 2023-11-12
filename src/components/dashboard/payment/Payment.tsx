@@ -2,6 +2,7 @@
 import { FC, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,6 +12,8 @@ import PaymentReceipt from "./PaymentReceipt";
 
 export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
+	const token = getItem("token");
 	const admin_id = getSession("student_id");
 	const [date, setDate] = useState("");
 	const [studentID, setStudentID] = useState("");
@@ -37,9 +40,12 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			if (studentID) {
 				await fetch(`http://localhost:8000/api/search-student/${studentID}`, {
 					method: "GET",
+					//eslint-disable-next-line
+					//@ts-ignore
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${admin_id}`,
+						Authorization: `Bearer ${token}`,
+						admin_id: admin_id,
 					},
 				}).then(async (res) => {
 					const data = await res.json();
@@ -80,9 +86,12 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 		try {
 			await fetch("http://localhost:8000/api/add-payment/", {
 				method: "POST",
+				//eslint-disable-next-line
+				//@ts-ignore
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${admin_id}`,
+					Authorization: `Bearer ${token}`,
+					admin_id: admin_id,
 				},
 				body: JSON.stringify(inputData),
 			}).then(async (res) => {

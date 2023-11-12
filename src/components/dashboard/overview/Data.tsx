@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useState, useMemo } from "react";
 import { Tooltip } from "@chakra-ui/react";
 import { FaPesoSign } from "react-icons/fa6";
 import { useCounter } from "../../../../hooks/useCounter";
 import { useGetSession } from "../../../../hooks/useGetSession";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { numberWithCommas } from "../../../../utils/numberWithCommas";
 
 interface PercentageProps {
@@ -13,7 +15,10 @@ interface PercentageProps {
 export const Data: FC = () => {
 	const [totalPayment, setTotalPayment] = useState<number>(0);
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
 	const college_id = getSession("college_id");
+	const token = getItem("token");
+	const admin_id = getSession("student_id");
 	const [last7DaysPercentage, setLast7DaysPercentage] =
 		useState<PercentageProps>();
 	const [last30DaysPercentage, setLast30DaysPercentage] =
@@ -27,6 +32,8 @@ export const Data: FC = () => {
 		try {
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://localhost:8000/api/get-total-payment/${college_id}`, {
@@ -51,6 +58,8 @@ export const Data: FC = () => {
 		try {
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://127.0.0.1:8000/api/last-7-days/${college_id}`, {
@@ -79,6 +88,8 @@ export const Data: FC = () => {
 		try {
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://127.0.0.1:8000/api/last-30-days/${college_id}`, {

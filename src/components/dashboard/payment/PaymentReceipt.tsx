@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import { BiDownload } from "react-icons/bi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
+import { useGetSession } from "../../../../hooks/useGetSession";
 
 interface Props {
 	isBackupReceipt?: boolean;
@@ -20,6 +22,10 @@ const PaymentReceipt: React.FC<Props> = ({
 	setIsBackupReceipt,
 	receiptContent,
 }) => {
+	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
 	const receipt = useRef(null);
 
 	const saveReceiptToDb = async () => {
@@ -28,8 +34,12 @@ const PaymentReceipt: React.FC<Props> = ({
 				`http://127.0.0.1:8000/api/save-receipt/${receiptContent?.ar_no}`,
 				{
 					method: "POST",
+					//eslint-disable-next-line
+					//@ts-ignore
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+						admin_id: admin_id,
 					},
 				}
 			).then(async (res) => {

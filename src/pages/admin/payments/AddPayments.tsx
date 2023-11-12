@@ -3,21 +3,29 @@ import { Navigate } from "react-router-dom";
 import { Payment } from "../../../components/dashboard/payment/Payment";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useAuth } from "../../../../hooks/useAuth";
 
 export const AddPayments: FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
 	const email = getSession("email");
 	const name = getSession("name");
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
 	const [arNo, setArNo] = useState("");
 
 	const getLastArNo = async () => {
 		try {
 			await fetch("http://localhost:8000/api/get-latest-payment", {
 				method: "GET",
+				//eslint-disable-next-line
+				//@ts-ignore
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+					admin_id: admin_id,
 				},
 			}).then(async (res) => {
 				const data = await res.json();

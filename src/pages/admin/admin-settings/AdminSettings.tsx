@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useAuth } from "../../../../hooks/useAuth";
 import AdminPrivileges from "../../../components/dashboard/admin-settings/AdminPrivileges";
 import Logs from "../../../components/dashboard/admin-settings/Logs";
@@ -9,17 +10,23 @@ import Logs from "../../../components/dashboard/admin-settings/Logs";
 export const AdminSettings: FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
 	const email = getSession("email");
 	const name = getSession("name");
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
 	const [permissions, setPermissions] = useState([]);
 
 	const getPermissions = async () => {
 		try {
 			await fetch("http://127.0.0.1:8000/api/permissions", {
 				method: "GET",
+				//eslint-disable-next-line
+				//@ts-ignore
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${getSession("token")}`,
+					Authorization: `Bearer ${token}`,
+					admin_id: admin_id,
 				},
 			}).then(async (res) => {
 				const data = await res.json();

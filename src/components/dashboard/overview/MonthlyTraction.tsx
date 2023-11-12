@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
+import { useGetSession } from "../../../../hooks/useGetSession";
 import Chart from "chart.js/auto";
 
 interface RowProps {
@@ -7,6 +9,10 @@ interface RowProps {
 }
 
 const MonthlyTraction = () => {
+	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
+	const token = getItem("token");
+	const admin_id = getSession("student_id");
 	const chartRef = useRef(null);
 	const [data, setData] = useState([]);
 
@@ -14,6 +20,8 @@ const MonthlyTraction = () => {
 		try {
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://127.0.0.1:8000/api/get-total-payment-per-month/1`, {

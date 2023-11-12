@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../../../components/dashboard/Header";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
@@ -9,8 +10,11 @@ import ExpensesLogs from "../../../components/dashboard/expenses/ExpensesLogs";
 const Expenses: React.FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
 	const email = getSession("email");
 	const name = getSession("name");
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
 	const college_id = getSession("college_id");
 	const [remainingBalance, setRemainingBalance] = useState<number>(0);
 	const [expenses, setExpenses] = useState<unknown[]>([]);
@@ -21,6 +25,8 @@ const Expenses: React.FC = () => {
 			setLoading(true);
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://localhost:8000/api/get-total-payment/${college_id}`, {
@@ -49,6 +55,8 @@ const Expenses: React.FC = () => {
 			setLoading(true);
 			const headers = new Headers({
 				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
 			} as HeadersInit);
 
 			await fetch(`http://127.0.0.1:8000/api/expenses/${college_id}`, {
