@@ -5,6 +5,8 @@ import { useGetSession } from "../../../../hooks/useGetSession";
 import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useAuth } from "../../../../hooks/useAuth";
 import PaymentsPagination from "../../../components/dashboard/get-payments/PaymentsPagination";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Payments = {
 	ar_no: string;
@@ -54,13 +56,34 @@ export const Records: FC = () => {
 		}
 	};
 
+	const filterPayments = (filter_type: string, value: string) => {
+		if (value === "") {
+			toast.error("Please provide a value first", {
+				autoClose: 2000,
+				theme: "dark",
+			});
+			return;
+		}
+
+		console.log(filter_type, value);
+		if (filter_type === "") return getPayments();
+
+		if (filter_type === "student_id") {
+			return setPayments(
+				payments.filter((payment) => payment.student_id === value)
+			);
+		}
+
+		if (filter_type === "ar_no") {
+			return setPayments(payments.filter((payment) => payment.ar_no === value));
+		}
+	};
+
 	const cachedPayments = useMemo(() => payments, [payments]);
 
 	useEffect(() => {
 		if (!cachedPayments || cachedPayments.length === 0) getPayments();
 	}, [cachedPayments]);
-
-	console.log(cachedPayments);
 
 	useEffect(() => {
 		document.title = "Payment Records | WTF";
@@ -72,6 +95,7 @@ export const Records: FC = () => {
 
 	return (
 		<div className='w-full bg-dark h-screen'>
+			<ToastContainer />
 			<Header
 				page={2}
 				name={name}
@@ -82,7 +106,10 @@ export const Records: FC = () => {
 				email={email}
 			/>
 			<div className='pl-64 pr-56 -mt-20 flex flex-col w-full overflow-y-auto custom'>
-				<PaymentsPagination payments={cachedPayments} />
+				<PaymentsPagination
+					payments={cachedPayments}
+					filterPayments={filterPayments}
+				/>
 			</div>
 		</div>
 	);

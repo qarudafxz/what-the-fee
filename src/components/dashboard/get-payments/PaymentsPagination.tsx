@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { Input } from "@chakra-ui/react";
 import Pagination from "@mui/material/Pagination";
@@ -48,10 +49,13 @@ type PaymentsProps = {
 	acad_year: string;
 };
 
-const PaymentsPagination: FC<{ payments?: PaymentsProps[] }> = ({
-	payments,
-}) => {
+const PaymentsPagination: FC<{
+	payments?: PaymentsProps[];
+	filterPayments: any;
+}> = ({ payments, filterPayments }) => {
 	const [page, setPage] = useState(1);
+	const [value, setValue] = useState("");
+	const [type, setType] = useState("");
 	const rowsPerPage = 7;
 
 	const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -63,10 +67,11 @@ const PaymentsPagination: FC<{ payments?: PaymentsProps[] }> = ({
 	const currentRows = payments!.slice(indexOfFirstRow, indexOfLastRow);
 	return (
 		<div className='text-white font-main bg-[#131313] opacity-90 w-full flex flex-col gap-2 rounded-md border border-zinc-800 p-3'>
-			<div className='grid grid-cols-7 gap-4 mb-4 items-center'>
+			<div className='grid grid-cols-8 space-x-6 mb-4 items-center'>
 				<h1 className='col-span-1 font-bold text-3xl'>Student</h1>
 				<Input
-					className='col-span-2 py-2 rounded-md bg-transparent border border-zinc-800 pl-4'
+					onChange={(e) => setValue(e.target.value)}
+					className='col-span-4 py-4 rounded-md bg-transparent border border-zinc-800 pl-4'
 					placeholder='Search'
 				/>
 				<Box
@@ -117,16 +122,18 @@ const PaymentsPagination: FC<{ payments?: PaymentsProps[] }> = ({
 						<Select
 							labelId='demo-simple-select-label'
 							id='demo-simple-select'
-							label='Age'>
-							<MenuItem value={10}>AR No.</MenuItem>
-							<MenuItem value={20}>Program</MenuItem>
-							<MenuItem value={30}>Academic Year</MenuItem>
+							//extract the value of the selected option
+							onChange={(e) => setType(e.target.value! as string)}
+							label='Filter'>
+							<MenuItem value='student_id'>Student ID</MenuItem>
+							<MenuItem value='ar_no'>AR No.</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
-				<button className='col-span-2 flex gap-2 items-center place-content-center bg-gradient-to-tr from-[#025D59] to-[#59D896] text-white py-4 rounded-md'>
-					Scan QR
-					<AiOutlineScan />
+				<button
+					onClick={() => filterPayments(type, value)}
+					className='bg-zinc-800 py-4 rounded-md font-bold'>
+					Search
 				</button>
 			</div>
 
@@ -140,7 +147,6 @@ const PaymentsPagination: FC<{ payments?: PaymentsProps[] }> = ({
 							sx={{
 								"& .MuiTableCell-root": {
 									color: "white",
-
 									fontWeight: "bold",
 								},
 							}}>

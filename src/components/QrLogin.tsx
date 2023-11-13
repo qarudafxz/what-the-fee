@@ -123,6 +123,7 @@ const QrLogin: React.FC = () => {
 				setSession("college_id", data.payload.college_id);
 				setSession("session", data.payload.session);
 				setSession("name", data.payload.first_name + " " + data.payload.last_name);
+				setSession("role", data.payload.role);
 				setSession("session", data.payload.session);
 				setSession("secret", "2");
 				setTimeout(() => {

@@ -80,7 +80,7 @@ const PaymentReceipt: React.FC<Props> = ({
 	return (
 		<>
 			{isBackupReceipt && (
-				<div className='fixed inset-0 flex flex-col items-center justify-center bg-black z-50'>
+				<div className='fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50'>
 					<ToastContainer />
 					<motion.form
 						initial={{ opacity: 0, scale: 0.5 }}

@@ -16,6 +16,7 @@ import {
 import { RiSettings5Fill } from "react-icons/ri";
 import { MdLogout } from "react-icons/md";
 import TopLoadingBar from "react-top-loading-bar";
+import { useGetSession } from "../../hooks/useGetSession";
 
 type Navlinks = {
 	icon: ReactNode;
@@ -25,6 +26,8 @@ type Navlinks = {
 
 export const Navbar: FC = () => {
 	const navigate = useNavigate();
+	const { getSession } = useGetSession();
+	const role = getSession("role");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
 
@@ -122,26 +125,55 @@ export const Navbar: FC = () => {
 							className={`${isOpen ? "w-34" : "w-6"} h-6`}
 						/>
 						<div className='mt-10'>
-							{navlinks.map((nav, idx) => {
-								return (
-									<NavLink
-										key={idx}
-										to={nav.link}
-										className={({ isActive }) =>
-											`${
-												idx === 7 && "mt-24 "
-											} flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
-											(isActive
-												? "text-white duration-150"
-												: "text-zinc-800 hover:text-zinc-600 duration-150")
-										}>
-										{nav.icon as ReactNode}
-										<span className={`${!isOpen && "hidden"} text-sm font-semibold`}>
-											{nav.title}
-										</span>
-									</NavLink>
-								);
-							})}
+							{role === "super" && (
+								<>
+									{navlinks.map((nav, idx) => {
+										return (
+											<NavLink
+												key={idx}
+												to={nav.link}
+												className={({ isActive }) =>
+													`${
+														idx === 7 && "mt-24 "
+													} flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
+													(isActive
+														? "text-white duration-150"
+														: "text-zinc-800 hover:text-zinc-600 duration-150")
+												}>
+												{nav.icon as ReactNode}
+												<span className={`${!isOpen && "hidden"} text-sm font-semibold`}>
+													{nav.title}
+												</span>
+											</NavLink>
+										);
+									})}
+								</>
+							)}
+
+							{role === "admin" && (
+								<>
+									{navlinks.map((nav, idx) => {
+										if (idx === 0 || idx === 1 || idx === 2 || idx === 6) {
+											return (
+												<NavLink
+													key={idx}
+													to={nav.link}
+													className={({ isActive }) =>
+														`flex items-center gap-4 text-lg py-2 mt rounded-lg ` +
+														(isActive
+															? "text-white duration-150"
+															: "text-zinc-800 hover:text-zinc-600 duration-150")
+													}>
+													{nav.icon as ReactNode}
+													<span className={`${!isOpen && "hidden"} text-sm font-semibold`}>
+														{nav.title}
+													</span>
+												</NavLink>
+											);
+										}
+									})}
+								</>
+							)}
 							<div className='mt-40'>
 								<hr
 									className='mb-2'

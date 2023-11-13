@@ -12,7 +12,7 @@ const ExpensesLogs: React.FC<Expenses> = ({ expenses, loading }) => {
 		<div className='col-span-3'>
 			<div className='flex flex-col gap-4 px-4 py-5 bg-[#0F0F0F]  opacity-90 rounded-md border border-zinc-600'>
 				<h1 className='font-bold text-2xl text-zinc-500'>Expenses</h1>
-				<div className='max-h-[250px] overflow-y-auto flex flex-col gap-4'>
+				<div className='max-h-[380px] overflow-y-auto flex flex-col gap-4'>
 					{expenses?.map((ex, idx) => {
 						return (
 							<div
@@ -70,6 +70,9 @@ const ExpensesLogs: React.FC<Expenses> = ({ expenses, loading }) => {
 					})}
 				</div>
 			</div>
+			<button className='font-bold bg-[#0F0F0F] text-center py-4 rounded-md border border-zinc-700 text-zinc-700 w-full mt-4'>
+				Generate LR
+			</button>
 		</div>
 	);
 };

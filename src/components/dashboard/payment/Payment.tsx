@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
 import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
@@ -31,7 +31,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const [confirmation, setConfirmation] = useState(false);
 	const [isBackupReceipt, setIsBackupReceipt] = useState(false);
 	const [receiptContent, setReceiptContent] = useState({} as any);
-
+	const [latestArNum, setLatestArNum] = useState("");
 	const message =
 		"Confirm payment	of ₱" + amount + " for " + firstName + " " + lastName + "?";
 
@@ -128,6 +128,22 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 		handleAddPayment();
 	}
 
+	useEffect(() => {
+		if (ar_no) {
+			const extractedArNo = ar_no.match(/\d+/g);
+			const parsedArNo = parseInt(extractedArNo![0]);
+			const incrementArNo = parsedArNo + 1;
+			const stringArNo = incrementArNo.toString();
+			//if the incrementArNo is less than 100, then add 0 before the stringArNo
+
+			incrementArNo < 100
+				? setLatestArNum("AR0" + stringArNo)
+				: setLatestArNum(stringArNo);
+		}
+
+		setArNo(latestArNum);
+	}, [ar_no]);
+
 	return (
 		<div className='font-main bg-[#0F0F0F] opacity-90 rounded-md border border-zinc-600 ml-64 mr-56 p-4 relative bottom-20'>
 			<ToastContainer />
@@ -143,6 +159,8 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 					<input
 						type='date'
 						placeholder='Date'
+						//set the default value to today's date
+
 						onChange={(e) => setDate(e.target.value)}
 						className='bg-transparent p-3 rounded-md border border-primary mt-4'
 					/>
@@ -254,7 +272,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				<div className='col-span-5 flex flex-col gap-2 text-primary'>
 					<h1>AR Number</h1>
 					<input
-						onChange={(e) => setArNo(e.target.value)}
+						value={latestArNum}
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>

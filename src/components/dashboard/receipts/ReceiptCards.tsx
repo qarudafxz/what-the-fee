@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef, DragEvent } from "react";
 import { FaFilePdf } from "react-icons/fa";
+import Tooltip from "@mui/material/Tooltip";
 import Skeleton from "@mui/material/Skeleton";
+import Zoom from "@mui/material/Zoom";
 
 interface Receipt {
 	id: string;
@@ -12,6 +14,7 @@ interface Props {
 	loading?: boolean;
 	receipts: Receipt[];
 	setReceipts: React.Dispatch<React.SetStateAction<Receipt[]>> | any;
+	sendReceipt: (ar_no: string, type: string) => void;
 }
 
 const ReceiptCard: React.FC<{
@@ -20,8 +23,9 @@ const ReceiptCard: React.FC<{
 	onDragStart: (e: DragEvent<HTMLDivElement>, index: number) => void;
 	onDragOver: (e: DragEvent<HTMLDivElement>, index: number) => void;
 	onDrop: (e: DragEvent<HTMLDivElement>, index: number) => void;
-	draggedIndex: number | null;
-}> = ({ receipt, index, onDragStart, onDragOver, onDrop, draggedIndex }) => {
+	draggedIndex?: number | null;
+	sendReceipt: (ar_no: string, type: string) => void;
+}> = ({ receipt, index, onDragStart, onDragOver, onDrop, sendReceipt }) => {
 	const dragRef = useRef<HTMLDivElement>(null);
 
 	const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
@@ -37,28 +41,40 @@ const ReceiptCard: React.FC<{
 	};
 
 	return (
-		<div
-			ref={dragRef}
-			draggable
-			onDragStart={handleDragStart}
-			onDragOver={handleDragOver}
-			onDrop={handleDrop}
-			className={`bg-zinc-900 border border-zinc-700 p-4 rounded-lg flex flex-col gap-2 items-center place-items-center justify-center ${
-				draggedIndex === index ? "cursor-grabbing" : "cursor-grab"
-			}`}>
-			<FaFilePdf
-				size={60}
-				className='text-primary'
-			/>
-			<p className='text-zinc-400 font-bold text-xl'>{receipt.ar_no}</p>
-			<button className='px-3 py-2 font-bold text-zinc-400 shadow-[#050505] shadow-md'>
-				Send
-			</button>
-		</div>
+		<Tooltip
+			title='Click me to open receipt details'
+			TransitionComponent={Zoom}
+			arrow>
+			<div
+				ref={dragRef}
+				draggable
+				onDragStart={handleDragStart}
+				onDragOver={handleDragOver}
+				onDrop={handleDrop}
+				className='bg-zinc-900 border border-zinc-700 p-4 rounded-lg flex flex-col gap-2 items-center place-items-center justify-center hover:cursor-pointer'>
+				<FaFilePdf
+					size={60}
+					className='text-primary'
+					onClick={() => sendReceipt(receipt.ar_no, "view")}
+				/>
+
+				<p className='text-zinc-400 font-bold text-xl'>{receipt.ar_no}</p>
+				<button
+					onClick={() => sendReceipt(receipt.ar_no, "send")}
+					className='px-3 py-2 font-bold text-zinc-400 shadow-[#050505] shadow-md'>
+					Send
+				</button>
+			</div>
+		</Tooltip>
 	);
 };
 
-const ReceiptCards: React.FC<Props> = ({ loading, receipts, setReceipts }) => {
+const ReceiptCards: React.FC<Props> = ({
+	loading,
+	receipts,
+	setReceipts,
+	sendReceipt,
+}) => {
 	const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
 	const handleDragStart = (_e: DragEvent<HTMLDivElement>, index: number) => {
@@ -101,6 +117,7 @@ const ReceiptCards: React.FC<Props> = ({ loading, receipts, setReceipts }) => {
 						onDragOver={handleDragOver}
 						onDrop={handleDrop}
 						draggedIndex={draggedIndex}
+						sendReceipt={sendReceipt}
 						//eslint-disable-next-line
 						//@ts-ignore
 					/>
