@@ -23,7 +23,7 @@ const AllLogs: React.FC = () => {
 	const { getItem } = useLocalStorage();
 	const email = getSession("email");
 	const name = getSession("name");
-	const token = getItem("tokn");
+	const token = getItem("token");
 	const admin_id = getSession("student_id");
 	const [logs, setLogs] = useState<Logs[]>([]);
 	const [loading, setLoading] = useState(false);
