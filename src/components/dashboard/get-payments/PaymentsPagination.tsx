@@ -57,6 +57,18 @@ const PaymentsPagination: FC<{
 	const [type, setType] = useState("");
 	const rowsPerPage = 7;
 
+	const action = (ar_no: string, type: string) => {
+		if (type === "update") {
+			//call api for update
+			alert(`Update ${ar_no}`);
+		}
+
+		if (type === "delete") {
+			//call api for delete
+			alert(`Delete ${ar_no}`);
+		}
+	};
+
 	const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setPage(value);
 	};
@@ -231,10 +243,12 @@ const PaymentsPagination: FC<{
 									{payment?.collector?.first_name + " " + payment?.collector?.last_name}
 								</TableCell>
 								<TableCell>
-									<button className='mr-4'>
+									<button
+										onClick={() => action(payment?.ar_no, "update")}
+										className='mr-4'>
 										<BiEdit className='text-[#59D896]' />
 									</button>
-									<button>
+									<button onClick={() => action(payment?.ar_no, "delete")}>
 										<BsTrash className='text-red-500' />
 									</button>
 								</TableCell>

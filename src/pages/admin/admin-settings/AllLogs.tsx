@@ -43,7 +43,7 @@ const AllLogs: React.FC = () => {
 			}).then(async (res) => {
 				const data = await res.json();
 				if (res.ok || res.status === 200) {
-					setLogs(data?.slice(0, 3));
+					setLogs(data);
 					setTimeout(() => {
 						setLoading(false);
 					}, 1000);
@@ -85,7 +85,7 @@ const AllLogs: React.FC = () => {
 										<Skeleton
 											variant='rectangular'
 											height={70}
-											width={1020}
+											width={1000}
 										/>
 									) : (
 										<div className='flex justify-between items-center p-4 border-t border-zinc-800'>

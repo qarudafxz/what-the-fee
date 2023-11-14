@@ -41,7 +41,7 @@ const Logs: React.FC = () => {
 			}).then(async (res) => {
 				const data = await res.json();
 				if (res.ok || res.status === 200) {
-					setLogs(data?.slice(0, 3));
+					setLogs(data?.slice(0, 4));
 					setTimeout(() => {
 						setLoading(false);
 					}, 1000);
