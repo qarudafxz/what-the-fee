@@ -66,7 +66,7 @@ const Expenses: React.FC = () => {
 				.then(async (res) => {
 					const data = await res.json();
 					if (res.status === 200 || res.ok) {
-						setExpenses(data);
+						setExpenses(data.expenses);
 						setTimeout(() => {
 							setLoading(false);
 						}, 1300);

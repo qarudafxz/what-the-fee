@@ -112,13 +112,11 @@ const RequestExpense: React.FC<Props> = ({
 							className='w-full bg-transparent p-3 rounded-md border border-primary text-primary h-36 resize-none'
 						/>
 					</div>
-					<div className='flex place-content-end items-end justify-end'>
-						<button
-							onClick={handleNewExpense}
-							className='bg-primary text-white px-4 py-2 rounded-md font-bold'>
-							Submit
-						</button>
-					</div>
+					<button
+						onClick={handleNewExpense}
+						className='col-span-4 bg-primary text-white px-4 py-2 rounded-md font-bold w-full'>
+						Submit
+					</button>
 				</div>
 			</div>
 		</div>

@@ -135,12 +135,6 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 
 	useEffect(() => {
 		if (ar_no) {
-			if (ar_no === null || ar_no === "") {
-				setLatestArNum("AR01");
-				setArNo(latestArNum);
-				return;
-			}
-
 			const extractedArNo = ar_no.match(/\d+/g);
 			const parsedArNo = parseInt(extractedArNo![0]);
 			const incrementArNo = parsedArNo + 1;

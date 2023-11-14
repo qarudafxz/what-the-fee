@@ -69,6 +69,15 @@ export const Records: FC = () => {
 		if (filter_type === "") return getPayments();
 
 		if (filter_type === "student_id") {
+			const regex = /^[0-9]{3}-[0-9]{5}$/;
+			if (!regex.test(value)) {
+				toast.error("Invalid Student ID", {
+					autoClose: 2000,
+					theme: "dark",
+				});
+				return;
+			}
+
 			return setPayments(
 				payments.filter((payment) => payment.student_id === value)
 			);
