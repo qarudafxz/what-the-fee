@@ -19,6 +19,7 @@ import { Overview } from "./pages/admin/overview/Overview";
 import { Records } from "./pages/admin/records/Records";
 import { AddPayments } from "./pages/admin/payments/AddPayments";
 import { AdminSettings } from "./pages/admin/admin-settings/AdminSettings";
+import AllLogs from "./pages/admin/admin-settings/AllLogs";
 import { AdminRequests } from "./pages/admin/admin-requests/AdminRequests";
 import Expenses from "./pages/admin/expenses/Expenses";
 import Receipts from "./pages/admin/receipts/Receipts";
@@ -103,6 +104,10 @@ function App() {
 								<Route
 									path='/settings'
 									element={<AdminSettings />}
+								/>
+								<Route
+									path='/all-logs'
+									element={<AllLogs />}
 								/>
 								<Route
 									path='/requests'

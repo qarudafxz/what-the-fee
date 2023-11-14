@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { LuScanLine } from "react-icons/lu";
 import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
@@ -31,7 +31,6 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const [confirmation, setConfirmation] = useState(false);
 	const [isBackupReceipt, setIsBackupReceipt] = useState(false);
 	const [receiptContent, setReceiptContent] = useState({} as any);
-	const [latestArNum, setLatestArNum] = useState("");
 	const message =
 		"Confirm payment	of ₱" + amount + " for " + firstName + " " + lastName + "?";
 
@@ -83,71 +82,51 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			acad_year: acadYear,
 		};
 
-		console.log(inputData);
+		try {
+			await fetch("http://localhost:8000/api/add-payment/", {
+				method: "POST",
+				//eslint-disable-next-line
+				//@ts-ignore
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+					admin_id: admin_id,
+				},
+				body: JSON.stringify(inputData),
+			}).then(async (res) => {
+				const data = await res.json();
 
-		if (inputData) {
-			try {
-				await fetch("http://localhost:8000/api/add-payment/", {
-					method: "POST",
-					//eslint-disable-next-line
-					//@ts-ignore
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-						admin_id: admin_id,
-					},
-					body: JSON.stringify(inputData),
-				}).then(async (res) => {
-					const data = await res.json();
+				if (data.statusCode !== 400 || data.status !== "failed") {
 					console.log(data);
-					if (data.statusCode !== 400 || data.status !== "failed") {
-						console.log(data);
-						toast.success("Payment added.", {
-							autoClose: 2000,
-							theme: "dark",
-						});
-						setIsPaymentAdded(false);
-						setConfirmation(false);
-						setIsBackupReceipt(true);
-						setReceiptContent({
-							...inputData,
-							first_name: firstName,
-							last_name: lastName,
-						});
-					} else {
-						toast.error(data.message, {
-							autoClose: 2000,
-							theme: "dark",
-						});
+					toast.success("Payment added.", {
+						autoClose: 2000,
+						theme: "dark",
+					});
+					setIsPaymentAdded(false);
+					setConfirmation(false);
+					setIsBackupReceipt(true);
+					setReceiptContent({
+						...inputData,
+						first_name: firstName,
+						last_name: lastName,
+					});
+				} else {
+					toast.error(data.message, {
+						autoClose: 2000,
+						theme: "dark",
+					});
 
-						return;
-					}
-				});
-			} catch (err) {
-				console.log(err);
-			}
+					return;
+				}
+			});
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
 	if (isPaymentAdded) {
 		handleAddPayment();
 	}
-
-	useEffect(() => {
-		if (ar_no) {
-			const extractedArNo = ar_no.match(/\d+/g);
-			const parsedArNo = parseInt(extractedArNo![0]);
-			const incrementArNo = parsedArNo + 1;
-			const stringArNo = incrementArNo.toString();
-			//if the incrementArNo is less than 100, then add 0 before the stringArNo
-
-			incrementArNo < 100
-				? setLatestArNum("AR0" + stringArNo)
-				: setLatestArNum(stringArNo);
-
-			setArNo(latestArNum);
-		}
-	}, [ar_no]);
 
 	return (
 		<div className='font-main bg-[#0F0F0F] opacity-90 rounded-md border border-zinc-600 ml-64 mr-56 p-4 relative bottom-20'>
@@ -277,7 +256,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				<div className='col-span-5 flex flex-col gap-2 text-primary'>
 					<h1>AR Number</h1>
 					<input
-						value={latestArNum}
+						onChange={(e) => setArNo(e.target.value)}
 						type='text'
 						className=' bg-transparent border border-primary rounded-md pl-2 py-2'
 					/>
