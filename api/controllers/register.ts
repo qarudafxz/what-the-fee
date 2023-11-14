@@ -92,6 +92,9 @@ export const registerAdmin = async (req: Request, res: Response) => {
 			]
 		);
 
+		//check if the registered account is for super admin or admin only
+		// const defaultPermissionForAdmin = await db.query();
+
 		const sessionToken = v4();
 
 		res.status(200).json({
