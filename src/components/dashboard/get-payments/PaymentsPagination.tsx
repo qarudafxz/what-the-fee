@@ -110,7 +110,7 @@ const PaymentsPagination: FC<{
 				});
 			} else {
 				toast.success(data.message, {
-					autoClose: 2000,
+					autoClose: 5000,
 					theme: "dark",
 				});
 			}
