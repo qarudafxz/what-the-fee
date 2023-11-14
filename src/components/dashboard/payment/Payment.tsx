@@ -83,44 +83,49 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			acad_year: acadYear,
 		};
 
-		try {
-			await fetch("http://localhost:8000/api/add-payment/", {
-				method: "POST",
-				//eslint-disable-next-line
-				//@ts-ignore
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-					admin_id: admin_id,
-				},
-				body: JSON.stringify(inputData),
-			}).then(async (res) => {
-				const data = await res.json();
-				console.log(data);
-				if (data.statusCode !== 400 || data.status !== "failed") {
+		console.log(inputData);
+
+		if (inputData) {
+			try {
+				await fetch("http://localhost:8000/api/add-payment/", {
+					method: "POST",
+					//eslint-disable-next-line
+					//@ts-ignore
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+						admin_id: admin_id,
+					},
+					body: JSON.stringify(inputData),
+				}).then(async (res) => {
+					const data = await res.json();
 					console.log(data);
-					toast.success("Payment added.", {
-						autoClose: 2000,
-						theme: "dark",
-					});
-					setIsPaymentAdded(false);
-					setConfirmation(false);
-					setIsBackupReceipt(true);
-					setReceiptContent({
-						...inputData,
-						first_name: firstName,
-						last_name: lastName,
-					});
-				} else {
-					toast.error(data.message, {
-						autoClose: 2000,
-						theme: "dark",
-					});
-					return;
-				}
-			});
-		} catch (err) {
-			console.log(err);
+					if (data.statusCode !== 400 || data.status !== "failed") {
+						console.log(data);
+						toast.success("Payment added.", {
+							autoClose: 2000,
+							theme: "dark",
+						});
+						setIsPaymentAdded(false);
+						setConfirmation(false);
+						setIsBackupReceipt(true);
+						setReceiptContent({
+							...inputData,
+							first_name: firstName,
+							last_name: lastName,
+						});
+					} else {
+						toast.error(data.message, {
+							autoClose: 2000,
+							theme: "dark",
+						});
+
+						return;
+					}
+				});
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	};
 
@@ -130,6 +135,12 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 
 	useEffect(() => {
 		if (ar_no) {
+			if (ar_no === null || ar_no === "") {
+				setLatestArNum("AR01");
+				setArNo(latestArNum);
+				return;
+			}
+
 			const extractedArNo = ar_no.match(/\d+/g);
 			const parsedArNo = parseInt(extractedArNo![0]);
 			const incrementArNo = parsedArNo + 1;
@@ -139,9 +150,9 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 			incrementArNo < 100
 				? setLatestArNum("AR0" + stringArNo)
 				: setLatestArNum(stringArNo);
-		}
 
-		setArNo(latestArNum);
+			setArNo(latestArNum);
+		}
 	}, [ar_no]);
 
 	return (

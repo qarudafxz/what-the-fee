@@ -8,7 +8,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { AiOutlineScan } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
 import { BsTrash } from "react-icons/bs";
 import {
