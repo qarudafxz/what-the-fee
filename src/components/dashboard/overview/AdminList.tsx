@@ -56,7 +56,7 @@ export const AdminList: FC = () => {
 	return (
 		<div className='bg-[#0F0F0F] p-4 border border-zinc-800 rounded-md'>
 			<h1 className='text-white font-bold text-xl mb-4'>List of Admins</h1>
-			<div className='flex flex-col gap-6'>
+			<div className='flex flex-col gap-6 max-h-[280px] overflow-y-auto custom'>
 				{cachedAdmins?.map((admin, idx) => {
 					return (
 						<div
