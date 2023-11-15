@@ -1,50 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
-import { useGetSession } from "../../../../hooks/useGetSession";
-import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
+import React from "react";
 import Skeleton from "@mui/material/Skeleton";
 import { FaRegUser } from "react-icons/fa6";
 import { HiDotsHorizontal } from "react-icons/hi";
+import {
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+	Button,
+} from "@chakra-ui/react";
 
-const Requests: React.FC = () => {
-	const { getSession } = useGetSession();
-	const { getItem } = useLocalStorage();
-	const token = getItem("token");
-	const admin_id = getSession("student_id");
-	const [requests, setRequests] = useState([]);
-	const [loading, setLoading] = useState(false);
+interface Request {
+	request_id: number;
+	first_name: string;
+	last_name: string;
+	email: string;
+	desc: string;
+	request_type: string;
+	created_at: string;
+}
 
-	const getRequests = async () => {
-		const headers = new Headers({
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
-			admin_id: admin_id,
-		} as HeadersInit);
-
-		setLoading(true);
-		try {
-			await fetch("http://localhost:8000/api/requests", {
-				method: "GET",
-				headers,
-			}).then(async (res) => {
-				const data = await res.json();
-				console.log(data);
-				if (res.ok || res.status === 200) {
-					setRequests(data?.requests);
-					setTimeout(() => {
-						setLoading(false);
-					}, 1000);
-				}
-			});
-		} catch (err) {
-			throw new Error("Error getting logs");
-		}
-	};
-
-	useEffect(() => {
-		getRequests();
-	}, []);
-
+const Requests: React.FC<{
+	requests: Request[];
+	loading: boolean;
+	setSelectedRequestId: React.Dispatch<React.SetStateAction<number>>;
+	setIsView: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ requests, loading, setSelectedRequestId, setIsView }) => {
 	return (
 		<div className='col-span-2'>
 			<div className='flex flex-col gap-4 px-4 py-5 bg-[#0F0F0F]  opacity-90 rounded-md border border-zinc-600'>
@@ -59,7 +40,7 @@ const Requests: React.FC = () => {
 						</button>
 					</div>
 				</div>
-				<div className='flex flex-col gap-2 max-h-[350px] overflow-y-auto custom mt-4'>
+				<div className='flex flex-col gap-2 max-h-[410px] overflow-y-auto custom mt-4'>
 					{requests?.map((request: any) => {
 						return loading ? (
 							<Skeleton
@@ -69,7 +50,7 @@ const Requests: React.FC = () => {
 							/>
 						) : (
 							<div
-								key={request?.id}
+								key={request?.request_id}
 								className='flex justify-between bg-white px-4 py-2 items-center'>
 								<div className='flex gap-4 items-center'>
 									<FaRegUser
@@ -107,10 +88,26 @@ const Requests: React.FC = () => {
 										</div>
 									</div>
 								</div>
-								<HiDotsHorizontal
-									size={25}
-									className='text-zinc-500 cursor-pointer'
-								/>
+								<Popover>
+									<PopoverTrigger>
+										<Button>
+											<HiDotsHorizontal
+												size={25}
+												className='text-zinc-500 cursor-pointer'
+											/>
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent>
+										<button
+											onClick={() => {
+												setSelectedRequestId(request?.request_id);
+												setIsView(true);
+											}}
+											className='bg-zinc-800 px-2 py-1 rounded-md text-zinc-400 border border-zinc-400 text-sm font-bold'>
+											View
+										</button>
+									</PopoverContent>
+								</Popover>
 							</div>
 						);
 					})}

@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useState } from "react";
 import { HiOutlinePlusSm } from "react-icons/hi";
 import { FaRegUser } from "react-icons/fa";
+import {
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+	Button,
+} from "@chakra-ui/react";
 
 interface Admin {
 	first_name: string;
@@ -18,6 +24,9 @@ interface AdminPrivilegesProps {
 }
 
 const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
+	const [canUpdate, setCanUpdate] = useState(false);
+	const [canDelete, setCanDelete] = useState(false);
+
 	return (
 		<div className='font-main bg-[#131313] rounded-2xl border border-zinc-700 p-2 col-span-2'>
 			{/* Header */}
@@ -67,9 +76,38 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 									</div>
 								</div>
 							</div>
-							<button className='bg-primary px-10 py-2 rounded-xl font-bold'>
-								Edit
-							</button>
+							<Popover>
+								<PopoverTrigger>
+									<Button className='bg-primary text-green-800 border font-bold flex items-center gap-2 rounded-md px-9 py-1'>
+										Edit
+									</Button>
+								</PopoverTrigger>
+								<PopoverContent>
+									<div className='flex flex-col gap-2 p-2 relative z-10'>
+										<div className='flex gap-2 items-center'>
+											<input
+												type='checkbox'
+												checked={canUpdate}
+												onChange={() => setCanUpdate(!canUpdate)}
+												className='form-checkbox h-5 w-5 text-green-500'
+											/>
+											<p className='text-sm text-zinc-500'>Can edit</p>
+										</div>
+										<div className='flex gap-2 items-center'>
+											<input
+												type='checkbox'
+												checked={canDelete}
+												onChange={() => setCanDelete(!canDelete)}
+												className='form-checkbox h-5 w-5 text-red-500'
+											/>
+											<p className='text-sm text-zinc-500'>Can delete</p>
+										</div>
+										<button className='bg-[#2a2a2a] border border-zinc-600 font-bold flex items-center gap-2 text-white rounded-md px-3 py-1'>
+											Save
+										</button>
+									</div>
+								</PopoverContent>
+							</Popover>
 						</div>
 					);
 				})}
