@@ -15,6 +15,7 @@ import { ProgramCards } from "../../../components/dashboard/overview/ProgramCard
 import { Button } from "@chakra-ui/react";
 import MonthlyTraction from "../../../components/dashboard/overview/MonthlyTraction.js";
 import { AdminList } from "../../../components/dashboard/overview/AdminList.js";
+import LatestPayee from "../../../components/dashboard/overview/LatestPayee.js";
 
 type StudentsProps = {
 	percentage: number;
@@ -183,8 +184,9 @@ export const Overview: FC = () => {
 							</div>
 						</div>
 						{/* Names */}
-						<div className='col-span-1'>
+						<div className='col-span-1 flex flex-col gap-4'>
 							<AdminList />
+							<LatestPayee />
 						</div>
 					</div>
 				</div>

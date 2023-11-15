@@ -37,6 +37,12 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 	const handleSearchStudent = async (): Promise<void> => {
 		try {
 			if (studentID) {
+				const regex = /^[0-9]{3}-[0-9]{5}$/;
+				if (!regex.test(studentID)) {
+					toast.error("Invalid Student ID. Please follow the format 3nos-5nos");
+					return;
+				}
+
 				await fetch(`http://localhost:8000/api/search-student/${studentID}`, {
 					method: "GET",
 					//eslint-disable-next-line

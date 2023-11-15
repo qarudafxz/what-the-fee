@@ -18,7 +18,7 @@ export const AddPayments: FC = () => {
 
 	const getLastArNo = async () => {
 		try {
-			await fetch("http://localhost:8000/api/get-latest-payment", {
+			await fetch("http://localhost:8000/api/latest-payment", {
 				method: "GET",
 				//eslint-disable-next-line
 				//@ts-ignore
@@ -30,7 +30,7 @@ export const AddPayments: FC = () => {
 			}).then(async (res) => {
 				const data = await res.json();
 				if (res.status === 200 || res.ok) {
-					setArNo(data.last_payment.ar_no);
+					setArNo(data?.last_payment.ar_no);
 				}
 			});
 		} catch (err) {

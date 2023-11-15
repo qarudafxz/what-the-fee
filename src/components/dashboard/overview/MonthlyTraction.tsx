@@ -76,10 +76,15 @@ const MonthlyTraction = () => {
 						pointHoverBackgroundColor: "#59D896",
 						pointHoverBorderColor: "#fff",
 						pointHoverBorderWidth: 2,
-						pointRadius: 5,
-						pointHitRadius: 5,
+						pointRadius: 7,
+						pointHitRadius: 3,
 						fill: true,
 						borderWidth: 2,
+						//gap of each labels
+						barPercentage: 0.5,
+						barThickness: 6,
+						maxBarThickness: 8,
+						minBarLength: 2,
 					},
 				],
 			},
@@ -97,16 +102,16 @@ const MonthlyTraction = () => {
 	}, [data]);
 
 	return (
-		<div className='shadow-xl p-10 rounded-xl h-96 bg-[#0F0F0F] border border-zinc-800'>
+		<div className='shadow-xl p-10 rounded-xl h-[520px] bg-[#0F0F0F] border border-zinc-800'>
 			<div className='flex gap-24 items-center'>
-				<h1 className='font-bold text-2xl text-white'>
+				<h1 className='font-bold text-3xl text-white'>
 					Monthly Total Collection of year{" "}
 					{new Date().toLocaleString("en-us", {
 						year: "numeric",
 					})}
 				</h1>
 			</div>
-			<div className='chart-container'>
+			<div className='chart-container mt-14'>
 				<canvas id='monthly-traction'></canvas>
 			</div>
 		</div>
