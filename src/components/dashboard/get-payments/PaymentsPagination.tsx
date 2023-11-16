@@ -176,7 +176,7 @@ const PaymentsPagination: FC<{
 	const currentRows = payments!.slice(indexOfFirstRow, indexOfLastRow);
 
 	return (
-		<div className='text-white font-main bg-[#131313] opacity-90 w-full flex flex-col gap-2 rounded-md border border-zinc-800 p-3'>
+		<div className='text-white font-main bg-[#131313] opacity-90 w-full flex flex-col gap-2 rounded-md border border-zinc-800 p-3  h-[580px]'>
 			<ToastContainer />
 			<div className='grid grid-cols-8 space-x-6 mb-4 items-center'>
 				<h1 className='col-span-1 font-bold text-3xl'>Student</h1>
@@ -362,7 +362,7 @@ const PaymentsPagination: FC<{
 			</TableContainer>
 			<Stack
 				spacing={6}
-				className='mt-6 flex place-items-end'>
+				className='mt-6 flex place-items-end fixed bottom-6 right-[235px]'>
 				<Pagination
 					sx={{
 						"& .MuiPaginationItem-root": {

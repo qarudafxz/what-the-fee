@@ -33,9 +33,9 @@ export const Navbar: FC = () => {
 
 	const logout = () => {
 		setProgress(50);
-		sessionStorage.clear();
 
 		setTimeout(() => {
+			sessionStorage.clear();
 			localStorage.clear();
 			setProgress(100);
 			setTimeout(() => {

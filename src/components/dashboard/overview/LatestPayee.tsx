@@ -23,6 +23,7 @@ const LatestPayee: React.FC = () => {
 	const admin_id = getSession("student_id");
 	const [loading, setLoading] = useState(false);
 	const [latestPayment, setLatestPayment] = useState<Props>();
+	const [payeeName, setPayeeName] = useState("");
 
 	const getLatestPayment = async () => {
 		const headers = new Headers({
@@ -41,6 +42,9 @@ const LatestPayee: React.FC = () => {
 				console.log(data);
 				if (res.ok || res.status === 200) {
 					setLatestPayment(data?.last_payment);
+					setPayeeName(
+						data?.last_payment?.first_name + " " + data?.last_payment?.last_name
+					);
 					setTimeout(() => {
 						setLoading(false);
 					}, 1000);
@@ -69,9 +73,11 @@ const LatestPayee: React.FC = () => {
 					) : (
 						<div className='flex flex-col'>
 							<h1 className='font-semibold text-white text-2xl'>
-								{latestPayment?.first_name + " " + latestPayment?.last_name}
+								{payeeName === undefined ? "No payee yet" : payeeName}
 							</h1>
-							<p className='text-md text-zinc-500'>{latestPayment?.student_id}</p>
+							<p className='text-md text-zinc-500'>
+								{latestPayment?.student_id ?? "No payee yet"}
+							</p>
 						</div>
 					)}
 					{loading ? (
@@ -82,7 +88,7 @@ const LatestPayee: React.FC = () => {
 						/>
 					) : (
 						<h1 className='text-lg font-semibold text-primary'>
-							₱{latestPayment?.amount}
+							₱{latestPayment?.amount ?? "0"}
 						</h1>
 					)}
 				</div>
@@ -98,7 +104,7 @@ const LatestPayee: React.FC = () => {
 							className={`text-sm ${
 								latestPayment?.desc === "partial" ? "text-yellow-600" : "text-green-600"
 							}`}>
-							{latestPayment?.desc}
+							{latestPayment?.desc ?? "No payee yet"}
 						</h1>
 					)}
 					{loading ? (
@@ -111,12 +117,15 @@ const LatestPayee: React.FC = () => {
 						<h1 className='text-xs font-semibold text-zinc-500'>
 							{/* eslint-disable-next-line */}
 							{/* @ts-ignore */}
-							{new Date(latestPayment?.created_at).toLocaleDateString("en-US", {
-								weekday: "long",
-								year: "numeric",
-								month: "long",
-								day: "numeric",
-							})}
+							{new Date(latestPayment?.created_at).toLocaleDateString(
+								"en-US",
+								{
+									weekday: "long",
+									year: "numeric",
+									month: "long",
+									day: "numeric",
+								} ?? "No payee yet"
+							)}
 						</h1>
 					)}
 				</div>
