@@ -49,8 +49,6 @@ export const verifyStudentId = async (req: Request, res: Response) => {
 			});
 		}
 
-		console.log(payload);
-
 		res.status(200).json({
 			student: student.rows[0],
 			message: "Student ID found. Moving to the next process...",
