@@ -6,6 +6,10 @@ import { IoMdCheckmark } from "react-icons/io";
 import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 import { useGetSession } from "../../../../hooks/useGetSession";
 import { toast, ToastContainer } from "react-toastify";
+import { FaPlus } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+
 import "react-toastify/dist/ReactToastify.css";
 import {
 	Popover,
@@ -99,6 +103,7 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 				)
 				.then(async (res) => {
 					const data = await res.data;
+
 					if (!data.error) {
 						toast.success(data.message, {
 							autoClose: 2000,
@@ -151,7 +156,7 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 				</button>
 			</div>
 			{/* Admin List mapped */}
-			<div className='flex flex-col mt-6'>
+			<div className='flex flex-col mt-6 max-h-[400px] overflow-y-auto custom'>
 				{permissions?.map((admin, idx) => {
 					return (
 						<div
@@ -169,17 +174,20 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 									<p className='text-xs mb-1'>{admin?.email}</p>
 									<div className='flex space-x-2 items-center text-sm'>
 										{admin?.can_add && (
-											<div className='bg-green-500 text-green-200 px-2 py-1 rounded-md'>
+											<div className='bg-green-500 text-green-950 px-2 py-1 rounded-md flex gap-2 items-center'>
+												<FaPlus />
 												Can add
 											</div>
 										)}
 										{admin?.can_update && (
-											<div className='bg-yellow-500 text-yellow-200 e px-2 py-1 rounded-md'>
+											<div className='bg-yellow-500 text-yellow-950 e px-2 py-1 rounded-md flex gap-2 items-center'>
+												<CiEdit />
 												Can edit
 											</div>
 										)}
 										{admin?.can_delete && (
-											<div className='bg-red-500 text-red-200  px-2 py-1 rounded-md'>
+											<div className='bg-red-500 text-red-950  px-2 py-1 rounded-md flex gap-2 items-center'>
+												<MdDelete />
 												Can delete
 											</div>
 										)}

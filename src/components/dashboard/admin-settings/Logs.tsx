@@ -48,7 +48,7 @@ const Logs: React.FC = () => {
 				}
 			});
 		} catch (err) {
-			throw new Error("Error getitng logs");
+			throw new Error("Error getting logs");
 		}
 	};
 
@@ -115,6 +115,8 @@ const Logs: React.FC = () => {
 											? "bg-red-900 text-red-600"
 											: log.method === "UPDATE"
 											? "bg-yellow-900 text-yellow-600"
+											: log.method === "DECLINED"
+											? "bg-purple-900 text-purple-600"
 											: "" // Default case, add your styles or leave it empty
 									}`}>
 									{log.method}

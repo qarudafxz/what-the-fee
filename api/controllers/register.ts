@@ -93,7 +93,15 @@ export const registerAdmin = async (req: Request, res: Response) => {
 		);
 
 		//check if the registered account is for super admin or admin only
-		// const defaultPermissionForAdmin = await db.query();
+		await db.query(
+			"INSERT INTO permissions(can_add, can_delete, can_update, admin_id) VALUES ($1, $2, $3, $4) RETURNING *",
+			[
+				true,
+				is_checked ? true : false,
+				is_checked ? true : false,
+				newStudentAdmin.rows[0].admin_id,
+			]
+		);
 
 		const sessionToken = v4();
 

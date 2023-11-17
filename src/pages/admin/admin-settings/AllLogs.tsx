@@ -112,11 +112,13 @@ const AllLogs: React.FC = () => {
 											<p
 												className={`px-3 py-1 rounded-md ${
 													log.method === "POST"
-														? "bg-green-900 text-green-400 border border-green-400"
+														? "bg-green-900 text-green-600"
 														: log.method === "DELETE"
-														? "bg-red-900 text-red-400 border border-red-400"
+														? "bg-red-900 text-red-600"
 														: log.method === "UPDATE"
-														? "bg-yellow-900 text-yellow-400 border border-yellow-400"
+														? "bg-yellow-900 text-yellow-600"
+														: log.method === "DECLINED"
+														? "bg-purple-900 text-purple-600"
 														: "" // Default case, add your styles or leave it empty
 												}`}>
 												{log.method}
