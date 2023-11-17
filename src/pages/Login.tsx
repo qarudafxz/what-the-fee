@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import QrLogin from "../components/QrLogin";
 import bg from "../assets/bg.svg";
 
-export const Login = () => {
+export const Login: React.FC = () => {
 	useEffect(() => {
 		document.title = "Log in | WTF";
 	}, []);

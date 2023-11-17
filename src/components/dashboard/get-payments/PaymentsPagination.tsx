@@ -167,7 +167,8 @@ const PaymentsPagination: FC<{
 		);
 	};
 
-	const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
 		setPage(value);
 	};
 

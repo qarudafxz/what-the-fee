@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import logo from "../../../assets/logo_only.png";
@@ -13,9 +14,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
-
-//import the firebase library to cater the real time database
-import app from "../../../../lib/firebase";
 
 const Receipt: React.FC<{
 	isView: boolean;

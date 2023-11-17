@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FC, useEffect, useState, useMemo } from "react";
 import { Navigate } from "react-router-dom";
@@ -10,7 +11,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { temp } from "../../../../data/temp.jsx";
 import { ProgramCards } from "../../../components/dashboard/overview/ProgramCards";
 import { Button } from "@chakra-ui/react";
 import MonthlyTraction from "../../../components/dashboard/overview/MonthlyTraction.js";
@@ -26,7 +26,6 @@ type StudentsProps = {
 };
 
 export const Overview: FC = () => {
-	const [percent, setPercent] = useState<number[]>([]);
 	const [numOfStudents, setNumOfStudents] = useState<StudentsProps[]>([]);
 	const isLoggedIn = useAuth();
 	const { getItem } = useLocalStorage();
@@ -36,7 +35,7 @@ export const Overview: FC = () => {
 	const admin_id = getSession("student_id");
 	const token = getItem("token");
 	const [loading, setLoading] = useState<boolean>(false);
-	const [sem, setSem] = useState<number>(0);
+	const [_, setSem] = useState<number>(0);
 
 	const semesters = [
 		{ label: "1st Semester", value: 1 },
