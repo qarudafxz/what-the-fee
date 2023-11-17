@@ -51,7 +51,7 @@ const Requests: React.FC<{
 							) : (
 								<div
 									key={request?.request_id}
-									className='flex justify-between bg-white px-4 py-2 items-center'>
+									className='flex justify-between bg-white px-4 py-2 items-center max-h-[410px]'>
 									<div className='flex gap-4 items-center'>
 										<FaRegUser
 											size={50}

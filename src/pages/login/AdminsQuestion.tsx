@@ -8,6 +8,7 @@ import { Button, FormControl, Input } from "@chakra-ui/react";
 import { ProgressBar } from "../../components/ProgressBar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 type Questions = {
 	question: string;
@@ -26,6 +27,7 @@ export const AdminsQuestion: FC = () => {
 	);
 	const [answer, setAnswer] = useState<string>("");
 	const [tries, setTries] = useState<number>(3);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const proceedLogin = async () => {
 		try {
@@ -148,13 +150,27 @@ export const AdminsQuestion: FC = () => {
 							</div>
 							<div className='w-0 h-0 border-l-[10px] border-l-transparent border-t-[15px] border-[#121212] border-r-[10px] border-r-transparent relative bottom-0 left-4' />
 						</FormControl>
-
-						<Input
-							type='text'
-							onChange={(e) => setAnswer(e.target.value)}
-							className='mt-10 w-full border border-zinc-800 bg-transparent rounded-md h-20 pl-4 text-white'
-							placeholder='Your answer here'
-						/>
+						<div className='flex'>
+							<Input
+								type={`${showPassword ? "text" : "password"}`}
+								onChange={(e) => setAnswer(e.target.value)}
+								className='mt-10 w-full border border-zinc-800 bg-transparent rounded-md h-20 pl-4 text-white'
+								placeholder='Your answer here'
+							/>
+							{showPassword ? (
+								<IoEyeOff
+									size={20}
+									className='text-zinc-600 relative top-[70px] right-[40px] cursor-pointer'
+									onClick={() => setShowPassword(!showPassword)}
+								/>
+							) : (
+								<IoEye
+									size={20}
+									className='text-zinc-600 relative top-[70px] right-[40px] cursor-pointer'
+									onClick={() => setShowPassword(!showPassword)}
+								/>
+							)}
+						</div>
 						<Button
 							onClick={proceedLogin}
 							className='mt-10 w-full bg-gradient-to-tr from-[#025D59] to-[#59D896] rounded-md py-4 text-white font-bold text-xl'>

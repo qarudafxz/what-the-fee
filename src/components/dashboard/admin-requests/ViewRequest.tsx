@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
+	admin_id: string;
 	request_id: number;
 	request_type: string;
 	first_name: string;
@@ -42,6 +43,52 @@ const ViewRequest: React.FC<{ viewedRequest: Props }> = ({ viewedRequest }) => {
 					{
 						request_id: viewedRequest?.request_id,
 						request_type: viewedRequest?.request_type,
+						first_name: viewedRequest?.first_name,
+						last_name: viewedRequest?.last_name,
+						ar_no: viewedRequest?.ar_no,
+						desc: viewedRequest?.desc,
+						created_at: viewedRequest?.created_at,
+						value_of_request: viewedRequest?.value_of_request,
+						email: viewedRequest?.email,
+					},
+					{ headers }
+				)
+				.then(async (res) => {
+					const data = await res.data;
+					if (!data.error) {
+						toast.success(data.message, {
+							autoClose: 2000,
+							theme: "dark",
+						});
+						return;
+					}
+
+					toast.error(data.message, {
+						autoClose: 2000,
+						theme: "dark",
+					});
+				});
+		} catch (err) {
+			console.log(err);
+			throw new Error("Error granting request");
+		}
+	};
+
+	const declineRequest = async (request_id: number) => {
+		const headers = {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+			admin_id: admin_id,
+		};
+
+		try {
+			await axios
+				.post(
+					`http://localhost:8000/api/decline-request/${request_id}`,
+					{
+						request_id: viewedRequest?.request_id,
+						request_type: viewedRequest?.request_type,
+						request_admin_id: viewedRequest?.admin_id,
 						first_name: viewedRequest?.first_name,
 						last_name: viewedRequest?.last_name,
 						ar_no: viewedRequest?.ar_no,
@@ -126,7 +173,9 @@ const ViewRequest: React.FC<{ viewedRequest: Props }> = ({ viewedRequest }) => {
 								className='bg-primary text-green-700 py-2 rounded-md text-lg font-bold'>
 								Accept
 							</button>
-							<button className='text-primary border border-primary py-2 rounded-md text-lg font-bold'>
+							<button
+								onClick={() => declineRequest(viewedRequest?.request_id)}
+								className='text-primary border border-primary py-2 rounded-md text-lg font-bold'>
 								Decline
 							</button>
 						</div>

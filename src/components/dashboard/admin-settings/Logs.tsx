@@ -113,7 +113,7 @@ const Logs: React.FC = () => {
 											? "bg-green-900 text-green-600"
 											: log.method === "DELETE"
 											? "bg-red-900 text-red-600"
-											: log.method === "PUT"
+											: log.method === "UPDATE"
 											? "bg-yellow-900 text-yellow-600"
 											: "" // Default case, add your styles or leave it empty
 									}`}>
