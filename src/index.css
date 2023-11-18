@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* a slick animation for a logo entrance that serves as the preloading page */
+/* Create a pulsing effect inside the customEntrace class */
+
+.customEntrance {
+	animation: fadeIn ease 3s;
+	-webkit-animation: fadeIn ease 3s;
+	-moz-animation: fadeIn ease 3s;
+	-o-animation: fadeIn ease 3s;
+	-ms-animation: fadeIn ease 3s;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.scan.region-highlight,
+.scan-region-highlight-svg {
+	@apply !stroke-[#59D896];
+}
+
+.smoothRotate {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+	-webkit-transition: all 0.2s ease-in-out;
+}
+
+.custom::-webkit-scrollbar {
+	width: 5px;
+}
+
+.custom::-webkit-scrollbar-track {
+	background-color: #000;
+}
+
+.custom::-webkit-scrollbar-thumb {
+	background-color: #59d896;
+	border-radius: 20px;
+}
