@@ -1,18 +1,77 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useState } from "react";
+import logo from "../../../assets/logo_only.png";
+import ccislogo from "../../../assets/ccislsg_logo.png";
 import { Skeleton } from "@chakra-ui/react";
+import jsPDF from "jspdf";
 
 interface Expenses {
 	loading: boolean;
 	expenses: any[];
+	data: any;
 }
 
-const ExpensesLogs: React.FC<Expenses> = ({ expenses, loading }) => {
+const ExpensesLogs: React.FC<Expenses> = ({ expenses, loading, data }) => {
+	const handleGeneratePDF = () => {
+		const pdf = new jsPDF();
+
+		pdf.addImage(logo, "PNG", 20, 10, 15, 15);
+		pdf.addImage(ccislogo, "PNG", 160, 4, 30, 30);
+
+		// Add content to the PDF
+		pdf.setFontSize(18);
+		pdf.text("CCISLSG Liquidation Report", 20, 50);
+
+		pdf.setFontSize(12);
+		pdf.text("Generated on: " + new Date().toLocaleDateString(), 20, 60);
+
+		pdf.setFontSize(14);
+		pdf.text("Expense Details:", 20, 90);
+
+		// Loop through expenses and add them to the PDF
+		let yPos = 100;
+		const lineHeight = 40;
+		const pageHeight = pdf.internal.pageSize.height;
+
+		expenses.forEach((ex, _) => {
+			const spaceLeft = pageHeight - yPos;
+
+			if (spaceLeft < lineHeight) {
+				pdf.addPage();
+				yPos = 10; // Reset yPos for new page
+			}
+
+			pdf.text(`Title: ${ex.title}`, 20, yPos);
+			pdf.text(
+				`Date Requested: ${new Date(ex.created_at).toLocaleString()}`,
+				20,
+				yPos + 10
+			);
+			pdf.text(`Amount Borrowed: PHP ${ex.amount}`, 20, yPos + 20);
+			pdf.text(
+				"-------------------------------------------------------------------------",
+				20,
+				yPos + 30
+			);
+
+			yPos += lineHeight;
+		});
+
+		pdf.text(`Total Expenses: PHP ${data.total}`, 20, yPos + 10);
+
+		// Save the PDF
+		pdf.save(
+			`CCISLSG-Liquidation-Report_${new Date().toLocaleString("en-US", {
+				year: "numeric",
+			})}.pdf`
+		);
+	};
+
 	return (
 		<div className='col-span-3'>
 			<div className='flex flex-col gap-4 px-4 py-5 bg-[#0F0F0F]  opacity-90 rounded-md border border-zinc-600'>
 				<h1 className='font-bold text-2xl text-zinc-500'>Expenses</h1>
-				<div className='max-h-[380px] overflow-y-auto flex flex-col gap-4'>
+				<div className='max-h-[380px] overflow-y-auto flex flex-col gap-4 custom'>
 					{expenses?.map((ex, idx) => {
 						return (
 							<div
@@ -70,7 +129,9 @@ const ExpensesLogs: React.FC<Expenses> = ({ expenses, loading }) => {
 					})}
 				</div>
 			</div>
-			<button className='font-bold bg-[#0F0F0F] text-center py-4 rounded-md border border-zinc-700 text-zinc-700 w-full mt-4'>
+			<button
+				onClick={handleGeneratePDF}
+				className='font-bold bg-[#0F0F0F] text-center py-4 rounded-md border border-zinc-700 text-zinc-700 w-full mt-4'>
 				Generate LR
 			</button>
 		</div>

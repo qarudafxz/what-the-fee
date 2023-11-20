@@ -87,7 +87,7 @@ const QrLogin: React.FC = () => {
 			try {
 				const URL = import.meta.env.DEV
 					? "http://localhost:8080/api/auth/verify"
-					: "https://wtf-ts-node.vercel.app/api/auth/verify";
+					: "https://wtf-ts-node-backend.vercel.app/api/auth/verify";
 
 				const response = await fetch(URL, {
 					method: "POST",
@@ -130,6 +130,8 @@ const QrLogin: React.FC = () => {
 				setSession("role", data.payload.role);
 				setSession("session", data.payload.session);
 				setSession("secret", "2");
+
+				document.cookie = `token=${data.payload.session};max-age=3600;path=/`;
 				setTimeout(() => {
 					window.location.href = "/question";
 				}, 2000);

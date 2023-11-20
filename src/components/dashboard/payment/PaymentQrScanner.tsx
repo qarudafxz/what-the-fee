@@ -79,9 +79,8 @@ const PaymentQrScanner: React.FC<PaymentQrScannerProps> = ({
 				return;
 			}
 			handleStudentSearch();
-			if (setIsQrScanner) {
-				setIsQrScanner(false);
-			}
+			console.log(studentId);
+			setIsQrScanner!(false);
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [studentID]);

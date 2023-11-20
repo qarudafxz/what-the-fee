@@ -18,6 +18,8 @@ import TopLoadingBar from "react-top-loading-bar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGetSession } from "../../hooks/useGetSession";
+import { CiCircleCheck } from "react-icons/ci";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 // type Colleges = {
 // 	college_id: number;
@@ -40,7 +42,12 @@ export const Register: React.FC = () => {
 	const [isVisible2, setIsVisible2] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
 	const [isChecked, setIsChecked] = useState<boolean>(true);
-	// const [colleges, setColleges] = useState<Colleges[]>([]);
+
+	//password validations
+	const [isLongPassword, setIsLongPassword] = useState(false);
+	const [isUpperCase, setIsUpperCase] = useState(false);
+	const [hasSpecialCase, setHasSpecialCase] = useState(false);
+	const [hasNumber, setHasNumber] = useState(false);
 
 	const handleVisible = (type: string) => {
 		switch (type) {
@@ -53,9 +60,45 @@ export const Register: React.FC = () => {
 		}
 	};
 
+	const passwordValidation = (password: string) => {
+		password.length >= 12 ? setIsLongPassword(true) : setIsLongPassword(false);
+
+		password.match(/[A-Z]/) ? setIsUpperCase(true) : setIsUpperCase(false);
+
+		password.match(/[!@#$%^&*(),.?":{}|<>]/)
+			? setHasSpecialCase(true)
+			: setHasSpecialCase(false);
+
+		password.match(/[0-9]/) ? setHasNumber(true) : setHasNumber(false);
+	};
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const handleRegister = async (e: FormEvent): Promise<void> => {
 		e.preventDefault();
+
+		if (
+			!firstName ||
+			!lastName ||
+			!studentID ||
+			!email ||
+			!password ||
+			!confirmPassword ||
+			!position
+		) {
+			toast.error("Please fill up all the fields", {
+				autoClose: 2000,
+				theme: "dark",
+			});
+			return;
+		}
+
+		if (!isLongPassword || !isUpperCase || !hasSpecialCase || !hasNumber) {
+			toast.error("Please follow the password validations", {
+				autoClose: 2000,
+				theme: "dark",
+			});
+			return;
+		}
 
 		if (password !== confirmPassword) {
 			setErrorMessage("Password does not match");
@@ -105,23 +148,10 @@ export const Register: React.FC = () => {
 		}
 	};
 
-	// const getColleges = async (): Promise<void> => {
-	// 	try {
-	// 		await fetch("http://localhost:8080/api/auth/get-colleges", {
-	// 			method: "GET",
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 		}).then(async (res) => {
-	// 			const data = await res.json();
-	// 			console.log("Hello", data);
-	// 		});
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
+	useEffect(() => {
+		passwordValidation(password);
+	}, [password]);
 
-	console.log(isChecked);
 	useEffect(() => {
 		if (errorMessage) {
 			setTimeout(() => {
@@ -157,7 +187,7 @@ export const Register: React.FC = () => {
 			{/* parent container */}
 			<div className='flex flex-row'>
 				{/* form */}
-				<div className='flex flex-col gap-4 p-8 w-1/2 mx-14 pt-24 pr-44'>
+				<div className='flex flex-col gap-4 p-8 w-1/2 mx-14 pt-6 pr-44'>
 					<h1 className='text-white font-extrabold text-5xl'>Register</h1>
 					<h1 className='text-[#4E4E4E] text-2xl font-bold'>
 						Already Registered?{" "}
@@ -169,7 +199,7 @@ export const Register: React.FC = () => {
 					</h1>
 					<FormControl
 						as='fieldset'
-						className='mt-10 flex flex-col gap-4'>
+						className='mt-4 flex flex-col gap-4'>
 						<div className='flex gap-4 items-center'>
 							<Input
 								required
@@ -233,6 +263,53 @@ export const Register: React.FC = () => {
 								/>
 							</div>
 						</InputGroup>
+						{/* Here */}
+						<div className='grid grid-cols-4 gap-2'>
+							<h1
+								className={`text-xs col-span-2 ${
+									isLongPassword ? "text-green-400" : "text-red-600"
+								} flex gap-2 items-center`}>
+								{isLongPassword ? (
+									<CiCircleCheck size={20} />
+								) : (
+									<IoIosCloseCircleOutline size={20} />
+								)}
+								The password contains twelve characters long
+							</h1>
+							<h1
+								className={`text-xs col-span-2 ${
+									isUpperCase ? "text-green-400" : "text-red-600"
+								} flex gap-2 items-center`}>
+								{isUpperCase ? (
+									<CiCircleCheck size={20} />
+								) : (
+									<IoIosCloseCircleOutline size={20} />
+								)}
+								The password contains at least one uppercase
+							</h1>
+							<h1
+								className={`text-xs col-span-2 ${
+									hasNumber ? "text-green-400" : "text-red-600"
+								} flex gap-2 items-center`}>
+								{hasNumber ? (
+									<CiCircleCheck size={20} />
+								) : (
+									<IoIosCloseCircleOutline size={20} />
+								)}
+								The password contains at least one number
+							</h1>
+							<h1
+								className={`text-xs col-span-2 ${
+									hasSpecialCase ? "text-green-400" : "text-red-600"
+								} flex gap-2 items-center`}>
+								{hasSpecialCase ? (
+									<CiCircleCheck size={20} />
+								) : (
+									<IoIosCloseCircleOutline size={20} />
+								)}
+								The password contains at least one special character
+							</h1>
+						</div>
 						<InputGroup className='relative w-full'>
 							<Input
 								type={isVisible2 ? "text" : "password"}
@@ -243,7 +320,6 @@ export const Register: React.FC = () => {
 								}`}
 								placeholder='Confirm Password'
 							/>
-
 							<div className='absolute right-3 top-2'>
 								<IconButton
 									onClick={() => handleVisible("confirmPassword")}
@@ -259,6 +335,10 @@ export const Register: React.FC = () => {
 								/>
 							</div>
 						</InputGroup>
+						{/* Password validations */}
+						<div className='grid grid-cols-2'>
+							<h1></h1>
+						</div>
 						{errorMessage && (
 							<p className='text-red-500 text-xs'>
 								{errorMessage === "Password does not match" && errorMessage}

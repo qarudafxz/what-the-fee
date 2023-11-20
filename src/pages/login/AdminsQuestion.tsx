@@ -45,11 +45,7 @@ export const AdminsQuestion: FC = () => {
 				}
 			} else {
 				//remove everything from session
-				removeSession("session");
-				removeSession("tries");
-				removeSession("secret");
-				removeSession("student_id");
-				removeSession("email");
+				sessionStorage.clear();
 				toast.error("You have 0 tries left, please try again later", {
 					autoClose: 1200,
 				});

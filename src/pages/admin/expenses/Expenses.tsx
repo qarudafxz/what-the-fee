@@ -17,6 +17,7 @@ const Expenses: React.FC = () => {
 	const token = getItem("token");
 	const college_id = getSession("college_id");
 	const [remainingBalance, setRemainingBalance] = useState<number>(0);
+	const [allData, setAllData] = useState<unknown[]>([]);
 	const [expenses, setExpenses] = useState<unknown[]>([]);
 	const [loading, setLoading] = useState(false);
 
@@ -66,6 +67,7 @@ const Expenses: React.FC = () => {
 				.then(async (res) => {
 					const data = await res.json();
 					if (res.status === 200 || res.ok) {
+						setAllData(data);
 						setExpenses(data.expenses);
 						setTimeout(() => {
 							setLoading(false);
@@ -109,6 +111,7 @@ const Expenses: React.FC = () => {
 				<ExpensesLogs
 					expenses={expenses}
 					loading={loading}
+					data={allData}
 				/>
 			</div>
 		</div>

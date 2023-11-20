@@ -93,7 +93,7 @@ export const Overview: FC = () => {
 			<div className='pl-64 pr-56'>
 				<Data />
 			</div>
-			<div className='pl-64 pr-56 -mt-10 flex flex-col w-full max-h-[390px] overflow-y-auto custom'>
+			<div className='pl-64 pr-56 pb-14 -mt-10 flex flex-col w-full max-h-[400px] overflow-y-auto custom'>
 				<div className='w-full flex justify-between items-center'>
 					<h1 className='text-white font-bold text-4xl'>Overview</h1>
 					{/* change the color of the text on the form control */}

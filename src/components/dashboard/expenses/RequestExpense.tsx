@@ -3,6 +3,8 @@ import { numberWithCommas } from "../../../../utils/numberWithCommas";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Skeleton } from "@chakra-ui/react";
+import { useGetSession } from "../../../../hooks/useGetSession";
+import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
 
 interface Props {
 	remainingBalance: React.ReactNode;
@@ -19,8 +21,18 @@ const RequestExpense: React.FC<Props> = ({
 	const [dateBorrowed, setDateBorrowed] = useState<string>("");
 	const [requestAmount, setRequestAmount] = useState<string>("");
 	const [description, setDescription] = useState<string>("");
+	const { getSession } = useGetSession();
+	const { getItem } = useLocalStorage();
+	const admin_id = getSession("student_id");
+	const token = getItem("token");
 
 	const handleNewExpense = async () => {
+		const headers = new Headers({
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+			admin_id: admin_id,
+		} as HeadersInit);
+
 		if (!title || !dateBorrowed || !requestAmount || !description) {
 			toast.error("Please fill out all fields", {
 				autoClose: 2000,
@@ -37,11 +49,9 @@ const RequestExpense: React.FC<Props> = ({
 		};
 
 		try {
-			await fetch(`http://127.0.0.1:8000/api/add-expenses/${collegeId}`, {
+			await fetch(`http://localhost:8000/api/add-expenses/${collegeId}`, {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers,
 				body: JSON.stringify(data),
 			}).then(async (res) => {
 				const data = await res.json();

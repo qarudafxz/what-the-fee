@@ -1,4 +1,11 @@
-import { FC, useState, useEffect, useMemo } from "react";
+import {
+	FC,
+	useState,
+	useEffect,
+	useMemo,
+	Dispatch,
+	SetStateAction,
+} from "react";
 import { Navigate } from "react-router-dom";
 import { Header } from "../../../components/dashboard/Header";
 import { useGetSession } from "../../../../hooks/useGetSession";
@@ -56,7 +63,11 @@ export const Records: FC = () => {
 		}
 	};
 
-	const filterPayments = (filter_type: string, value: string) => {
+	const filterPayments = (
+		filter_type: string,
+		value: string,
+		setValue: Dispatch<SetStateAction<string>>
+	) => {
 		if (value === "") {
 			toast.error("Please provide a value first", {
 				autoClose: 2000,
@@ -81,11 +92,23 @@ export const Records: FC = () => {
 			return setPayments(
 				payments.filter((payment) => payment.student_id === value)
 			);
+			setValue("");
 		}
 
 		if (filter_type === "ar_no") {
+			const regex = /^AR/;
+			if (!regex.test(value)) {
+				toast.error(`Invalid AR No. It must start with the prefix "AR"`, {
+					autoClose: 2000,
+					theme: "dark",
+				});
+				return;
+			}
+
 			return setPayments(payments.filter((payment) => payment.ar_no === value));
 		}
+
+		setValue("");
 	};
 
 	const cachedPayments = useMemo(() => payments, [payments]);

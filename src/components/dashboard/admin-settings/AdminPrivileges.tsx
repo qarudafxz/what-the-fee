@@ -147,13 +147,6 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 			<ToastContainer />
 			<div className='flex justify-between items-center'>
 				<h1 className='text-white font-bold text-2xl'>People with Access</h1>
-				<button className='bg-[#2a2a2a] border border-zinc-600 font-bold flex items-center gap-2 text-white rounded-md px-3 py-1'>
-					Add
-					<HiOutlinePlusSm
-						className='text-white'
-						size={20}
-					/>
-				</button>
 			</div>
 			{/* Admin List mapped */}
 			<div className='flex flex-col mt-6 max-h-[400px] overflow-y-auto custom'>

@@ -243,7 +243,7 @@ const PaymentsPagination: FC<{
 					</FormControl>
 				</Box>
 				<button
-					onClick={() => filterPayments(type, value)}
+					onClick={() => filterPayments(type, value, setValue)}
 					className='bg-zinc-800 py-4 rounded-md font-bold'>
 					Search
 				</button>

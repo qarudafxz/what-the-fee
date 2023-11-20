@@ -143,7 +143,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 					Last AR Number: <span className='text-primary'>{ar_no}</span>
 				</h1>
 			</div>
-			<div className='grid grid-cols-6 text-primary gap-x-4'>
+			<div className='grid grid-cols-6 text-primary gap-x-4 mb-4'>
 				<div className='col-span-3 flex flex-col'>
 					<p className='font-semibold'>Date</p>
 					<input
@@ -165,7 +165,7 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				</div>
 				<button
 					onClick={() => handleSearchStudent()}
-					className='bg-zinc-900 text-white py-4 rounded-md'>
+					className='bg-zinc-900 text-white rounded-md col-span-2'>
 					Search
 				</button>
 				<Button
