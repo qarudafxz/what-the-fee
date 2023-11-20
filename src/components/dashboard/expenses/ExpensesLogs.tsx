@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React from "react";
 import logo from "../../../assets/logo_only.png";
 import ccislogo from "../../../assets/ccislsg_logo.png";
 import { Skeleton } from "@chakra-ui/react";
@@ -33,6 +33,7 @@ const ExpensesLogs: React.FC<Expenses> = ({ expenses, loading, data }) => {
 		const lineHeight = 40;
 		const pageHeight = pdf.internal.pageSize.height;
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		expenses.forEach((ex, _) => {
 			const spaceLeft = pageHeight - yPos;
 

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useCallback } from "react";
-import { HiOutlinePlusSm } from "react-icons/hi";
 import { FaRegUser } from "react-icons/fa";
 import { IoMdCheckmark } from "react-icons/io";
 import { useLocalStorage } from "../../../../hooks/useLocaleStorage";
