@@ -26,7 +26,6 @@ const ReceiptCard: React.FC<{
 	onDrop: (e: DragEvent<HTMLDivElement>, index: number) => void;
 	draggedIndex?: number | null;
 	sendReceipt: (ar_no: string, type: string) => void;
-	setIndex: (index: number) => void;
 }> = ({ receipt, index, onDragStart, onDragOver, onDrop, sendReceipt }) => {
 	const dragRef = useRef<HTMLDivElement>(null);
 
