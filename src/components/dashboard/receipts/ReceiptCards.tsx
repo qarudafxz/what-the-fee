@@ -15,6 +15,7 @@ interface Props {
 	receipts: Receipt[];
 	setReceipts: React.Dispatch<React.SetStateAction<Receipt[]>> | any;
 	sendReceipt: (ar_no: string, type: string) => void;
+	setIndex?: (index: number) => void;
 }
 
 const ReceiptCard: React.FC<{
@@ -25,6 +26,7 @@ const ReceiptCard: React.FC<{
 	onDrop: (e: DragEvent<HTMLDivElement>, index: number) => void;
 	draggedIndex?: number | null;
 	sendReceipt: (ar_no: string, type: string) => void;
+	setIndex: (index: number) => void;
 }> = ({ receipt, index, onDragStart, onDragOver, onDrop, sendReceipt }) => {
 	const dragRef = useRef<HTMLDivElement>(null);
 
@@ -74,12 +76,13 @@ const ReceiptCards: React.FC<Props> = ({
 	receipts,
 	setReceipts,
 	sendReceipt,
+	setIndex,
 }) => {
 	const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
 	const handleDragStart = (_e: DragEvent<HTMLDivElement>, index: number) => {
 		setDraggedIndex(index);
-		console.log(index);
+		setIndex!(index);
 	};
 
 	const handleDragOver = (e: DragEvent<HTMLDivElement>) => {

@@ -92,7 +92,6 @@ export const Records: FC = () => {
 			return setPayments(
 				payments.filter((payment) => payment.student_id === value)
 			);
-			setValue("");
 		}
 
 		if (filter_type === "ar_no") {

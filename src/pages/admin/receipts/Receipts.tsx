@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+//eslint-disable-next-line
+//@ts-nocheck
 import React, { useEffect, useState } from "react";
 import logo from "../../../assets/logo_only.png";
 import ccislsg from "../../../assets/ccislsg_logo.png";
@@ -14,6 +16,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import TopLoadingBar from "react-top-loading-bar";
+import { Tooltip } from "@chakra-ui/react";
 
 const Receipt: React.FC<{
 	isView: boolean;
@@ -126,6 +130,44 @@ const Receipts: React.FC = () => {
 	const [selectedReceipt, setSelectedReceipt] = useState({});
 	const [isView, setIsView] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [index, setIndex] = useState(0);
+	const [progress, setProgress] = useState<number | null>(null);
+
+	const archiveReceipt = async () => {
+		if (!receipts[index]?.ar_no || receipts[index]?.ar_no === "") return;
+
+		setProgress(30);
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
+			} as HeadersInit);
+
+			await fetch(
+				`http://localhost:8000/api/archive-receipt/${
+					receipts[index]?.ar_no as string
+				}`,
+				{
+					method: "POST",
+					headers,
+				}
+			).then(async (res) => {
+				setProgress(60);
+
+				if (res.status === 200 || res.ok) {
+					toast.success("Receipt archived.", {
+						autoClose: 2000,
+						theme: "dark",
+					});
+					setProgress(100);
+					setIndex(null);
+				}
+			});
+		} catch (err) {
+			throw new Error("Error archiving receipt.");
+		}
+	};
 
 	const getAllReceipts = async () => {
 		try {
@@ -145,6 +187,7 @@ const Receipts: React.FC = () => {
 				setReceipts(data.receipts);
 				setTimeout(() => {
 					setLoading(false);
+					setProgress(100);
 				}, 1500);
 			});
 		} catch (err) {
@@ -205,6 +248,12 @@ const Receipts: React.FC = () => {
 	return (
 		<div className='w-full bg-dark h-screen overflow-y-hidden'>
 			<ToastContainer />
+			<TopLoadingBar
+				progress={progress as unknown as number}
+				color='#49B0AD'
+				height={3}
+				onLoaderFinished={() => setProgress(null)}
+			/>
 			<Header
 				page={3}
 				name={name}
@@ -224,12 +273,16 @@ const Receipts: React.FC = () => {
 					receipts={receipts}
 					setReceipts={setReceipts}
 					sendReceipt={sendReceipt}
+					setIndex={setIndex}
 				/>
 			</div>
-			<BiArchiveIn
-				size={50}
-				className='absolute bottom-4 right-4 text-primary'
-			/>
+			<Tooltip label='Archive Receipt'>
+				<BiArchiveIn
+					onMouseEnter={archiveReceipt}
+					size={50}
+					className='absolute bottom-4 right-4 text-primary'
+				/>
+			</Tooltip>
 			<Receipt
 				isView={isView}
 				receipt={selectedReceipt}

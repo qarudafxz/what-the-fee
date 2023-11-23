@@ -150,7 +150,6 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 						type='date'
 						placeholder='Date'
 						//set the default value to today's date
-
 						onChange={(e) => setDate(e.target.value)}
 						className='bg-transparent p-3 rounded-md border border-primary mt-4'
 					/>
@@ -165,13 +164,13 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				</div>
 				<button
 					onClick={() => handleSearchStudent()}
-					className='bg-zinc-900 text-white rounded-md col-span-2'>
+					className='bg-zinc-900 text-white rounded-md col-span-1'>
 					Search
 				</button>
 				<Button
 					size='xs'
 					onClick={() => setIsQrScan(true)}
-					className='bg-[#59D896] text-[#268454] font-bold rounded-md py-8 flex flex-col gap-2'>
+					className='bg-[#59D896] text-[#268454] font-bold rounded-md py-8 flex flex-col gap-1'>
 					<LuScanLine size={50} />
 					Scan ID
 				</Button>

@@ -67,6 +67,7 @@ const PaymentsPagination: FC<{
 	const [value, setValue] = useState("");
 	const [type, setType] = useState("");
 	const [isDelete, setIsDelete] = useState(false);
+	const [isUpdate, setIsUpdate] = useState(false);
 	const rowsPerPage = 7;
 
 	//for action data
@@ -154,6 +155,52 @@ const PaymentsPagination: FC<{
 									<button
 										onClick={() => {
 											setIsDelete!(false);
+										}}
+										className='border border-[#49B0AD] px-6 text-[#49B0AD] font-bold text-xl py-2 rounded-md'>
+										No
+									</button>
+								</div>
+							</div>
+						</motion.form>
+					</div>
+				)}
+			</>
+		);
+	};
+
+	const ConfirmUpdate = () => {
+		return (
+			<>
+				{isUpdate && (
+					<div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
+						<motion.form
+							initial={{ opacity: 0, scale: 0.5 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.5 }}
+							transition={{
+								duration: 0.8,
+								type: "spring",
+								ease: [0, 0.71, 0.2, 0],
+							}}
+							className='flex flex-col gap-4 p-10 w-5/12 bg-black absolute z-10 left-62 top-42 bg-blend-overlay shadow-2xl rounded-md border-t-8 border-[#49B0AD]'>
+							<div className='my-8 grid place-items-center text-center justify-center'>
+								<img
+									src={logo}
+									alt='logo'
+									className='w-20 h-20'
+								/>
+								<p className='text-white font-bold text-4xl mt-16 px-24'>
+									Are you sure you want to update {selectedArNum} record?
+								</p>
+								<div className='flex gap-3 items-center mt-6'>
+									<button
+										onClick={(e) => action(e, selectedArNum, "UPDATE")}
+										className='bg-[#49B0AD] px-6 text-white font-bold text-xl py-2 rounded-md'>
+										Yes
+									</button>
+									<button
+										onClick={() => {
+											setIsUpdate!(false);
 										}}
 										className='border border-[#49B0AD] px-6 text-[#49B0AD] font-bold text-xl py-2 rounded-md'>
 										No
@@ -344,7 +391,10 @@ const PaymentsPagination: FC<{
 								</TableCell>
 								<TableCell>
 									<button
-										// onClick={(e) => action(e, payment?.ar_no, "update")}
+										onClick={() => {
+											setSelectedNum(payment?.ar_no);
+											setIsUpdate(true);
+										}}
 										className='mr-4'>
 										<BiEdit className='text-[#59D896]' />
 									</button>
@@ -394,6 +444,7 @@ const PaymentsPagination: FC<{
 				/>
 			</Stack>
 			<ConfirmDelete />
+			<ConfirmUpdate />
 		</div>
 	);
 };
