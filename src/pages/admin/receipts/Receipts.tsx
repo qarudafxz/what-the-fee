@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import TopLoadingBar from "react-top-loading-bar";
-import { Tooltip } from "@chakra-ui/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
 
 const Receipt: React.FC<{
 	isView: boolean;
@@ -133,6 +133,8 @@ const Receipts: React.FC = () => {
 	const [index, setIndex] = useState(0);
 	const [progress, setProgress] = useState<number | null>(null);
 
+	const [archivedReceipts, setArchivedReceipts] = useState([] as any[]);
+
 	const archiveReceipt = async () => {
 		if (!receipts[index]?.ar_no || receipts[index]?.ar_no === "") return;
 
@@ -166,6 +168,27 @@ const Receipts: React.FC = () => {
 			});
 		} catch (err) {
 			throw new Error("Error archiving receipt.");
+		}
+	};
+
+	const getArchiveReceipts = async () => {
+		const headers = new Headers({
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+			admin_id: admin_id,
+		} as HeadersInit);
+
+		try {
+			await fetch("http://localhost:8000/api/archives", {
+				method: "GET",
+				headers,
+			}).then(async (res) => {
+				const data = await res.json();
+				console.log(data.archives);
+				setArchivedReceipts(data.archives);
+			});
+		} catch (err) {
+			throw new Error("Error getting archived receipts.");
 		}
 	};
 
@@ -237,6 +260,35 @@ const Receipts: React.FC = () => {
 		// const receipt = await app.database().ref("receipts").child("receipt_id");
 	};
 
+	const restoreReceipt = async (ar_no: string) => {
+		if (!ar_no || ar_no === "") return;
+
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
+			} as HeadersInit);
+
+			await fetch(`http://localhost:8000/api/restore-receipt/${ar_no}`, {
+				method: "POST",
+				headers,
+			}).then(async (res) => {
+				if (res.status === 200 || res.ok) {
+					toast.success("Receipt restored.", {
+						autoClose: 2000,
+						theme: "dark",
+					});
+					getAllReceipts();
+					setProgress(100);
+					setIndex(null);
+				}
+			});
+		} catch (err) {
+			throw new Error("Error restoring receipt.");
+		}
+	};
+
 	useEffect(() => {
 		getAllReceipts();
 	}, []);
@@ -246,7 +298,7 @@ const Receipts: React.FC = () => {
 	}
 
 	return (
-		<div className='w-full bg-dark h-screen overflow-y-hidden'>
+		<div className='w-full bg-dark h-screen overflow-hidden'>
 			<ToastContainer />
 			<TopLoadingBar
 				progress={progress as unknown as number}
@@ -276,13 +328,43 @@ const Receipts: React.FC = () => {
 					setIndex={setIndex}
 				/>
 			</div>
-			<Tooltip label='Archive Receipt'>
-				<BiArchiveIn
-					onMouseEnter={archiveReceipt}
-					size={50}
-					className='absolute bottom-4 right-4 text-primary'
-				/>
-			</Tooltip>
+			<div className='fixed bottom-8 right-4'>
+				<Popover
+					placement='bottom-end'
+					closeOnBlur={true}>
+					<PopoverTrigger>
+						<BiArchiveIn
+							onClick={getArchiveReceipts}
+							onMouseEnter={archiveReceipt}
+							size={50}
+							className=' text-primary cursor-pointer'
+						/>
+					</PopoverTrigger>
+					<PopoverContent className='bg-[#0F0F0F] p-4 rounded-md border border-zinc-800 text-white text-center relative bottom-[450px] right-[330px]'>
+						<p className='font-bold'>Archive Receipt</p>
+						<p className='text-xs mb-4'>
+							You can restore the receipt from the archived section.
+						</p>
+						<div className='flex flex-col gap-2 max-h-[340px] overflow-y-auto custom'>
+							{archivedReceipts.length > 0 &&
+								archivedReceipts?.map((receipt, idx) => {
+									return (
+										<div
+											key={idx}
+											className='flex justify-between'>
+											<h1 className='font-bold text-xl'>{receipt?.ar_no}</h1>
+											<button
+												onClick={() => restoreReceipt(receipt?.ar_no)}
+												className='text-xs flex gap-2 items-center bg-zinc-600 border border-zinc-400 text-400 px-2 py-1 rounded-md'>
+												Restore
+											</button>
+										</div>
+									);
+								})}
+						</div>
+					</PopoverContent>
+				</Popover>
+			</div>
 			<Receipt
 				isView={isView}
 				receipt={selectedReceipt}
