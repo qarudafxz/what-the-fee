@@ -119,7 +119,9 @@ const AllLogs: React.FC = () => {
 														? "bg-yellow-900 text-yellow-600"
 														: log.method === "DECLINED"
 														? "bg-purple-900 text-purple-600"
-														: "bg-blue-900 text-blue-600"
+														: log.method === "ARCHIVED"
+														? "bg-blue-900 text-blue-600"
+														: "bg-gray-900 text-gray-600"
 												}`}>
 												{log.method}
 											</p>

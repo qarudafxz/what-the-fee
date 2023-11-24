@@ -132,44 +132,7 @@ const Receipts: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [index, setIndex] = useState(0);
 	const [progress, setProgress] = useState<number | null>(null);
-
 	const [archivedReceipts, setArchivedReceipts] = useState([] as any[]);
-
-	const archiveReceipt = async () => {
-		if (!receipts[index]?.ar_no || receipts[index]?.ar_no === "") return;
-
-		setProgress(30);
-		try {
-			const headers = new Headers({
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-				admin_id: admin_id,
-			} as HeadersInit);
-
-			await fetch(
-				`http://localhost:8000/api/archive-receipt/${
-					receipts[index]?.ar_no as string
-				}`,
-				{
-					method: "POST",
-					headers,
-				}
-			).then(async (res) => {
-				setProgress(60);
-
-				if (res.status === 200 || res.ok) {
-					toast.success("Receipt archived.", {
-						autoClose: 2000,
-						theme: "dark",
-					});
-					setProgress(100);
-					setIndex(null);
-				}
-			});
-		} catch (err) {
-			throw new Error("Error archiving receipt.");
-		}
-	};
 
 	const getArchiveReceipts = async () => {
 		const headers = new Headers({
@@ -218,8 +181,43 @@ const Receipts: React.FC = () => {
 		}
 	};
 
-	//function to send the receipt to the student with firebase real time database
-	// receipt is sent via student_id that will be displayed on the other platform (student side)
+	const archiveReceipt = async () => {
+		if (!receipts[index]?.ar_no || receipts[index]?.ar_no === "") return;
+
+		setProgress(30);
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
+			} as HeadersInit);
+
+			await fetch(
+				`http://localhost:8000/api/archive-receipt/${
+					receipts[index]?.ar_no as string
+				}`,
+				{
+					method: "POST",
+					headers,
+				}
+			).then(async (res) => {
+				setProgress(60);
+
+				if (res.status === 200 || res.ok) {
+					toast.success("Receipt archived.", {
+						autoClose: 2000,
+						theme: "dark",
+					});
+					setProgress(100);
+					getAllReceipts();
+					setIndex(null);
+				}
+			});
+		} catch (err) {
+			throw new Error("Error archiving receipt.");
+		}
+	};
+
 	const sendReceipt = async (ar_no: string, type?: string) => {
 		const headers = new Headers({
 			"Content-Type": "application/json",
