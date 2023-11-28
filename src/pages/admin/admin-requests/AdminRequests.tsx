@@ -109,7 +109,10 @@ export const AdminRequests: FC = () => {
 				/>
 				{/* eslint-disable-next-line */}
 				{/* @ts-ignore */}
-				<ViewRequest viewedRequest={viewedRequest} />
+				<ViewRequest
+					getRequests={getRequests}
+					viewedRequest={viewedRequest}
+				/>
 			</div>
 		</div>
 	);

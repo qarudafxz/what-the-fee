@@ -138,6 +138,7 @@ export const Records: FC = () => {
 			/>
 			<div className='pl-64 pr-56 -mt-20 flex flex-col w-full overflow-y-auto custom'>
 				<PaymentsPagination
+					getPayments={getPayments}
 					payments={cachedPayments}
 					filterPayments={filterPayments}
 				/>

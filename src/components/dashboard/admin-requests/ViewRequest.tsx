@@ -21,7 +21,10 @@ interface Props {
 	email: string;
 }
 
-const ViewRequest: React.FC<{ viewedRequest: Props }> = ({ viewedRequest }) => {
+const ViewRequest: React.FC<{
+	viewedRequest: Props;
+	getRequests: () => void;
+}> = ({ viewedRequest, getRequests }) => {
 	const { getItem } = useLocalStorage();
 	const token = getItem("token");
 	const { getSession } = useGetSession();
@@ -60,6 +63,7 @@ const ViewRequest: React.FC<{ viewedRequest: Props }> = ({ viewedRequest }) => {
 							autoClose: 2000,
 							theme: "dark",
 						});
+						getRequests();
 						return;
 					}
 

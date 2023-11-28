@@ -57,8 +57,9 @@ type PaymentsProps = {
 
 const PaymentsPagination: FC<{
 	payments?: PaymentsProps[];
+	getPayments?: () => void;
 	filterPayments: any;
-}> = ({ payments, filterPayments }) => {
+}> = ({ payments, filterPayments, getPayments }) => {
 	const { getItem } = useLocalStorage();
 	const { getSession } = useGetSession();
 	const token = getItem("token");
@@ -102,7 +103,6 @@ const PaymentsPagination: FC<{
 			);
 
 			const data = response.data;
-			console.log(data);
 
 			if (data.error) {
 				toast.error(data.message, {
@@ -114,6 +114,7 @@ const PaymentsPagination: FC<{
 					autoClose: 5000,
 					theme: "dark",
 				});
+				getPayments!();
 			}
 		} catch (err) {
 			throw new Error("Error handling action");
@@ -387,7 +388,11 @@ const PaymentsPagination: FC<{
 									₱{payment.amount}
 								</TableCell>
 								<TableCell sx={{ color: "white", fontSize: "12px" }}>
-									{payment?.collector?.first_name + " " + payment?.collector?.last_name}
+									{!payment?.collector?.first_name || !payment?.collector?.last_name ? (
+										<span className='text-blue-400'>Paid via Gcash</span>
+									) : (
+										payment?.collector?.first_name + " " + payment?.collector?.last_name
+									)}
 								</TableCell>
 								<TableCell>
 									<button

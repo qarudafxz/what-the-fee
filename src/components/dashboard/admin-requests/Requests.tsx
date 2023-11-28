@@ -23,6 +23,7 @@ interface Request {
 const Requests: React.FC<{
 	requests: Request[];
 	loading: boolean;
+
 	setSelectedRequestId: React.Dispatch<React.SetStateAction<number>>;
 	setIsView: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ requests, loading, setSelectedRequestId, setIsView }) => {
