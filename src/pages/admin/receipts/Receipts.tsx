@@ -118,6 +118,37 @@ const Receipt: React.FC<{
 	);
 };
 
+interface SendReceiptProps {
+	isSendReceipt: boolean;
+	setIsSendReceipt: () => boolean;
+}
+
+const SendReceiptModal: SendReceiptProps = ({
+	isSendReceipt,
+	setIsSendReceipt,
+}) => {
+	return (
+		<>
+			{isSendReceipt && (
+				<div className='fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50'>
+					<motion.form
+						initial={{ opacity: 0, scale: 0.5 }}
+						animate={{ opacity: 1, scale: 1 }}
+						exit={{ opacity: 0, scale: 0.5 }}
+						transition={{
+							duration: 0.8,
+							type: "spring",
+							ease: [0, 0.71, 0.2, 0],
+						}}
+						className='bg-dark p-8 rounded-md w-[700px] border border-zinc-800'>
+						<div className='flex justify-between items-center'></div>
+					</motion.form>
+				</div>
+			)}
+		</>
+	);
+};
+
 const Receipts: React.FC = () => {
 	const isLoggedIn = useAuth();
 	const { getSession } = useGetSession();
@@ -132,6 +163,7 @@ const Receipts: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 	const [index, setIndex] = useState(0);
 	const [progress, setProgress] = useState<number | null>(null);
+	const [isSendReceipt, setIsSendReceipt] = useState(false);
 	const [archivedReceipts, setArchivedReceipts] = useState([] as any[]);
 
 	const getArchiveReceipts = async () => {
@@ -249,13 +281,13 @@ const Receipts: React.FC = () => {
 
 			if (type === "send") {
 				//Firebase real time database to send the receipt to the student
+				setIsSendReceipt(true);
 			}
 
 			if (type === "view") setIsView(true);
 		} catch (err) {
 			throw new Error("Error sending receipt.");
 		}
-		// const receipt = await app.database().ref("receipts").child("receipt_id");
 	};
 
 	const restoreReceipt = async (ar_no: string) => {
@@ -368,6 +400,10 @@ const Receipts: React.FC = () => {
 				receipt={selectedReceipt}
 				setIsView={setIsView}
 				setSelectedReceipt={setSelectedReceipt}
+			/>
+			<SendReceiptModal
+				isSendReceipt={isSendReceipt}
+				setIsSendReceipt={setIsSendReceipt}
 			/>
 		</div>
 	);

@@ -104,6 +104,7 @@ const Expenses: React.FC = () => {
 			/>
 			<div className='pl-64 pr-56 grid grid-cols-8 w-full mt-6 space-x-10 relative lg:bottom-24 xl:bottom-18'>
 				<RequestExpense
+					fetchAllExpenses={fetchAllExpenses}
 					remainingBalance={remainingBalance}
 					collegeId={college_id}
 					loading={loading}

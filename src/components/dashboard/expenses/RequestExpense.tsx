@@ -10,12 +10,14 @@ interface Props {
 	remainingBalance: React.ReactNode;
 	collegeId: string | null;
 	loading: boolean;
+	fetchAllExpenses: () => void;
 }
 
 const RequestExpense: React.FC<Props> = ({
 	remainingBalance,
 	collegeId,
 	loading,
+	fetchAllExpenses,
 }) => {
 	const [title, setTitle] = useState<string>("");
 	const [dateBorrowed, setDateBorrowed] = useState<string>("");
@@ -60,6 +62,7 @@ const RequestExpense: React.FC<Props> = ({
 						autoClose: 2000,
 						theme: "dark",
 					});
+					fetchAllExpenses();
 				}
 			});
 		} catch (err) {

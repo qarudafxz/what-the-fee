@@ -58,7 +58,10 @@ export const AdminSettings: FC = () => {
 				email={email}
 			/>
 			<div className='pl-64 pr-56 mt-5 grid grid-cols-3 w-full gap-4'>
-				<AdminPrivileges permissions={permissions} />
+				<AdminPrivileges
+					permissions={permissions}
+					getPermissions={getPermissions}
+				/>
 				<div className='flex flex-col gap-2'>
 					<Logs />
 				</div>

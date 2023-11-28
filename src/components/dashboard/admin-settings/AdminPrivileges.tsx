@@ -31,10 +31,14 @@ interface Admin {
 }
 
 interface AdminPrivilegesProps {
+	getPermissions: () => void;
 	permissions: Admin[];
 }
 
-const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
+const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({
+	permissions,
+	getPermissions,
+}) => {
 	const [isUpdatePermission, setIsUpdatePermission] = useState(false);
 	const [isDeletePermission, setIsDeletePermission] = useState(false);
 	const [canUpdate, setCanUpdate] = useState<boolean>(false);
@@ -68,6 +72,7 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 							autoClose: 2000,
 							theme: "dark",
 						});
+						getPermissions();
 						setIsUpdatePermission(false);
 					} else {
 						toast.error(data.message, {
@@ -108,6 +113,7 @@ const AdminPrivileges: React.FC<AdminPrivilegesProps> = ({ permissions }) => {
 							autoClose: 2000,
 							theme: "dark",
 						});
+						getPermissions();
 						setIsUpdatePermission(false);
 					} else {
 						toast.error(data.message, {
