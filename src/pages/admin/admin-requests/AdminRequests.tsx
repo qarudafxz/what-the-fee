@@ -111,6 +111,8 @@ export const AdminRequests: FC = () => {
 				{/* @ts-ignore */}
 				<ViewRequest
 					getRequests={getRequests}
+					//eslint-disable-next-line
+					//@ts-ignore
 					viewedRequest={viewedRequest}
 				/>
 			</div>

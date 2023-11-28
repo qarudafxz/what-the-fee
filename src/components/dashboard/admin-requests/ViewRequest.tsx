@@ -21,10 +21,15 @@ interface Props {
 	email: string;
 }
 
-const ViewRequest: React.FC<{
-	viewedRequest: Props;
+interface ViewRequestProps {
+	viewedRequest?: Props;
 	getRequests: () => void;
-}> = ({ viewedRequest, getRequests }) => {
+}
+
+const ViewRequest: React.FC<ViewRequestProps> = ({
+	viewedRequest,
+	getRequests,
+}) => {
 	const { getItem } = useLocalStorage();
 	const token = getItem("token");
 	const { getSession } = useGetSession();
@@ -32,7 +37,6 @@ const ViewRequest: React.FC<{
 
 	const grantRequest = async (request_id: number) => {
 		//axios update
-
 		const headers = {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${token}`,
