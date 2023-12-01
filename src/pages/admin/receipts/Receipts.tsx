@@ -120,13 +120,72 @@ const Receipt: React.FC<{
 
 interface SendReceiptProps {
 	isSendReceipt: boolean;
-	setIsSendReceipt: () => boolean;
+	setIsSendReceipt: any;
+	receipt: any;
+	note?: string;
+	setNote: () => string;
+	recepient?: string;
+	setRecepient: () => string;
+	token?: string;
+	admin_id?: string;
 }
 
 const SendReceiptModal: SendReceiptProps = ({
 	isSendReceipt,
 	setIsSendReceipt,
+	receipt,
+	note,
+	setNote,
+	recepient,
+	setRecepient,
+	token,
+	admin_id,
 }) => {
+	const sendReceiptToStudent = async (e: React.MouseEvent, ar_no: string) => {
+		e.preventDefault();
+
+		if (!recepient || recepient === "")
+			return toast.error("Please enter student ID.", {
+				autoClose: 2000,
+				theme: "dark",
+			});
+
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
+			} as HeadersInit);
+
+			await fetch(`http://localhost:8000/api/send-receipt/${ar_no}`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify({
+					student_id: recepient,
+					note,
+				}),
+			}).then(async (res) => {
+				const data = await res.json();
+				if (!res.status === 200 || !res.ok) {
+					toast.error(data.message, {
+						autoClose: 2000,
+						theme: "dark",
+					});
+					return;
+				}
+
+				toast.success("Receipt sent.", {
+					autoClose: 2000,
+					theme: "dark",
+				});
+				setProgress(100);
+				setIndex(null);
+			});
+		} catch (err) {
+			throw new Error("Error sending receipt to student.");
+		}
+	};
+
 	return (
 		<>
 			{isSendReceipt && (
@@ -141,7 +200,39 @@ const SendReceiptModal: SendReceiptProps = ({
 							ease: [0, 0.71, 0.2, 0],
 						}}
 						className='bg-dark p-8 rounded-md w-[700px] border border-zinc-800'>
-						<div className='flex justify-between items-center'></div>
+						<div className='flex flex-col justify-between items-center'>
+							<div className='flex justify-end'>
+								<IoCloseCircleOutline
+									onClick={() => {
+										setIsSendReceipt(false);
+									}}
+									size={40}
+									className='text-zinc-600 mb-2 cursor-pointer'
+								/>
+							</div>
+
+							<h1 className='font-bold text-4xl text-zinc-600'>
+								Send <span className='text-primary'>{receipt?.ar_no}</span>?
+							</h1>
+							<input
+								type='text'
+								onChange={(e) => setRecepient(e.target.value)}
+								className='py-2 pl-3 rounded-md bg-transparent border border-zinc-300 w-full mt-4 text-zinc-700'
+								placeholder='Enter Student ID of the student you want to send'
+							/>
+							<h1 className='text-left mt-4 font-bold text-2xl text-white'>Note</h1>
+							<textarea
+								onChange={(e) => setNote(e.target.value)}
+								type='text'
+								className='w-full bg-transparent border border-zinc-300	rounded-md text-white p-3 mt-2 resize-none h-64'
+								placeholder='Add Note'
+							/>
+							<button
+								onClick={(e) => sendReceiptToStudent(e, receipt?.ar_no)}
+								className='bg-primary w-full py-2 mt-4 text-center rounded-md font-bold text-[#0D0D0D]'>
+								Send
+							</button>
+						</div>
 					</motion.form>
 				</div>
 			)}
@@ -165,6 +256,8 @@ const Receipts: React.FC = () => {
 	const [progress, setProgress] = useState<number | null>(null);
 	const [isSendReceipt, setIsSendReceipt] = useState(false);
 	const [archivedReceipts, setArchivedReceipts] = useState([] as any[]);
+	const [recepient, setRecepient] = useState("");
+	const [note, setNote] = useState("");
 
 	const getArchiveReceipts = async () => {
 		const headers = new Headers({
@@ -280,7 +373,6 @@ const Receipts: React.FC = () => {
 			setSelectedReceipt(receipt.receipt[0]);
 
 			if (type === "send") {
-				//Firebase real time database to send the receipt to the student
 				setIsSendReceipt(true);
 			}
 
@@ -290,6 +382,7 @@ const Receipts: React.FC = () => {
 		}
 	};
 
+	//restoration of receipt
 	const restoreReceipt = async (ar_no: string) => {
 		if (!ar_no || ar_no === "") return;
 
@@ -404,6 +497,13 @@ const Receipts: React.FC = () => {
 			<SendReceiptModal
 				isSendReceipt={isSendReceipt}
 				setIsSendReceipt={setIsSendReceipt}
+				receipt={selectedReceipt}
+				note={note}
+				setNote={setNote}
+				recepient={recepient}
+				setRecepient={setRecepient}
+				token={token}
+				admin_id={admin_id}
 			/>
 		</div>
 	);

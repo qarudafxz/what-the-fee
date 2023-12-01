@@ -50,7 +50,7 @@ const AllLogs: React.FC = () => {
 				}
 			});
 		} catch (err) {
-			throw new Error("Error getitng logs");
+			throw new Error("Error getting logs");
 		}
 	};
 
