@@ -14,7 +14,7 @@ import ReceiptCards from "../../../components/dashboard/receipts/ReceiptCards";
 import { BiArchiveIn } from "react-icons/bi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import TopLoadingBar from "react-top-loading-bar";
 import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
@@ -27,93 +27,95 @@ const Receipt: React.FC<{
 }> = ({ isView, receipt, setIsView, setSelectedReceipt }) => {
 	return (
 		<>
-			{isView === true && (
-				<div className='fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50'>
-					<ToastContainer />
-					<IoCloseCircleOutline
-						onClick={() => {
-							setIsView(false);
-							setSelectedReceipt({});
-						}}
-						size={40}
-						className='text-white mb-10 cursor-pointer'
-					/>
-					<motion.form
-						initial={{ opacity: 0, scale: 0.5 }}
-						animate={{ opacity: 1, scale: 1 }}
-						exit={{ opacity: 0, scale: 0.5 }}
-						transition={{
-							duration: 0.8,
-							type: "spring",
-							ease: [0, 0.71, 0.2, 0],
-						}}
-						className='bg-white p-8 rounded-md w-[400px]'
-						ref={receipt}>
-						<div className='flex justify-between items-center'>
-							<img
-								src={logo}
-								alt='WTF Logo'
-								className='w-8 h-8'
-							/>
-							<div className='flex items-center gap-2'>
+			<AnimatePresence>
+				{isView === true && (
+					<div className='fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50'>
+						<ToastContainer />
+						<IoCloseCircleOutline
+							onClick={() => {
+								setIsView(false);
+								setSelectedReceipt({});
+							}}
+							size={40}
+							className='text-white mb-10 cursor-pointer'
+						/>
+						<motion.form
+							initial={{ opacity: 0, scale: 0.5 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.5 }}
+							transition={{
+								duration: 0.2,
+								type: "spring",
+								ease: [0, 0.71, 0.2, 0],
+							}}
+							className='bg-white p-8 rounded-md w-[400px]'
+							ref={receipt}>
+							<div className='flex justify-between items-center'>
 								<img
-									src={ccislsg}
-									alt='CCISLSG Logo'
+									src={logo}
+									alt='WTF Logo'
 									className='w-8 h-8'
 								/>
-								<p className='text-primary font-bold text-sm'>CCISLSG</p>
-							</div>
-						</div>
-						<div className='flex flex-col gap-2 mt-14'>
-							<div className='flex justify-between items-center'>
-								<div className='flex gap-2 items-center'>
-									<h1>DATE</h1>
-									<p className='text-primary font-bold text-sm'>
-										{new Date(receipt?.date).toLocaleDateString("en-US", {
-											month: "long",
-											day: "numeric",
-											year: "numeric",
-										})}
-									</p>
-								</div>
-								<div className='flex gap-2 items-center'>
-									<h1>CONTROL NO.</h1>
-									<p className='text-primary font-bold text-sm'>{receipt?.ar_no}</p>
+								<div className='flex items-center gap-2'>
+									<img
+										src={ccislsg}
+										alt='CCISLSG Logo'
+										className='w-8 h-8'
+									/>
+									<p className='text-primary font-bold text-sm'>CCISLSG</p>
 								</div>
 							</div>
-							<h1 className='text-center font-bold mt-4 text-xl'>
-								ACKNOWLEDGEMENT RECEIPT
-							</h1>
-							<p className='text-center text-sm mt-2'>
-								This is to certify that{" "}
-								<span className='font-bold'>
-									{receipt.first_name + " " + receipt?.last_name}
-								</span>{" "}
-								with ID number <span className='font-bold'>{receipt?.student_id}</span>{" "}
-								paid the College fee worth{" "}
-								<span className='font-bold'>₱{receipt.amount}</span>
-							</p>
-							<div className='flex justify-between items-center mt-20 text-xs gap-10'>
-								<div className='flex gap-4 items-center'>
-									<p>SEMESTER</p>
-									<p className='text-primary font-bold text-sm'>
-										{receipt?.semester_id === 1 ? "1st" : "2nd"} Semester
-									</p>
+							<div className='flex flex-col gap-2 mt-14'>
+								<div className='flex justify-between items-center'>
+									<div className='flex gap-2 items-center'>
+										<h1>DATE</h1>
+										<p className='text-primary font-bold text-sm'>
+											{new Date(receipt?.date).toLocaleDateString("en-US", {
+												month: "long",
+												day: "numeric",
+												year: "numeric",
+											})}
+										</p>
+									</div>
+									<div className='flex gap-2 items-center'>
+										<h1>CONTROL NO.</h1>
+										<p className='text-primary font-bold text-sm'>{receipt?.ar_no}</p>
+									</div>
 								</div>
-								<div className='flex gap-2 items-center'>
-									<p>ACADEMIC YEAR</p>
-									<p className='text-primary font-bold text-sm'>{receipt?.acad_year}</p>
+								<h1 className='text-center font-bold mt-4 text-xl'>
+									ACKNOWLEDGEMENT RECEIPT
+								</h1>
+								<p className='text-center text-sm mt-2'>
+									This is to certify that{" "}
+									<span className='font-bold'>
+										{receipt.first_name + " " + receipt?.last_name}
+									</span>{" "}
+									with ID number <span className='font-bold'>{receipt?.student_id}</span>{" "}
+									paid the College fee worth{" "}
+									<span className='font-bold'>₱{receipt.amount}</span>
+								</p>
+								<div className='flex justify-between items-center mt-20 text-xs gap-10'>
+									<div className='flex gap-4 items-center'>
+										<p>SEMESTER</p>
+										<p className='text-primary font-bold text-sm'>
+											{receipt?.semester_id === 1 ? "1st" : "2nd"} Semester
+										</p>
+									</div>
+									<div className='flex gap-2 items-center'>
+										<p>ACADEMIC YEAR</p>
+										<p className='text-primary font-bold text-sm'>{receipt?.acad_year}</p>
+									</div>
 								</div>
-							</div>
 
-							<div className='flex flex-col place-content-center place-items-center justify-center mt-10'>
-								<p className='font-bold'>{receipt?.admin_id}</p>
-								<p>Collector's ID</p>
+								<div className='flex flex-col place-content-center place-items-center justify-center mt-10'>
+									<p className='font-bold'>{receipt?.admin_id}</p>
+									<p>Collector's ID</p>
+								</div>
 							</div>
-						</div>
-					</motion.form>
-				</div>
-			)}
+						</motion.form>
+					</div>
+				)}
+			</AnimatePresence>
 		</>
 	);
 };
@@ -217,7 +219,7 @@ const SendReceiptModal: SendReceiptProps = ({
 							<input
 								type='text'
 								onChange={(e) => setRecepient(e.target.value)}
-								className='py-2 pl-3 rounded-md bg-transparent border border-zinc-300 w-full mt-4 text-zinc-700'
+								className='py-2 pl-3 rounded-md bg-transparent border border-zinc-300 w-full mt-4 text-white'
 								placeholder='Enter Student ID of the student you want to send'
 							/>
 							<h1 className='text-left mt-4 font-bold text-2xl text-white'>Note</h1>
@@ -258,6 +260,7 @@ const Receipts: React.FC = () => {
 	const [archivedReceipts, setArchivedReceipts] = useState([] as any[]);
 	const [recepient, setRecepient] = useState("");
 	const [note, setNote] = useState("");
+	const [undo, setUndo] = useState(false);
 
 	const getArchiveReceipts = async () => {
 		const headers = new Headers({
@@ -335,7 +338,11 @@ const Receipts: React.FC = () => {
 					});
 					setProgress(100);
 					getAllReceipts();
+					setUndo(true);
 					setIndex(null);
+					setTimeout(() => {
+						setUndo(false);
+					}, [5000]);
 				}
 			});
 		} catch (err) {
@@ -412,6 +419,32 @@ const Receipts: React.FC = () => {
 		}
 	};
 
+	const undoArchivingOfReceipt = async () => {
+		try {
+			const headers = new Headers({
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+				admin_id: admin_id,
+			} as HeadersInit);
+
+			await fetch(`http://localhost:8000/api/undo-receipt`, {
+				method: "POST",
+				headers,
+			}).then(async (res) => {
+				if (res.status === 200 || res.ok) {
+					toast.success("Receipt restored.", {
+						autoClose: 2000,
+						theme: "dark",
+					});
+					getAllReceipts();
+					setProgress(100);
+				}
+			});
+		} catch (err) {
+			throw new Error("Error restoring receipt.");
+		}
+	};
+
 	useEffect(() => {
 		getAllReceipts();
 	}, []);
@@ -421,7 +454,7 @@ const Receipts: React.FC = () => {
 	}
 
 	return (
-		<div className='w-full bg-dark h-screen overflow-hidden'>
+		<div className='w-full bg-dark h-screen overflow-y-hidden'>
 			<ToastContainer />
 			<TopLoadingBar
 				progress={progress as unknown as number}
@@ -443,13 +476,15 @@ const Receipts: React.FC = () => {
 				style={{
 					maxHeight: "calc(100vh - 4rem)",
 				}}>
-				<ReceiptCards
-					loading={loading}
-					receipts={receipts}
-					setReceipts={setReceipts}
-					sendReceipt={sendReceipt}
-					setIndex={setIndex}
-				/>
+				<div className='max-h-[490px] overflow-y-auto custom pr-4'>
+					<ReceiptCards
+						loading={loading}
+						receipts={receipts}
+						setReceipts={setReceipts}
+						sendReceipt={sendReceipt}
+						setIndex={setIndex}
+					/>
+				</div>
 			</div>
 			<div className='fixed bottom-8 right-4'>
 				<Popover
@@ -488,6 +523,27 @@ const Receipts: React.FC = () => {
 					</PopoverContent>
 				</Popover>
 			</div>
+			<AnimatePresence>
+				{undo && (
+					<motion.div
+						initial={{ x: -255, y: 1000 }}
+						animate={{ x: 255, y: -0 }}
+						exit={{ x: -250, y: 1000 }}
+						transition={{
+							duration: 0.8,
+							type: "spring",
+							ease: [0, 1.2, 0.6, 0],
+						}}
+						className='flex justify-between text-sm items-center w-80 bg-white px-5 py-4 rounded-full fixed z-10 bottom-10'>
+						Undo archived receipt
+						<button
+							onClick={undoArchivingOfReceipt}
+							className='bg-dark font-bold rounded-full text-sm py-1 px-3 text-white'>
+							Undo
+						</button>
+					</motion.div>
+				)}
+			</AnimatePresence>
 			<Receipt
 				isView={isView}
 				receipt={selectedReceipt}

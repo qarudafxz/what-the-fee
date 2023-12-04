@@ -63,7 +63,10 @@ export const AddPayments: FC = () => {
 				}
 				email={email}
 			/>
-			<Payment ar_no={cachedArNo} />
+			<Payment
+				ar_no={cachedArNo}
+				getLatestArNo={getLastArNo}
+			/>
 		</div>
 	);
 };

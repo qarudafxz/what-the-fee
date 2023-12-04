@@ -89,7 +89,7 @@ const RequestExpense: React.FC<Props> = ({
 						/>
 					) : (
 						<p className='bg-[#414141] px-4 py-2 rounded-md font-bold text-zinc-400 border border-zinc-400'>
-							Remaining balance: PHP {amount}
+							Total Collection: PHP {amount}
 						</p>
 					)}
 				</div>

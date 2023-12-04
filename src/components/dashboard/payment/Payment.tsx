@@ -10,7 +10,10 @@ import PaymentQrScanner from "./PaymentQrScanner";
 import Confirmation from "../../Confirmation";
 import PaymentReceipt from "./PaymentReceipt";
 
-export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
+export const Payment: FC<{ ar_no: string; getLatestArNo: () => void }> = ({
+	ar_no,
+	getLatestArNo,
+}) => {
 	const { getSession } = useGetSession();
 	const { getItem } = useLocalStorage();
 	const token = getItem("token");
@@ -103,7 +106,6 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 				const data = await res.json();
 
 				if (data.statusCode !== 400 || data.status !== "failed") {
-					console.log(data);
 					toast.success("Payment added.", {
 						autoClose: 2000,
 						theme: "dark",
@@ -116,6 +118,8 @@ export const Payment: FC<{ ar_no: string }> = ({ ar_no }) => {
 						first_name: firstName,
 						last_name: lastName,
 					});
+					getLatestArNo();
+					handleSearchStudent();
 				} else {
 					toast.error(data.message, {
 						autoClose: 2000,

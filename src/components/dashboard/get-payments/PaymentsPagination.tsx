@@ -418,7 +418,7 @@ const PaymentsPagination: FC<{
 			</TableContainer>
 			<Stack
 				spacing={6}
-				className='mt-6 flex place-items-end fixed bottom-6 right-[235px]'>
+				className='mt-6 flex place-items-end '>
 				<Pagination
 					sx={{
 						"& .MuiPaginationItem-root": {
