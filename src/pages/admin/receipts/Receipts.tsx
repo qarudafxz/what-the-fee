@@ -18,6 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import TopLoadingBar from "react-top-loading-bar";
 import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
+import illus from "../../../assets/illustration.png";
 
 const Receipt: React.FC<{
 	isView: boolean;
@@ -498,13 +499,13 @@ const Receipts: React.FC = () => {
 							className=' text-primary cursor-pointer'
 						/>
 					</PopoverTrigger>
-					<PopoverContent className='bg-[#0F0F0F] p-4 rounded-md border border-zinc-800 text-white text-center relative bottom-[450px] right-[330px]'>
+					<PopoverContent className='bg-[#0F0F0F] p-4 rounded-md border border-zinc-800 h-[400px] text-white text-center relative bottom-[420px] right-[330px]'>
 						<p className='font-bold'>Archive Receipt</p>
 						<p className='text-xs mb-4'>
 							You can restore the receipt from the archived section.
 						</p>
 						<div className='flex flex-col gap-2 max-h-[340px] overflow-y-auto custom'>
-							{archivedReceipts.length > 0 &&
+							{archivedReceipts.length > 0 ? (
 								archivedReceipts?.map((receipt, idx) => {
 									return (
 										<div
@@ -518,7 +519,19 @@ const Receipts: React.FC = () => {
 											</button>
 										</div>
 									);
-								})}
+								})
+							) : (
+								<div className='flex flex-col gap-2'>
+									<img
+										src={illus}
+										alt='No receipts archived'
+										className='w-64 h-64 mx-auto'
+									/>
+									<h1 className='font-bold text-primary text-2xl'>
+										No receipts archived
+									</h1>
+								</div>
+							)}
 						</div>
 					</PopoverContent>
 				</Popover>
