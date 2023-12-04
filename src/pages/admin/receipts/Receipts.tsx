@@ -11,7 +11,6 @@ import { useGetSession } from "../../../../hooks/useGetSession";
 import { useAuth } from "../../../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import ReceiptCards from "../../../components/dashboard/receipts/ReceiptCards";
-import { BiArchiveIn } from "react-icons/bi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence, motion } from "framer-motion";
@@ -19,6 +18,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import TopLoadingBar from "react-top-loading-bar";
 import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
 import illus from "../../../assets/illustration.png";
+import { FaBox, FaBoxOpen } from "react-icons/fa6";
 
 const Receipt: React.FC<{
 	isView: boolean;
@@ -262,6 +262,7 @@ const Receipts: React.FC = () => {
 	const [recepient, setRecepient] = useState("");
 	const [note, setNote] = useState("");
 	const [undo, setUndo] = useState(false);
+	const [openBox, setOpenBox] = useState(false);
 
 	const getArchiveReceipts = async () => {
 		const headers = new Headers({
@@ -312,7 +313,7 @@ const Receipts: React.FC = () => {
 
 	const archiveReceipt = async () => {
 		if (!receipts[index]?.ar_no || receipts[index]?.ar_no === "") return;
-
+		setOpenBox(true);
 		setProgress(30);
 		try {
 			const headers = new Headers({
@@ -341,6 +342,7 @@ const Receipts: React.FC = () => {
 					getAllReceipts();
 					setUndo(true);
 					setIndex(null);
+					setOpenBox(false);
 					setTimeout(() => {
 						setUndo(false);
 					}, [5000]);
@@ -410,6 +412,7 @@ const Receipts: React.FC = () => {
 						autoClose: 2000,
 						theme: "dark",
 					});
+					getArchiveReceipts();
 					getAllReceipts();
 					setProgress(100);
 					setIndex(null);
@@ -490,16 +493,48 @@ const Receipts: React.FC = () => {
 			<div className='fixed bottom-8 right-4'>
 				<Popover
 					placement='bottom-end'
+					onClose={() => setOpenBox(false)}
 					closeOnBlur={true}>
 					<PopoverTrigger>
-						<BiArchiveIn
-							onClick={getArchiveReceipts}
-							onMouseEnter={archiveReceipt}
-							size={50}
-							className=' text-primary cursor-pointer'
-						/>
+						{openBox ? (
+							//spin on entrance
+							<motion.div
+								initial={{ rotate: 0 }}
+								animate={{ rotate: 360 }}
+								transition={{
+									duration: 0.5,
+									type: "spring",
+									ease: [0, 0.71, 0.2, 0],
+								}}
+								className='text-primary cursor-pointer'>
+								<FaBoxOpen
+									size={50}
+									className='text-primary cursor-pointer'
+								/>
+							</motion.div>
+						) : (
+							<motion.div
+								initial={{ rotate: 360 }}
+								animate={{ rotate: 0 }}
+								transition={{
+									duration: 0.5,
+									type: "spring",
+									ease: [0, 0.71, 0.2, 0],
+								}}
+								className='text-primary cursor-pointer'>
+								<FaBox
+									onClick={() => {
+										getArchiveReceipts();
+										setOpenBox(true);
+									}}
+									onMouseEnter={archiveReceipt}
+									size={50}
+									className='text-primary cursor-pointer'
+								/>
+							</motion.div>
+						)}
 					</PopoverTrigger>
-					<PopoverContent className='bg-[#0F0F0F] p-4 rounded-md border border-zinc-800 h-[400px] text-white text-center relative bottom-[420px] right-[330px]'>
+					<PopoverContent className='bg-[#0F0F0F] p-4 rounded-md border border-zinc-800 h-[400px] text-white text-center relative '>
 						<p className='font-bold'>Archive Receipt</p>
 						<p className='text-xs mb-4'>
 							You can restore the receipt from the archived section.
